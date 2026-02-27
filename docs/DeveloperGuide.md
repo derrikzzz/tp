@@ -280,8 +280,11 @@ _{Explain here how the data archiving feature will be implemented}_
 * prefers typing to mouse interactions
 * is reasonably comfortable using CLI apps
 
-**Value proposition**: manage contacts faster than a typical mouse/GUI driven app
+**Value proposition**:
 
+- Enable Travelers to quickly record and retrieve travel experiences in a fast, distraction-free CLI.
+- Tag and jot quick notes about the destinations
+- Lightweight solution and bypass slow, feature-heavy mobile travel apps
 
 ### User stories
 
