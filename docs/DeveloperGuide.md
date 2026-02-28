@@ -4,9 +4,8 @@
   pageNav: 3
 ---
 
-# AB-3 Developer Guide
+# TripLog Developer Guide
 
-<!-- * Table of Contents -->
 <page-nav-print />
 
 --------------------------------------------------------------------------------------------------------------------
@@ -164,9 +163,9 @@ This section describes some noteworthy details on how certain features are imple
 
 The proposed undo/redo mechanism is facilitated by `VersionedAddressBook`. It extends `AddressBook` with an undo/redo history, stored internally as an `addressBookStateList` and `currentStatePointer`. Additionally, it implements the following operations:
 
-* `VersionedAddressBook#commit()` — Saves the current address book state in its history.
-* `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
-* `VersionedAddressBook#redo()` — Restores a previously undone address book state from its history.
+* `VersionedAddressBook#commit()` — Saves the current address book state in its history.
+* `VersionedAddressBook#undo()` — Restores the previous address book state from its history.
+* `VersionedAddressBook#redo()` — Restores a previously undone address book state from its history.
 
 These operations are exposed in the `Model` interface as `Model#commitAddressBook()`, `Model#undoAddressBook()` and `Model#redoAddressBook()` respectively.
 
@@ -216,7 +215,7 @@ Similarly, how an undo operation goes through the `Model` component is shown bel
 
 <puml src="diagrams/UndoSequenceDiagram-Model.puml" alt="UndoSequenceDiagram-Model" />
 
-The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
+The `redo` command does the opposite — it calls `Model#redoAddressBook()`, which shifts the `currentStatePointer` once to the right, pointing to the previously undone state, and restores the address book to that state.
 
 <box type="info" seamless>
 
@@ -300,32 +299,65 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 ### Use cases
 
-(For all use cases below, the **System** is the `AddressBook` and the **Actor** is the `user`, unless specified otherwise)
+(For all use cases below, the **System** is `TripLog` and the **Actor** is the `user`, unless specified otherwise)
 
-**Use case: Delete a person**
+**Use case: Add an experience log to a trip**
 
 **MSS**
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  User requests to list trips.
+2.  TripLog shows a list of trips.
+3.  User finds the index of the specific trip they want to log an experience for (e.g., Tokyo trip).
+4.  User requests to add a note/experience (e.g., "Great sushi at Tsukiji") to that specific trip index.
+5.  TripLog adds the experience and confirms the log entry.
 
     Use case ends.
 
 **Extensions**
 
-* 2a. The list is empty.
-
+* 2a. The trip list is empty.
   Use case ends.
 
+* 4a. The given index is invalid.
+    * 4a1. TripLog shows an error message.
+    * Use case resumes at step 2.
+
+* 4b. The experience description is missing.
+    * 4b1. TripLog shows an error message.
+    * Use case resumes at step 3.
+
+**Use case: Filter trips by category tag**
+
+**MSS**
+
+1.  User requests to view all trips associated with a specific tag (e.g., `work`).
+2.  TripLog searches the local data for trips containing that tag.
+3.  TripLog displays a filtered list of matching travel entries.
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. No trips match the requested tag.
+    * 2a1. TripLog shows a message indicating no results found.
+    * Use case ends.
+
+**Use case: Delete a canceled trip entry**
+
+**MSS**
+
+1.  User requests to list trips.
+2.  TripLog shows a list of trips.
+3.  User identifies the trip to be removed and requests to delete it by index.
+4.  TripLog deletes the entry and updates the local storage.
+
+    Use case ends.
+
+**Extensions**
+
 * 3a. The given index is invalid.
-
-    * 3a1. AddressBook shows an error message.
-
-      Use case resumes at step 2.
-
-*{More to be added}*
+    * 3a1. TripLog shows an error message.
+    * Use case resumes at step 2.
 
 ### Non-Functional Requirements
 
