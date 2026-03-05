@@ -1,7 +1,7 @@
 {
   "baseUrl": "",
   "titlePrefix": "TripLog",
-  "titleSuffix": "AddressBook Level-3",
+  "titleSuffix": "v1.1",
   "faviconPath": "images/SeEduLogo.png",
   "style": {
     "codeTheme": "light"
