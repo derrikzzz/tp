@@ -21,16 +21,6 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 * **Role**: Team Lead
 * **Responsibilities**: Overall project coordination, In charge of Storage
 
-### Jane Doe
-
-<img src="images/johndoe.png" width="200px">
-
-[[github](http://github.com/johndoe)]
-[[portfolio](team/johndoe.md)]
-
-* Role: Team Lead
-* Responsibilities: UI
-
 ### Yap Ming Yang
 
 <img src="images/mingjelly.png" width="200px">
@@ -48,6 +38,7 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[portfolio](team/lyx-888.md)]
 
 * Role: Developer
+* Responsibilies: Parser
 
 ### Ong Jin Hui
 
@@ -66,5 +57,15 @@ You can reach us at the email `seer[at]comp.nus.edu.sg`
 [[github](http://github.com/derrikzzz)]
 [[portfolio](team/derrikzzz.md)]
 
-- Role: Developer
-- Responsibilities: Integration
+* Role: Developer
+* Responsibilities: Integration
+
+### Zhou Guangyi
+
+<img src="images/2520th.png" width="200px">
+
+[[github](http://github.com/2520th)]
+[[portfolio](team/2520th.md)]
+
+* Role: Developer
+* Responsibilities: Logic
