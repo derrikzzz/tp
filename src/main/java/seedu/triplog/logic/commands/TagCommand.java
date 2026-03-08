@@ -61,7 +61,13 @@ public class TagCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_TRIP);
         }
 
-        return new CommandResult(String.format(MESSAGE_TAG_TRIP_SUCCESS, this.tag, Messages.format(tripWithUpdatedTag)));
+        return new CommandResult(
+                String.format(
+                        MESSAGE_TAG_TRIP_SUCCESS,
+                        this.tag,
+                        Messages.format(tripWithUpdatedTag)
+                )
+        );
     }
 
     @Override
