@@ -93,22 +93,16 @@ public class Trip {
      */
     @Override
     public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-
-        // instanceof handles nulls
-        if (!(other instanceof Trip)) {
-            return false;
-        }
-
+        if (other == this) return true;
+        if (!(other instanceof Trip)) return false;
         Trip otherTrip = (Trip) other;
+        
         return name.equals(otherTrip.name)
-                && phone.equals(otherTrip.phone)
-                && email.equals(otherTrip.email)
-                && address.equals(otherTrip.address)
-                && startDate.equals(otherTrip.startDate)
-                && endDate.equals(otherTrip.endDate)
+                && Objects.equals(phone, otherTrip.phone)
+                && Objects.equals(email, otherTrip.email)
+                && Objects.equals(address, otherTrip.address)
+                && Objects.equals(startDate, otherTrip.startDate)
+                && Objects.equals(endDate, otherTrip.endDate)
                 && tags.equals(otherTrip.tags);
     }
 
