@@ -2,7 +2,6 @@ package seedu.triplog.model.person;
 
 import static seedu.triplog.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -31,7 +30,8 @@ public class Trip {
     /**
      * Every field must be present and not null.
      */
-    public Trip(Name name, Phone phone, Email email, Address address, Set<Tag> tags, TripDate startDate, TripDate endDate) {
+    public Trip(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+                TripDate startDate, TripDate endDate) {
         requireAllNonNull(name, tags);
         this.name = name;
         this.phone = phone;
