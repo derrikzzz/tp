@@ -48,6 +48,8 @@
           <Separator />
 
           <Label fx:id="helpMessage" wrapText="true" />
+
+          <Label fx:id="exitNote" wrapText="true" style="-fx-font-style: italic;" />
         </VBox>
     </Scene>
   </scene>
