@@ -33,7 +33,7 @@ public class HelpWindowTest {
             Platform.startup(latch::countDown);
         } catch (IllegalStateException e) {
             latch.countDown();
-        } catch (UnsupportedOperationException e) {
+        } catch (UnsupportedOperationException | NullPointerException e) {
             isHeadless = true;
             return;
         }
