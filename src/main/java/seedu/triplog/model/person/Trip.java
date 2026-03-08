@@ -23,17 +23,21 @@ public class Trip {
 
     // Data fields
     private final Address address;
+    private final String startDate;
+    private final String endDate;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Trip(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+    public Trip(Name name, Phone phone, Email email, Address address, String startDate, String endDate, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, startDate, endDate, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.tags.addAll(tags);
     }
 
@@ -51,6 +55,14 @@ public class Trip {
 
     public Address getAddress() {
         return address;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
     }
 
     /**
@@ -94,12 +106,14 @@ public class Trip {
                 && phone.equals(otherTrip.phone)
                 && email.equals(otherTrip.email)
                 && address.equals(otherTrip.address)
+                && startDate.equals(otherTrip.startDate)
+                && endDate.equals(otherTrip.endDate)
                 && tags.equals(otherTrip.tags);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, phone, email, address, tags);
+        return Objects.hash(name, phone, email, address, startDate, endDate, tags);
     }
 
     @Override
@@ -109,8 +123,9 @@ public class Trip {
                 .add("phone", phone)
                 .add("email", email)
                 .add("address", address)
+                .add("startDate", startDate)
+                .add("endDate", endDate)
                 .add("tags", tags)
                 .toString();
     }
-
 }

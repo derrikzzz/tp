@@ -45,7 +45,10 @@ public class AddCommandParser implements Parser<AddCommand> {
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-        Trip trip = new Trip(name, phone, email, address, tagList);
+        String startDate = "2026-01-01";
+        String endDate = "2026-01-10";
+
+        Trip trip = new Trip(name, phone, email, address, startDate, endDate, tagList);
 
         return new AddCommand(trip);
     }

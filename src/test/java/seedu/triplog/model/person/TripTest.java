@@ -93,7 +93,9 @@ public class TripTest {
     @Test
     public void toStringMethod() {
         String expected = Trip.class.getCanonicalName() + "{name=" + ALICE.getName() + ", phone=" + ALICE.getPhone()
-                + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress() + ", tags=" + ALICE.getTags() + "}";
+                + ", email=" + ALICE.getEmail() + ", address=" + ALICE.getAddress()
+                + ", startDate=" + ALICE.getStartDate() + ", endDate=" + ALICE.getEndDate()
+                + ", tags=" + ALICE.getTags() + "}";
         assertEquals(expected, ALICE.toString());
     }
 }

@@ -20,22 +20,22 @@ public class SampleDataUtil {
     public static Trip[] getSamplePersons() {
         return new Trip[] {
             new Trip(new Name("Alex Yeoh"), new Phone("87438807"), new Email("alexyeoh@example.com"),
-                    new Address("Blk 30 Geylang Street 29, #06-40"),
+                    new Address("Blk 30 Geylang Street 29, #06-40"), "2026-01-01", "2026-01-10",
                     getTagSet("friends")),
             new Trip(new Name("Bernice Yu"), new Phone("99272758"), new Email("berniceyu@example.com"),
-                    new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"),
+                    new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"), "2026-02-15", "2026-02-20",
                     getTagSet("colleagues", "friends")),
             new Trip(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
-                    new Address("Blk 11 Ang Mo Kio Street 74, #11-04"),
+                    new Address("Blk 11 Ang Mo Kio Street 74, #11-04"), "2026-03-05", "2026-03-12",
                     getTagSet("neighbours")),
             new Trip(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
-                    new Address("Blk 436 Serangoon Gardens Street 26, #16-43"),
+                    new Address("Blk 436 Serangoon Gardens Street 26, #16-43"), "2026-04-10", "2026-04-18",
                     getTagSet("family")),
             new Trip(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
-                    new Address("Blk 47 Tampines Street 20, #17-35"),
+                    new Address("Blk 47 Tampines Street 20, #17-35"), "2026-05-20", "2026-05-25",
                     getTagSet("classmates")),
             new Trip(new Name("Roy Balakrishnan"), new Phone("92624417"), new Email("royb@example.com"),
-                    new Address("Blk 45 Aljunied Street 85, #11-31"),
+                    new Address("Blk 45 Aljunied Street 85, #11-31"), "2026-06-12", "2026-06-20",
                     getTagSet("colleagues"))
         };
     }
