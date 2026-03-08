@@ -17,6 +17,7 @@ import seedu.triplog.logic.commands.ExitCommand;
 import seedu.triplog.logic.commands.FindCommand;
 import seedu.triplog.logic.commands.HelpCommand;
 import seedu.triplog.logic.commands.ListCommand;
+import seedu.triplog.logic.commands.TagCommand;
 import seedu.triplog.logic.parser.exceptions.ParseException;
 
 /**
@@ -67,6 +68,9 @@ public class TripLogParser {
 
         case FindCommand.COMMAND_WORD:
             return new FindCommandParser().parse(arguments);
+
+        case TagCommand.COMMAND_WORD:
+            return new TagCommandParser().parse(arguments);
 
         case ListCommand.COMMAND_WORD:
             return new ListCommand();
