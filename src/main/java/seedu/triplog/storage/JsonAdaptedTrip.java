@@ -10,11 +10,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.triplog.commons.exceptions.IllegalValueException;
-import seedu.triplog.model.person.Address;
-import seedu.triplog.model.person.Email;
-import seedu.triplog.model.person.Name;
-import seedu.triplog.model.person.Phone;
-import seedu.triplog.model.person.Trip;
+import seedu.triplog.model.person.*;
 import seedu.triplog.model.tag.Tag;
 
 /**
@@ -29,6 +25,8 @@ class JsonAdaptedTrip {
     private final String email;
     private final String address;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final String startDate;
+    private final String endDate;
 
     /**
      * Constructs a {@code JsonAdaptedTrip} with the given trip details.
@@ -36,7 +34,8 @@ class JsonAdaptedTrip {
     @JsonCreator
     public JsonAdaptedTrip(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
                            @JsonProperty("email") String email, @JsonProperty("address") String address,
-                           @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+                           @JsonProperty("tags") List<JsonAdaptedTag> tags, @JsonProperty("startDate") String startDate,
+                           @JsonProperty("endDate") String endDate) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -44,6 +43,8 @@ class JsonAdaptedTrip {
         if (tags != null) {
             this.tags.addAll(tags);
         }
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     /**
@@ -57,6 +58,8 @@ class JsonAdaptedTrip {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
+        startDate = source.getStartDate().value;
+        endDate = source.getEndDate().value;
     }
 
     /**
@@ -102,8 +105,24 @@ class JsonAdaptedTrip {
         }
         final Address modelAddress = new Address(address);
 
+        if (startDate == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, TripDate.class.getSimpleName()));
+        }
+        if (!TripDate.isValidDate(startDate)) {
+            throw new IllegalValueException(TripDate.MESSAGE_CONSTRAINTS);
+        }
+        final TripDate modelStartDate = new TripDate(startDate);
+
+        if (endDate == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, TripDate.class.getSimpleName()));
+        }
+        if (!TripDate.isValidDate(endDate)) {
+            throw new IllegalValueException(TripDate.MESSAGE_CONSTRAINTS);
+        }
+        final TripDate modelEndDate = new TripDate(endDate);
+
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Trip(modelName, modelPhone, modelEmail, modelAddress, modelTags);
+        return new Trip(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelStartDate, modelEndDate);
     }
 
 }

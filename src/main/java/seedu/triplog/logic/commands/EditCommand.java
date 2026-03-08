@@ -21,11 +21,7 @@ import seedu.triplog.commons.util.ToStringBuilder;
 import seedu.triplog.logic.Messages;
 import seedu.triplog.logic.commands.exceptions.CommandException;
 import seedu.triplog.model.Model;
-import seedu.triplog.model.person.Address;
-import seedu.triplog.model.person.Email;
-import seedu.triplog.model.person.Name;
-import seedu.triplog.model.person.Phone;
-import seedu.triplog.model.person.Trip;
+import seedu.triplog.model.person.*;
 import seedu.triplog.model.tag.Tag;
 
 /**
@@ -100,8 +96,10 @@ public class EditCommand extends Command {
         Email updatedEmail = editTripDescriptor.getEmail().orElse(tripToEdit.getEmail());
         Address updatedAddress = editTripDescriptor.getAddress().orElse(tripToEdit.getAddress());
         Set<Tag> updatedTags = editTripDescriptor.getTags().orElse(tripToEdit.getTags());
+        TripDate updatedStartDate = editTripDescriptor.getStartDate().orElse(tripToEdit.getStartDate());
+        TripDate updatedEndDate = editTripDescriptor.getEndDate().orElse(tripToEdit.getStartDate());
 
-        return new Trip(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
+        return new Trip(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags, updatedStartDate, updatedEndDate);
     }
 
     @Override
@@ -137,6 +135,8 @@ public class EditCommand extends Command {
         private Email email;
         private Address address;
         private Set<Tag> tags;
+        private TripDate startDate;
+        private TripDate endDate;
 
         public EditTripDescriptor() {}
 
@@ -150,13 +150,15 @@ public class EditCommand extends Command {
             setEmail(toCopy.email);
             setAddress(toCopy.address);
             setTags(toCopy.tags);
+            setStartDate(toCopy.startDate);
+            setEndDate(toCopy.endDate);
         }
 
         /**
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags);
+            return CollectionUtil.isAnyNonNull(name, phone, email, address, tags, startDate, endDate);
         }
 
         public void setName(Name name) {
@@ -185,6 +187,22 @@ public class EditCommand extends Command {
 
         public void setAddress(Address address) {
             this.address = address;
+        }
+
+        public void setStartDate(TripDate startDate) {
+            this.startDate = startDate;
+        }
+
+        public Optional<TripDate> getStartDate() {
+            return Optional.ofNullable(startDate);
+        }
+
+        public void setEndDate(TripDate endDate) {
+            this.endDate = endDate;
+        }
+
+        public Optional<TripDate> getEndDate() {
+            return Optional.ofNullable(endDate);
         }
 
         public Optional<Address> getAddress() {
@@ -223,7 +241,9 @@ public class EditCommand extends Command {
                     && Objects.equals(phone, otherEditTripDescriptor.phone)
                     && Objects.equals(email, otherEditTripDescriptor.email)
                     && Objects.equals(address, otherEditTripDescriptor.address)
-                    && Objects.equals(tags, otherEditTripDescriptor.tags);
+                    && Objects.equals(tags, otherEditTripDescriptor.tags)
+                    && Objects.equals(startDate, otherEditTripDescriptor.startDate)
+                    && Objects.equals(endDate, otherEditTripDescriptor.endDate);
         }
 
         @Override
@@ -234,6 +254,8 @@ public class EditCommand extends Command {
                     .add("email", email)
                     .add("address", address)
                     .add("tags", tags)
+                    .add("startDate", startDate)
+                    .add("endDate", endDate)
                     .toString();
         }
     }

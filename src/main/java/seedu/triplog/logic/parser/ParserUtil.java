@@ -9,10 +9,7 @@ import java.util.Set;
 import seedu.triplog.commons.core.index.Index;
 import seedu.triplog.commons.util.StringUtil;
 import seedu.triplog.logic.parser.exceptions.ParseException;
-import seedu.triplog.model.person.Address;
-import seedu.triplog.model.person.Email;
-import seedu.triplog.model.person.Name;
-import seedu.triplog.model.person.Phone;
+import seedu.triplog.model.person.*;
 import seedu.triplog.model.tag.Tag;
 
 /**
@@ -120,5 +117,35 @@ public class ParserUtil {
             tagSet.add(parseTag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses a {@code String startDate} into a {@code TripDate}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code startDate} is invalid.
+     */
+    public static TripDate parseStartDate(String startDate) throws ParseException {
+        requireNonNull(startDate);
+        String trimmedDate = startDate.trim();
+        if (!TripDate.isValidDate(trimmedDate)) {
+            throw new ParseException(TripDate.MESSAGE_CONSTRAINTS);
+        }
+        return new TripDate(trimmedDate);
+    }
+
+    /**
+     * Parses a {@code String endDate} into a {@code TripDate}.
+     * Leading and trailing whitespaces will be trimmed.
+     *
+     * @throws ParseException if the given {@code endDate} is invalid.
+     */
+    public static TripDate parseEndDate(String endDate) throws ParseException {
+        requireNonNull(endDate);
+        String trimmedDate = endDate.trim();
+        if (!TripDate.isValidDate(trimmedDate)) {
+            throw new ParseException(TripDate.MESSAGE_CONSTRAINTS);
+        }
+        return new TripDate(trimmedDate);
     }
 }

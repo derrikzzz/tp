@@ -24,17 +24,21 @@ public class Trip {
     // Data fields
     private final Address address;
     private final Set<Tag> tags = new HashSet<>();
+    private final TripDate startDate;
+    private final TripDate endDate;
 
     /**
      * Every field must be present and not null.
      */
-    public Trip(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+    public Trip(Name name, Phone phone, Email email, Address address, Set<Tag> tags, TripDate startDate, TripDate endDate) {
         requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public Name getName() {
@@ -59,6 +63,14 @@ public class Trip {
      */
     public Set<Tag> getTags() {
         return Collections.unmodifiableSet(tags);
+    }
+
+    public TripDate getStartDate() {
+        return startDate;
+    }
+
+    public TripDate getEndDate() {
+        return endDate;
     }
 
     /**

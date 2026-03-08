@@ -6,17 +6,15 @@ import static seedu.triplog.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.triplog.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.triplog.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.triplog.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.triplog.logic.parser.CliSyntax.PREFIX_START_DATE;
+import static seedu.triplog.logic.parser.CliSyntax.PREFIX_END_DATE;
 
 import java.util.Set;
 import java.util.stream.Stream;
 
 import seedu.triplog.logic.commands.AddCommand;
 import seedu.triplog.logic.parser.exceptions.ParseException;
-import seedu.triplog.model.person.Address;
-import seedu.triplog.model.person.Email;
-import seedu.triplog.model.person.Name;
-import seedu.triplog.model.person.Phone;
-import seedu.triplog.model.person.Trip;
+import seedu.triplog.model.person.*;
 import seedu.triplog.model.tag.Tag;
 
 /**
@@ -31,9 +29,9 @@ public class AddCommandParser implements Parser<AddCommand> {
      */
     public AddCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG);
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_TAG, PREFIX_START_DATE, PREFIX_END_DATE);
 
-        if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_ADDRESS, PREFIX_PHONE, PREFIX_EMAIL)
+        if (!arePrefixesPresent(argMultimap, PREFIX_NAME)
                 || !argMultimap.getPreamble().isEmpty()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
@@ -43,9 +41,11 @@ public class AddCommandParser implements Parser<AddCommand> {
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
+        TripDate startDate = ParserUtil.parseStartDate(argMultimap.getValue(PREFIX_START_DATE).get());
+        TripDate endDate = ParserUtil.parseStartDate(argMultimap.getValue(PREFIX_END_DATE).get());
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-        Trip trip = new Trip(name, phone, email, address, tagList);
+        Trip trip = new Trip(name, phone, email, address, tagList, startDate, endDate);
 
         return new AddCommand(trip);
     }

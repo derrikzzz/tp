@@ -40,6 +40,10 @@ public class TripCard extends UiPart<Region> {
     private Label email;
     @FXML
     private FlowPane tags;
+    @FXML
+    private Label startDate;
+    @FXML
+    private Label endDate;
 
     /**
      * Creates a {@code PersonCode} with the given {@code Trip} and index to display.
@@ -52,6 +56,8 @@ public class TripCard extends UiPart<Region> {
         phone.setText(trip.getPhone().value);
         address.setText(trip.getAddress().value);
         email.setText(trip.getEmail().value);
+        startDate.setText(trip.getStartDate().value);
+        endDate.setText(trip.getEndDate().value);
         trip.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));

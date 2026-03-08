@@ -43,6 +43,10 @@ public class Messages {
                 .append(trip.getEmail())
                 .append("; Address: ")
                 .append(trip.getAddress())
+                .append("; Start Date: ")
+                .append(trip.getStartDate())
+                .append("; End Date: ")
+                .append(trip.getEndDate())
                 .append("; Tags: ");
         trip.getTags().forEach(builder::append);
         return builder.toString();
