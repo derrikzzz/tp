@@ -23,6 +23,12 @@ checkstyle {
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
+    if (org.gradle.internal.os.OperatingSystem.current().isLinux()) {
+        systemProperty 'glass.platform', 'Monocle'
+        systemProperty 'monocle.platform', 'Headless'
+        systemProperty 'prism.order', 'sw'
+        systemProperty 'prism.text', 't2k'
+    }
 }
 
 task coverage(type: JacocoReport) {

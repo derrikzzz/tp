@@ -22,12 +22,6 @@ public class HelpWindowTest {
 
     @BeforeAll
     static void initToolkit() throws Exception {
-        if (System.getProperty("os.name", "").toLowerCase().contains("linux")) {
-            System.setProperty("glass.platform", "Monocle");
-            System.setProperty("monocle.platform", "Headless");
-            System.setProperty("prism.order", "sw");
-            System.setProperty("prism.text", "t2k");
-        }
         CountDownLatch latch = new CountDownLatch(1);
         try {
             Platform.startup(latch::countDown);
@@ -99,6 +93,21 @@ public class HelpWindowTest {
             assertTrue(hw.isShowing());
             Stage root = hw.getRoot();
             KeyEvent event = new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.Q,
+                    false, false, false, false);
+            root.fireEvent(event);
+            assertFalse(hw.isShowing());
+        });
+    }
+
+    @Test
+    public void keyFilter_escapeKey_hidesWindow() throws Exception {
+        Assumptions.assumeFalse(isHeadless, "Skipping UI test in headless environment");
+        runOnFxThreadAndWait(() -> {
+            HelpWindow hw = new HelpWindow();
+            hw.show();
+            assertTrue(hw.isShowing());
+            Stage root = hw.getRoot();
+            KeyEvent event = new KeyEvent(KeyEvent.KEY_PRESSED, "", "", KeyCode.ESCAPE,
                     false, false, false, false);
             root.fireEvent(event);
             assertFalse(hw.isShowing());
