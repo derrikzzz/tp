@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import seedu.triplog.commons.exceptions.IllegalValueException;
 import seedu.triplog.model.ReadOnlyTripLog;
 import seedu.triplog.model.TripLog;
-import seedu.triplog.model.person.Trip;
+import seedu.triplog.model.trip.Trip;
 
 /**
  * An Immutable TripLog that is serializable to JSON format.

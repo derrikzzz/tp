@@ -1,4 +1,4 @@
-package seedu.triplog.model.person;
+package seedu.triplog.model.trip;
 
 import static seedu.triplog.commons.util.CollectionUtil.requireAllNonNull;
 import static seedu.triplog.logic.parser.AddCommandParser.DEFAULT_END_DATE;

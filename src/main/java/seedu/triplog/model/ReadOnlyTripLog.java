@@ -1,7 +1,7 @@
 package seedu.triplog.model;
 
 import javafx.collections.ObservableList;
-import seedu.triplog.model.person.Trip;
+import seedu.triplog.model.trip.Trip;
 
 /**
  * Unmodifiable view of a trip log

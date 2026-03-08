@@ -1,4 +1,4 @@
-package seedu.triplog.model.person;
+package seedu.triplog.model.trip;
 
 import java.util.List;
 import java.util.function.Predicate;

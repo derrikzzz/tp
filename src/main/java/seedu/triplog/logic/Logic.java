@@ -8,7 +8,7 @@ import seedu.triplog.logic.commands.CommandResult;
 import seedu.triplog.logic.commands.exceptions.CommandException;
 import seedu.triplog.logic.parser.exceptions.ParseException;
 import seedu.triplog.model.ReadOnlyTripLog;
-import seedu.triplog.model.person.Trip;
+import seedu.triplog.model.trip.Trip;
 
 /**
  * API of the Logic component

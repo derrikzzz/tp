@@ -11,7 +11,7 @@ import seedu.triplog.commons.util.ToStringBuilder;
 import seedu.triplog.logic.Messages;
 import seedu.triplog.logic.commands.exceptions.CommandException;
 import seedu.triplog.model.Model;
-import seedu.triplog.model.person.Trip;
+import seedu.triplog.model.trip.Trip;
 
 /**
  * Adds a trip to the trip log.

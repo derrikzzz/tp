@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 
 import seedu.triplog.commons.core.index.Index;
 import seedu.triplog.model.Model;
-import seedu.triplog.model.person.Trip;
+import seedu.triplog.model.trip.Trip;
 
 /**
  * A utility class for test cases.

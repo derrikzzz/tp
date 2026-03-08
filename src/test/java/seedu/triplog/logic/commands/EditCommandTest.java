@@ -24,7 +24,7 @@ import seedu.triplog.model.Model;
 import seedu.triplog.model.ModelManager;
 import seedu.triplog.model.TripLog;
 import seedu.triplog.model.UserPrefs;
-import seedu.triplog.model.person.Trip;
+import seedu.triplog.model.trip.Trip;
 import seedu.triplog.testutil.EditTripDescriptorBuilder;
 import seedu.triplog.testutil.TripBuilder;
 

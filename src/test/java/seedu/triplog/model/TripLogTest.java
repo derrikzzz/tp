@@ -18,8 +18,8 @@ import org.junit.jupiter.api.Test;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seedu.triplog.model.person.Trip;
-import seedu.triplog.model.person.exceptions.DuplicateTripException;
+import seedu.triplog.model.trip.Trip;
+import seedu.triplog.model.trip.exceptions.DuplicateTripException;
 import seedu.triplog.testutil.TripBuilder;
 
 public class TripLogTest {

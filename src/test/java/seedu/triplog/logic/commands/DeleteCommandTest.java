@@ -17,7 +17,7 @@ import seedu.triplog.logic.Messages;
 import seedu.triplog.model.Model;
 import seedu.triplog.model.ModelManager;
 import seedu.triplog.model.UserPrefs;
-import seedu.triplog.model.person.Trip;
+import seedu.triplog.model.trip.Trip;
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for

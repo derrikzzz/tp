@@ -15,7 +15,7 @@ import seedu.triplog.logic.parser.TripLogParser;
 import seedu.triplog.logic.parser.exceptions.ParseException;
 import seedu.triplog.model.Model;
 import seedu.triplog.model.ReadOnlyTripLog;
-import seedu.triplog.model.person.Trip;
+import seedu.triplog.model.trip.Trip;
 import seedu.triplog.storage.Storage;
 
 /**

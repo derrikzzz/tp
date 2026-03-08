@@ -5,7 +5,7 @@ import static java.util.Objects.requireNonNull;
 import seedu.triplog.commons.util.ToStringBuilder;
 import seedu.triplog.logic.Messages;
 import seedu.triplog.model.Model;
-import seedu.triplog.model.person.NameContainsKeywordsPredicate;
+import seedu.triplog.model.trip.NameContainsKeywordsPredicate;
 
 /**
  * Finds and lists all trips in trip log whose name contains any of the argument keywords.

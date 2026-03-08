@@ -14,10 +14,10 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import seedu.triplog.logic.parser.exceptions.ParseException;
-import seedu.triplog.model.person.Address;
-import seedu.triplog.model.person.Email;
-import seedu.triplog.model.person.Name;
-import seedu.triplog.model.person.Phone;
+import seedu.triplog.model.trip.Address;
+import seedu.triplog.model.trip.Email;
+import seedu.triplog.model.trip.Name;
+import seedu.triplog.model.trip.Phone;
 import seedu.triplog.model.tag.Tag;
 
 public class ParserUtilTest {

@@ -1,4 +1,4 @@
-package seedu.triplog.model.person;
+package seedu.triplog.model.trip;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -15,8 +15,8 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.triplog.model.person.exceptions.DuplicateTripException;
-import seedu.triplog.model.person.exceptions.TripNotFoundException;
+import seedu.triplog.model.trip.exceptions.DuplicateTripException;
+import seedu.triplog.model.trip.exceptions.TripNotFoundException;
 import seedu.triplog.testutil.TripBuilder;
 
 public class UniqueTripListTest {

@@ -38,10 +38,10 @@ import seedu.triplog.commons.core.index.Index;
 import seedu.triplog.logic.Messages;
 import seedu.triplog.logic.commands.EditCommand;
 import seedu.triplog.logic.commands.EditCommand.EditTripDescriptor;
-import seedu.triplog.model.person.Address;
-import seedu.triplog.model.person.Email;
-import seedu.triplog.model.person.Name;
-import seedu.triplog.model.person.Phone;
+import seedu.triplog.model.trip.Address;
+import seedu.triplog.model.trip.Email;
+import seedu.triplog.model.trip.Name;
+import seedu.triplog.model.trip.Phone;
 import seedu.triplog.model.tag.Tag;
 import seedu.triplog.testutil.EditTripDescriptorBuilder;
 

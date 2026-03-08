@@ -1,4 +1,4 @@
-package seedu.triplog.model.person.exceptions;
+package seedu.triplog.model.trip.exceptions;
 
 /**
  * Signals that the operation is unable to find the specified trip.

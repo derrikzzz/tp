@@ -17,8 +17,8 @@ import seedu.triplog.commons.core.index.Index;
 import seedu.triplog.logic.commands.exceptions.CommandException;
 import seedu.triplog.model.Model;
 import seedu.triplog.model.TripLog;
-import seedu.triplog.model.person.NameContainsKeywordsPredicate;
-import seedu.triplog.model.person.Trip;
+import seedu.triplog.model.trip.NameContainsKeywordsPredicate;
+import seedu.triplog.model.trip.Trip;
 import seedu.triplog.testutil.EditTripDescriptorBuilder;
 
 /**

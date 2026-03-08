@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import seedu.triplog.logic.commands.FindCommand;
 import seedu.triplog.logic.parser.exceptions.ParseException;
-import seedu.triplog.model.person.NameContainsKeywordsPredicate;
+import seedu.triplog.model.trip.NameContainsKeywordsPredicate;
 
 /**
  * Parses input arguments and creates a new FindCommand object

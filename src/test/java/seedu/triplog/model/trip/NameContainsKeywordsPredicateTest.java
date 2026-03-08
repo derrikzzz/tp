@@ -1,4 +1,4 @@
-package seedu.triplog.model.person;
+package seedu.triplog.model.trip;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
