@@ -1,8 +1,11 @@
 package seedu.triplog.ui;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+
+import javafx.scene.input.KeyCode;
 
 public class HelpWindowTest {
 
@@ -56,6 +59,22 @@ public class HelpWindowTest {
     @Test
     public void exitNote_mentionsEscapeKey() {
         assertTrue(HelpWindow.EXIT_NOTE.contains("ESCAPE"));
+    }
+
+    @Test
+    public void isCloseKey_qKey_returnsTrue() {
+        assertTrue(HelpWindow.isCloseKey(KeyCode.Q));
+    }
+
+    @Test
+    public void isCloseKey_escapeKey_returnsTrue() {
+        assertTrue(HelpWindow.isCloseKey(KeyCode.ESCAPE));
+    }
+
+    @Test
+    public void isCloseKey_otherKey_returnsFalse() {
+        assertFalse(HelpWindow.isCloseKey(KeyCode.A));
+        assertFalse(HelpWindow.isCloseKey(KeyCode.ENTER));
     }
 }
 
