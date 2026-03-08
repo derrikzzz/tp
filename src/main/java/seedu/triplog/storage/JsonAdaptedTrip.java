@@ -1,5 +1,7 @@
 package seedu.triplog.storage;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,6 +27,7 @@ class JsonAdaptedTrip {
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
     private final String startDate;
     private final String endDate;
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;
 
     /**
      * Constructs a {@code JsonAdaptedTrip} with the given trip details.
@@ -56,8 +59,8 @@ class JsonAdaptedTrip {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
-        startDate = !Objects.isNull(source.getStartDate()) ? source.getStartDate().value : null;
-        endDate = !Objects.isNull(source.getEndDate()) ? source.getEndDate().value : null;
+        startDate = !Objects.isNull(source.getStartDate()) ? source.getStartDate().value.toString() : null;
+        endDate = !Objects.isNull(source.getEndDate()) ? source.getEndDate().value.toString() : null;
     }
 
     /**

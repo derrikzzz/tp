@@ -75,13 +75,13 @@ public class TripCard extends UiPart<Region> {
         }
 
         if (!Objects.isNull(trip.getStartDate())) {
-            startDate.setText(trip.getStartDate().value);
+            startDate.setText(trip.getStartDate().toString());
         } else {
             startDate.setManaged(false);
         }
 
         if (!Objects.isNull(trip.getEndDate())) {
-            endDate.setText(trip.getEndDate().value);
+            endDate.setText(trip.getEndDate().toString());
         } else {
             endDate.setManaged(false);
         }

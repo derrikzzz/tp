@@ -1,5 +1,9 @@
 package seedu.triplog.model.person;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 import static java.util.Objects.requireNonNull;
 import static seedu.triplog.commons.util.AppUtil.checkArgument;
 
@@ -8,8 +12,9 @@ public class TripDate {
             "Dates should be in YYYY-MM-DD format";
 
     public static final String VALIDATION_REGEX = "\\d{4}-\\d{2}-\\d{2}";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE;
 
-    public final String value;
+    public final LocalDate value;
 
     /**
      * Constructs a {@code TripDate}.
@@ -19,14 +24,19 @@ public class TripDate {
     public TripDate(String date) {
         requireNonNull(date);
         checkArgument(isValidDate(date), MESSAGE_CONSTRAINTS);
-        this.value = date;
+        this.value = LocalDate.parse(date, FORMATTER);;
     }
 
     /**
      * Returns true if a given string is a valid date.
      */
     public static boolean isValidDate(String test) {
-        return test.matches(VALIDATION_REGEX);
+        try {
+            LocalDate.parse(test, FORMATTER);
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
     }
 
     @Override
@@ -45,7 +55,7 @@ public class TripDate {
 
     @Override
     public String toString() {
-        return value;
+        return value.format(DateTimeFormatter.ISO_LOCAL_DATE);
     }
 
     @Override
