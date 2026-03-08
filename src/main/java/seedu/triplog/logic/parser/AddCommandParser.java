@@ -9,6 +9,7 @@ import static seedu.triplog.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.triplog.logic.parser.CliSyntax.PREFIX_START_DATE;
 import static seedu.triplog.logic.parser.CliSyntax.PREFIX_END_DATE;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -36,13 +37,24 @@ public class AddCommandParser implements Parser<AddCommand> {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
         }
 
-        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS);
+        argMultimap.verifyNoDuplicatePrefixesFor(PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_START_DATE, PREFIX_END_DATE);
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
-        Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).get());
-        Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
-        Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).get());
-        TripDate startDate = ParserUtil.parseStartDate(argMultimap.getValue(PREFIX_START_DATE).get());
-        TripDate endDate = ParserUtil.parseStartDate(argMultimap.getValue(PREFIX_END_DATE).get());
+
+        Optional<String> maybePhone = argMultimap.getValue(PREFIX_PHONE);
+        Phone phone = maybePhone.isEmpty() ? null : ParserUtil.parsePhone(maybePhone.get());
+
+        Optional<String> maybeEmail = argMultimap.getValue(PREFIX_EMAIL);
+        Email email = maybeEmail.isEmpty() ? null : ParserUtil.parseEmail(maybeEmail.get());
+
+        Optional<String> maybeAddress = argMultimap.getValue(PREFIX_ADDRESS);
+        Address address = maybeAddress.isEmpty() ? null : ParserUtil.parseAddress(maybeAddress.get());
+
+        Optional<String> maybeStartDate = argMultimap.getValue(PREFIX_START_DATE);
+        TripDate startDate = maybeStartDate.isEmpty() ? null : ParserUtil.parseTripDate(maybeStartDate.get());
+
+        Optional<String> maybeEndDate = argMultimap.getValue(PREFIX_END_DATE);
+        TripDate endDate = maybeEndDate.isEmpty() ? null : ParserUtil.parseTripDate(maybeEndDate.get());
+
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
         Trip trip = new Trip(name, phone, email, address, tagList, startDate, endDate);

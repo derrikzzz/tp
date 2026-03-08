@@ -120,32 +120,18 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code String startDate} into a {@code TripDate}.
+     * Parses a {@code String date} into a {@code TripDate}.
      * Leading and trailing whitespaces will be trimmed.
      *
-     * @throws ParseException if the given {@code startDate} is invalid.
+     * @throws ParseException if the given {@code date} is invalid.
      */
-    public static TripDate parseStartDate(String startDate) throws ParseException {
-        requireNonNull(startDate);
-        String trimmedDate = startDate.trim();
+    public static TripDate parseTripDate(String date) throws ParseException {
+        requireNonNull(date);
+        String trimmedDate = date.trim();
         if (!TripDate.isValidDate(trimmedDate)) {
             throw new ParseException(TripDate.MESSAGE_CONSTRAINTS);
         }
         return new TripDate(trimmedDate);
     }
 
-    /**
-     * Parses a {@code String endDate} into a {@code TripDate}.
-     * Leading and trailing whitespaces will be trimmed.
-     *
-     * @throws ParseException if the given {@code endDate} is invalid.
-     */
-    public static TripDate parseEndDate(String endDate) throws ParseException {
-        requireNonNull(endDate);
-        String trimmedDate = endDate.trim();
-        if (!TripDate.isValidDate(trimmedDate)) {
-            throw new ParseException(TripDate.MESSAGE_CONSTRAINTS);
-        }
-        return new TripDate(trimmedDate);
-    }
 }

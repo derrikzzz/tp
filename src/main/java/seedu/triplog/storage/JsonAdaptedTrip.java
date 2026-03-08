@@ -1,15 +1,13 @@
 package seedu.triplog.storage;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import seedu.triplog.commons.exceptions.IllegalValueException;
+import seedu.triplog.logic.parser.ParserUtil;
 import seedu.triplog.model.person.*;
 import seedu.triplog.model.tag.Tag;
 
@@ -52,14 +50,14 @@ class JsonAdaptedTrip {
      */
     public JsonAdaptedTrip(Trip source) {
         name = source.getName().fullName;
-        phone = source.getPhone().value;
-        email = source.getEmail().value;
-        address = source.getAddress().value;
+        phone = !Objects.isNull(source.getPhone()) ? source.getPhone().value : null;
+        email = !Objects.isNull(source.getEmail()) ? source.getEmail().value : null;
+        address = !Objects.isNull(source.getAddress()) ? source.getAddress().value : null;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
-        startDate = source.getStartDate().value;
-        endDate = source.getEndDate().value;
+        startDate = !Objects.isNull(source.getStartDate()) ? source.getStartDate().value : null;
+        endDate = !Objects.isNull(source.getEndDate()) ? source.getEndDate().value : null;
     }
 
     /**
@@ -81,45 +79,55 @@ class JsonAdaptedTrip {
         }
         final Name modelName = new Name(name);
 
+        final Phone modelPhone;
         if (phone == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
-        }
-        if (!Phone.isValidPhone(phone)) {
+            modelPhone = null;
+            //throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
+        } else if (!Phone.isValidPhone(phone)) {
             throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
+        } else {
+            modelPhone = new Phone(phone);
         }
-        final Phone modelPhone = new Phone(phone);
 
+        final Email modelEmail;
         if (email == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
-        }
-        if (!Email.isValidEmail(email)) {
+            modelEmail = null;
+            //throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
+        } else if (!Email.isValidEmail(email)) {
             throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
+        } else {
+            modelEmail = new Email(email);
         }
-        final Email modelEmail = new Email(email);
 
+        final Address modelAddress;
         if (address == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
-        }
-        if (!Address.isValidAddress(address)) {
+            modelAddress = null;
+            //throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Address.class.getSimpleName()));
+        } else if (!Address.isValidAddress(address)) {
             throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
+        } else {
+            modelAddress = new Address(address);
         }
-        final Address modelAddress = new Address(address);
 
+        final TripDate modelStartDate;
         if (startDate == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, TripDate.class.getSimpleName()));
+            modelStartDate = null;
+            //throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, TripDate.class.getSimpleName()));
+        } else if (!TripDate.isValidDate(startDate)) {
+            throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
+        } else {
+            modelStartDate = new TripDate(startDate);
         }
-        if (!TripDate.isValidDate(startDate)) {
-            throw new IllegalValueException(TripDate.MESSAGE_CONSTRAINTS);
-        }
-        final TripDate modelStartDate = new TripDate(startDate);
 
+        final TripDate modelEndDate;
         if (endDate == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, TripDate.class.getSimpleName()));
+            modelEndDate = null;
+            //throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, TripDate.class.getSimpleName()));
+        } else if (!TripDate.isValidDate(endDate)) {
+            throw new IllegalValueException(Address.MESSAGE_CONSTRAINTS);
+        } else {
+            modelEndDate = new TripDate(endDate);
         }
-        if (!TripDate.isValidDate(endDate)) {
-            throw new IllegalValueException(TripDate.MESSAGE_CONSTRAINTS);
-        }
-        final TripDate modelEndDate = new TripDate(endDate);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
         return new Trip(modelName, modelPhone, modelEmail, modelAddress, modelTags, modelStartDate, modelEndDate);

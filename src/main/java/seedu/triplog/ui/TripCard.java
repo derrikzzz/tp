@@ -1,12 +1,14 @@
 package seedu.triplog.ui;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import seedu.triplog.logic.parser.ParserUtil;
 import seedu.triplog.model.person.Trip;
 
 /**
@@ -53,11 +55,37 @@ public class TripCard extends UiPart<Region> {
         this.trip = trip;
         id.setText(displayedIndex + ". ");
         name.setText(trip.getName().fullName);
-        phone.setText(trip.getPhone().value);
-        address.setText(trip.getAddress().value);
-        email.setText(trip.getEmail().value);
-        startDate.setText(trip.getStartDate().value);
-        endDate.setText(trip.getEndDate().value);
+
+        if (!Objects.isNull(trip.getPhone())) {
+            phone.setText(trip.getPhone().value);
+        } else {
+            phone.setManaged(false);
+        }
+
+        if (!Objects.isNull(trip.getAddress())) {
+            address.setText(trip.getAddress().value);
+        } else {
+            address.setManaged(false);
+        }
+
+        if (!Objects.isNull(trip.getEmail())) {
+            email.setText(trip.getEmail().value);
+        } else {
+            email.setManaged(false);
+        }
+
+        if (!Objects.isNull(trip.getStartDate())) {
+            startDate.setText(trip.getStartDate().value);
+        } else {
+            startDate.setManaged(false);
+        }
+
+        if (!Objects.isNull(trip.getEndDate())) {
+            endDate.setText(trip.getEndDate().value);
+        } else {
+            endDate.setManaged(false);
+        }
+
         trip.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));

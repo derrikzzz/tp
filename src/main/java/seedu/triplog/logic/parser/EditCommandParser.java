@@ -62,13 +62,13 @@ public class EditCommandParser implements Parser<EditCommand> {
         }
         if (argMultimap.getValue(PREFIX_START_DATE).isPresent()) {
             editTripDescriptor.setStartDate(
-                    ParserUtil.parseStartDate(argMultimap.getValue(PREFIX_START_DATE).get())
+                    ParserUtil.parseTripDate(argMultimap.getValue(PREFIX_START_DATE).get())
             );
         }
 
         if (argMultimap.getValue(PREFIX_END_DATE).isPresent()) {
             editTripDescriptor.setEndDate(
-                    ParserUtil.parseEndDate(argMultimap.getValue(PREFIX_END_DATE).get())
+                    ParserUtil.parseTripDate(argMultimap.getValue(PREFIX_END_DATE).get())
             );
         }
         parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editTripDescriptor::setTags);

@@ -31,7 +31,7 @@ public class Trip {
      * Every field must be present and not null.
      */
     public Trip(Name name, Phone phone, Email email, Address address, Set<Tag> tags, TripDate startDate, TripDate endDate) {
-        requireAllNonNull(name, phone, email, address, tags);
+        requireAllNonNull(name, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
