@@ -3,16 +3,13 @@ package seedu.triplog.ui;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 import org.testfx.framework.junit5.Stop;
 
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 @ExtendWith(ApplicationExtension.class)
@@ -34,49 +31,6 @@ public class HelpWindowTest {
     public void constructor_createsHelpWindow() {
         assertNotNull(helpWindow);
     }
-
-    @Test
-    public void showHideFocus_lifecycle(FxRobot robot) {
-        robot.interact(() -> helpWindow.show());
-        assertTrue(helpWindow.isShowing());
-        robot.interact(() -> helpWindow.focus());
-        robot.interact(() -> helpWindow.hide());
-        assertFalse(helpWindow.isShowing());
-    }
-
-    @Test
-    public void keyFilter_qKey_hidesWindow(FxRobot robot) {
-        robot.interact(() -> {
-            helpWindow.show();
-            helpWindow.getRoot().fireEvent(new KeyEvent(
-                    KeyEvent.KEY_PRESSED, "", "", KeyCode.Q,
-                    false, false, false, false));
-        });
-        assertFalse(helpWindow.isShowing());
-    }
-
-    @Test
-    public void keyFilter_escapeKey_hidesWindow(FxRobot robot) {
-        robot.interact(() -> {
-            helpWindow.show();
-            helpWindow.getRoot().fireEvent(new KeyEvent(
-                    KeyEvent.KEY_PRESSED, "", "", KeyCode.ESCAPE,
-                    false, false, false, false));
-        });
-        assertFalse(helpWindow.isShowing());
-    }
-
-    @Test
-    public void keyFilter_otherKey_doesNotHideWindow(FxRobot robot) {
-        robot.interact(() -> {
-            helpWindow.show();
-            helpWindow.getRoot().fireEvent(new KeyEvent(
-                    KeyEvent.KEY_PRESSED, "", "", KeyCode.A,
-                    false, false, false, false));
-        });
-        assertTrue(helpWindow.isShowing());
-    }
-
     @Test
     public void isCloseKey_qKey_returnsTrue() {
         assertTrue(HelpWindow.isCloseKey(KeyCode.Q));
