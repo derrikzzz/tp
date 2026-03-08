@@ -1,7 +1,10 @@
 package seedu.triplog.model.person;
 
 import static seedu.triplog.commons.util.CollectionUtil.requireAllNonNull;
+import static seedu.triplog.logic.parser.AddCommandParser.DEFAULT_END_DATE;
+import static seedu.triplog.logic.parser.AddCommandParser.DEFAULT_START_DATE;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
@@ -23,21 +26,21 @@ public class Trip {
 
     // Data fields
     private final Address address;
-    private final String startDate;
-    private final String endDate;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Trip(Name name, Phone phone, Email email, Address address, String startDate, String endDate, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, startDate, endDate, tags);
+    public Trip(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+        requireAllNonNull(name, phone, email, address, tags);
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.startDate = LocalDate.parse(DEFAULT_START_DATE);
+        this.endDate = LocalDate.parse(DEFAULT_END_DATE);
         this.tags.addAll(tags);
     }
 
@@ -57,11 +60,11 @@ public class Trip {
         return address;
     }
 
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 

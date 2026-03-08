@@ -59,8 +59,8 @@ class JsonAdaptedTrip {
         phone = source.getPhone().value;
         email = source.getEmail().value;
         address = source.getAddress().value;
-        startDate = source.getStartDate();
-        endDate = source.getEndDate();
+        startDate = source.getStartDate().toString();
+        endDate = source.getEndDate().toString();
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -109,12 +109,14 @@ class JsonAdaptedTrip {
         }
         final Address modelAddress = new Address(address);
 
+        // Validation of existence in JSON (Logic remains but model uses internal defaults)
         if (startDate == null || endDate == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, "Dates"));
         }
 
         final Set<Tag> modelTags = new HashSet<>(tripTags);
-        return new Trip(modelName, modelPhone, modelEmail, modelAddress, startDate, endDate, modelTags);
+        // Call the 5-argument constructor as defined in the updated Trip model
+        return new Trip(modelName, modelPhone, modelEmail, modelAddress, modelTags);
     }
 
 }

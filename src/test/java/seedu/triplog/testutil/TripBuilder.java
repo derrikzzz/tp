@@ -52,8 +52,8 @@ public class TripBuilder {
         phone = tripToCopy.getPhone();
         email = tripToCopy.getEmail();
         address = tripToCopy.getAddress();
-        startDate = tripToCopy.getStartDate();
-        endDate = tripToCopy.getEndDate();
+        startDate = tripToCopy.getStartDate().toString();
+        endDate = tripToCopy.getEndDate().toString();
         tags = new HashSet<>(tripToCopy.getTags());
     }
 
@@ -114,6 +114,6 @@ public class TripBuilder {
     }
 
     public Trip build() {
-        return new Trip(name, phone, email, address, startDate, endDate, tags);
+        return new Trip(name, phone, email, address, tags);
     }
 }

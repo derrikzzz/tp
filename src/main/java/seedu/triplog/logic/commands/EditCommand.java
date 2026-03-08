@@ -99,12 +99,10 @@ public class EditCommand extends Command {
         Phone updatedPhone = editTripDescriptor.getPhone().orElse(tripToEdit.getPhone());
         Email updatedEmail = editTripDescriptor.getEmail().orElse(tripToEdit.getEmail());
         Address updatedAddress = editTripDescriptor.getAddress().orElse(tripToEdit.getAddress());
-        String updatedStartDate = tripToEdit.getStartDate();
-        String updatedEndDate = tripToEdit.getEndDate();
         Set<Tag> updatedTags = editTripDescriptor.getTags().orElse(tripToEdit.getTags());
 
-        return new Trip(updatedName, updatedPhone, updatedEmail, updatedAddress,
-                updatedStartDate, updatedEndDate, updatedTags);
+        // Trip dates are handled internally in the model's 5-argument constructor
+        return new Trip(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
     }
 
     @Override

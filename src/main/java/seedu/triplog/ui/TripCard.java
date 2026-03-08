@@ -45,8 +45,8 @@ public class TripCard extends UiPart<Region> {
         this.trip = trip;
         id.setText(displayedIndex + ". ");
         name.setText(trip.getName().fullName);
-        startDate.setText(trip.getStartDate());
-        endDate.setText(trip.getEndDate());
+        startDate.setText(trip.getStartDate().toString());
+        endDate.setText(trip.getEndDate().toString());
         phone.setText(trip.getPhone().value);
         address.setText(trip.getAddress().value);
         email.setText(trip.getEmail().value);
