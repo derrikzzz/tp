@@ -1,8 +1,6 @@
 package seedu.triplog.model.person;
 
 import static seedu.triplog.commons.util.CollectionUtil.requireAllNonNull;
-import static seedu.triplog.logic.parser.AddCommandParser.DEFAULT_END_DATE;
-import static seedu.triplog.logic.parser.AddCommandParser.DEFAULT_START_DATE;
 
 import java.time.LocalDate;
 import java.util.Collections;
