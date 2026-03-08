@@ -5,12 +5,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import seedu.triplog.logic.commands.EditCommand.EditTripDescriptor;
+import seedu.triplog.model.tag.Tag;
 import seedu.triplog.model.trip.Address;
 import seedu.triplog.model.trip.Email;
 import seedu.triplog.model.trip.Name;
 import seedu.triplog.model.trip.Phone;
 import seedu.triplog.model.trip.Trip;
-import seedu.triplog.model.tag.Tag;
 
 /**
  * A utility class to help with building EditTripDescriptor objects.
