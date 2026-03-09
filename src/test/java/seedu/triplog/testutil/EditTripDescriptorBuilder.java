@@ -11,6 +11,8 @@ import seedu.triplog.model.trip.Email;
 import seedu.triplog.model.trip.Name;
 import seedu.triplog.model.trip.Phone;
 import seedu.triplog.model.trip.Trip;
+import seedu.triplog.model.trip.TripDate;
+
 
 /**
  * A utility class to help with building EditTripDescriptor objects.
@@ -37,6 +39,8 @@ public class EditTripDescriptorBuilder {
         descriptor.setEmail(trip.getEmail());
         descriptor.setAddress(trip.getAddress());
         descriptor.setTags(trip.getTags());
+        descriptor.setStartDate(trip.getStartDate());
+        descriptor.setEndDate(trip.getEndDate());
     }
 
     /**
@@ -83,5 +87,21 @@ public class EditTripDescriptorBuilder {
 
     public EditTripDescriptor build() {
         return descriptor;
+    }
+
+    /**
+     * Sets the {@code TripDate} of the {@code EditTripDescriptor} that we are building.
+     */
+    public EditTripDescriptorBuilder withStart(String date) {
+        descriptor.setStartDate(new TripDate(date));
+        return this;
+    }
+
+    /**
+     * Sets the {@code TripDate} of the {@code EditTripDescriptor} that we are building.
+     */
+    public EditTripDescriptorBuilder withEnd(String date) {
+        descriptor.setEndDate(new TripDate(date));
+        return this;
     }
 }
