@@ -1,5 +1,6 @@
 package seedu.triplog.logic.parser;
 
+import static seedu.triplog.logic.Messages.MESSAGE_DELETE_INVALID_COMMAND_FORMAT;
 import static seedu.triplog.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.triplog.logic.Messages.MESSAGE_INVALID_INDEX_FORMAT;
 import static seedu.triplog.logic.Messages.MESSAGE_MISSING_INDEX;
@@ -27,7 +28,7 @@ public class DeleteCommandParser implements Parser<DeleteCommand> {
 
         String[] tokens = trimmedArgs.split("\\s+");
         if (tokens.length > 1) {
-            throw new ParseException(MESSAGE_INVALID_COMMAND_FORMAT);
+            throw new ParseException(MESSAGE_DELETE_INVALID_COMMAND_FORMAT);
         }
 
         try {
