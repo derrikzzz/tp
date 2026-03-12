@@ -22,7 +22,7 @@ import seedu.triplog.model.Model;
 import seedu.triplog.model.ReadOnlyTripLog;
 import seedu.triplog.model.ReadOnlyUserPrefs;
 import seedu.triplog.model.TripLog;
-import seedu.triplog.model.person.Trip;
+import seedu.triplog.model.trip.Trip;
 import seedu.triplog.testutil.TripBuilder;
 
 public class AddCommandTest {

@@ -29,7 +29,7 @@ import seedu.triplog.model.Model;
 import seedu.triplog.model.ModelManager;
 import seedu.triplog.model.ReadOnlyTripLog;
 import seedu.triplog.model.UserPrefs;
-import seedu.triplog.model.person.Trip;
+import seedu.triplog.model.trip.Trip;
 import seedu.triplog.storage.JsonTripLogStorage;
 import seedu.triplog.storage.JsonUserPrefsStorage;
 import seedu.triplog.storage.StorageManager;

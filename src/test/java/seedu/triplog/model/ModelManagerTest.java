@@ -15,7 +15,7 @@ import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 import seedu.triplog.commons.core.GuiSettings;
-import seedu.triplog.model.person.NameContainsKeywordsPredicate;
+import seedu.triplog.model.trip.NameContainsKeywordsPredicate;
 
 public class ModelManagerTest {
 

@@ -1,7 +1,7 @@
 package seedu.triplog.testutil;
 
 import seedu.triplog.model.TripLog;
-import seedu.triplog.model.person.Trip;
+import seedu.triplog.model.trip.Trip;
 
 /**
  * A utility class to help with building Addressbook objects.

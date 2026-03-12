@@ -1,4 +1,4 @@
-package seedu.triplog.model.person;
+package seedu.triplog.model.trip;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.triplog.commons.util.CollectionUtil.requireAllNonNull;
@@ -8,8 +8,8 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import seedu.triplog.model.person.exceptions.DuplicateTripException;
-import seedu.triplog.model.person.exceptions.TripNotFoundException;
+import seedu.triplog.model.trip.exceptions.DuplicateTripException;
+import seedu.triplog.model.trip.exceptions.TripNotFoundException;
 
 /**
  * A list of trips that enforces uniqueness between its elements and does not allow nulls.

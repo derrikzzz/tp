@@ -8,7 +8,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Region;
 import seedu.triplog.commons.core.LogsCenter;
-import seedu.triplog.model.person.Trip;
+import seedu.triplog.model.trip.Trip;
 
 /**
  * Panel containing the list of persons.
@@ -18,21 +18,21 @@ public class TripListPanel extends UiPart<Region> {
     private final Logger logger = LogsCenter.getLogger(TripListPanel.class);
 
     @FXML
-    private ListView<Trip> personListView;
+    private ListView<Trip> tripListView;
 
     /**
      * Creates a {@code TripListPanel} with the given {@code ObservableList}.
      */
     public TripListPanel(ObservableList<Trip> tripList) {
         super(FXML);
-        personListView.setItems(tripList);
-        personListView.setCellFactory(listView -> new PersonListViewCell());
+        tripListView.setItems(tripList);
+        tripListView.setCellFactory(listView -> new TripListViewCell());
     }
 
     /**
      * Custom {@code ListCell} that displays the graphics of a {@code Trip} using a {@code TripCard}.
      */
-    class PersonListViewCell extends ListCell<Trip> {
+    class TripListViewCell extends ListCell<Trip> {
         @Override
         protected void updateItem(Trip trip, boolean empty) {
             super.updateItem(trip, empty);

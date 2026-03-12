@@ -14,11 +14,11 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import seedu.triplog.logic.parser.exceptions.ParseException;
-import seedu.triplog.model.person.Address;
-import seedu.triplog.model.person.Email;
-import seedu.triplog.model.person.Name;
-import seedu.triplog.model.person.Phone;
 import seedu.triplog.model.tag.Tag;
+import seedu.triplog.model.trip.Address;
+import seedu.triplog.model.trip.Email;
+import seedu.triplog.model.trip.Name;
+import seedu.triplog.model.trip.Phone;
 
 public class ParserUtilTest {
     private static final String INVALID_NAME = "R@chel";

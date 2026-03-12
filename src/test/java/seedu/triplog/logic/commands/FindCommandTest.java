@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import seedu.triplog.model.Model;
 import seedu.triplog.model.ModelManager;
 import seedu.triplog.model.UserPrefs;
-import seedu.triplog.model.person.NameContainsKeywordsPredicate;
+import seedu.triplog.model.trip.NameContainsKeywordsPredicate;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.

@@ -1,4 +1,4 @@
-package seedu.triplog.model.person;
+package seedu.triplog.model.trip;
 
 import static seedu.triplog.commons.util.CollectionUtil.requireAllNonNull;
 
@@ -40,6 +40,21 @@ public class Trip {
         this.tags.addAll(tags);
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    /**
+     * New constructor for adding of single tag
+     * **/
+    public Trip(Trip trip, Tag tag) {
+        requireAllNonNull(trip, tag);
+        this.name = trip.name;
+        this.phone = trip.phone;
+        this.email = trip.email;
+        this.address = trip.address;
+        this.startDate = trip.startDate;
+        this.endDate = trip.endDate;
+        this.tags.addAll(trip.tags);
+        this.tags.add(tag);
     }
 
     public Name getName() {

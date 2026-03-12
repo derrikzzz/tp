@@ -12,8 +12,8 @@ import java.util.Set;
 
 import seedu.triplog.logic.commands.AddCommand;
 import seedu.triplog.logic.commands.EditCommand.EditTripDescriptor;
-import seedu.triplog.model.person.Trip;
 import seedu.triplog.model.tag.Tag;
+import seedu.triplog.model.trip.Trip;
 
 /**
  * A utility class for Trip.

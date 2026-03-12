@@ -6,8 +6,8 @@ import java.util.List;
 
 import javafx.collections.ObservableList;
 import seedu.triplog.commons.util.ToStringBuilder;
-import seedu.triplog.model.person.Trip;
-import seedu.triplog.model.person.UniqueTripList;
+import seedu.triplog.model.trip.Trip;
+import seedu.triplog.model.trip.UniqueTripList;
 
 /**
  * Wraps all data at the trip-log level
