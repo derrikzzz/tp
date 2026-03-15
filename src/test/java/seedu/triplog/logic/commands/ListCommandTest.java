@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import seedu.triplog.logic.commands.exceptions.CommandException;
 import seedu.triplog.model.Model;
 import seedu.triplog.model.ModelManager;
 import seedu.triplog.model.UserPrefs;
@@ -42,7 +43,7 @@ public class ListCommandTest {
     }
 
     @Test
-    public void execute_listIsSorted_showsTripsInAscendingOrder() throws Exception {
+    public void execute_listIsSorted_showsTripsInAscendingOrder() throws CommandException {
         new ListCommand().execute(model);
 
         List<Trip> sorted = model.getSortedTripList();
