@@ -86,4 +86,17 @@ public class FilterCommandTest {
 
         assertEquals(FilterCommand.MESSAGE_START_AFTER_END, result.getFeedbackToUser());
     }
+
+    @Test
+    public void toStringMethod() {
+        TripDate start = new TripDate("2026-01-01");
+        TripDate end = new TripDate("2026-03-01");
+
+        FilterCommand command = new FilterCommand(start, end);
+
+        String expected = FilterCommand.class.getCanonicalName()
+                + "{startDate=" + start + ", endDate=" + end + "}";
+
+        assertEquals(expected, command.toString());
+    }
 }
