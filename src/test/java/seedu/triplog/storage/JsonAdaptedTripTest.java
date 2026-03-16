@@ -13,7 +13,11 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
 import seedu.triplog.commons.exceptions.IllegalValueException;
-import seedu.triplog.model.trip.*;
+import seedu.triplog.model.trip.Address;
+import seedu.triplog.model.trip.Email;
+import seedu.triplog.model.trip.Name;
+import seedu.triplog.model.trip.Phone;
+import seedu.triplog.model.trip.Trip;
 
 public class JsonAdaptedTripTest {
     private static final String INVALID_NAME = "R@chel";

@@ -13,11 +13,11 @@ import static seedu.triplog.testutil.Assert.assertThrows;
 import static seedu.triplog.testutil.TypicalTrips.ALICE;
 import static seedu.triplog.testutil.TypicalTrips.BOB;
 
+import java.util.Collections;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.triplog.testutil.TripBuilder;
-
-import java.util.Collections;
 
 public class TripTest {
 

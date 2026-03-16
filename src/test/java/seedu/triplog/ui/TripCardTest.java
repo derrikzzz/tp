@@ -1,19 +1,22 @@
 package seedu.triplog.ui;
 
-import javafx.scene.control.Label;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.testfx.framework.junit5.ApplicationExtension;
-import seedu.triplog.model.tag.Tag;
-import seedu.triplog.model.trip.Name;
-import seedu.triplog.model.trip.Trip;
-import seedu.triplog.model.trip.TripDate;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.testfx.framework.junit5.ApplicationExtension;
+
+import javafx.scene.control.Label;
+import seedu.triplog.model.tag.Tag;
+import seedu.triplog.model.trip.Name;
+import seedu.triplog.model.trip.Trip;
+import seedu.triplog.model.trip.TripDate;
 
 @ExtendWith(ApplicationExtension.class)
 public class TripCardTest {
@@ -21,12 +24,12 @@ public class TripCardTest {
     public void tripCard_optionalFieldsNull_noExceptionsAndCorrectManaged() {
         Trip tripWithNulls = new Trip(
                 new Name("Bali Trip"),
-                null,           // phone
-                null,           // email
-                null,           // address
+                null,
+                null,
+                null,
                 Collections.emptySet(),
-                null,           // startDate
-                null            // endDate
+                null,
+                null
         );
 
         TripCard tripCard = new TripCard(tripWithNulls, 1);
