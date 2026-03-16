@@ -13,6 +13,8 @@ import static seedu.triplog.testutil.Assert.assertThrows;
 import static seedu.triplog.testutil.TypicalTrips.ALICE;
 import static seedu.triplog.testutil.TypicalTrips.BOB;
 
+import java.util.Collections;
+
 import org.junit.jupiter.api.Test;
 
 import seedu.triplog.testutil.TripBuilder;
@@ -105,5 +107,40 @@ public class TripTest {
                 + ", startDate=" + ALICE.getStartDate() + ", endDate=" + ALICE.getEndDate()
                 + ", tags=" + ALICE.getTags() + "}";
         assertEquals(expected, ALICE.toString());
+    }
+
+    @Test
+    public void constructor_startDateAfterEndDate_throwsIllegalArgumentException() {
+        Name name = new Name("Test Trip");
+        Phone phone = null;
+        Email email = null;
+        Address address = null;
+
+        TripDate startDate = new TripDate("2026-12-31");
+        TripDate endDate = new TripDate("2026-01-01"); // earlier than startDate
+
+        assertThrows(IllegalArgumentException.class, () ->
+                new Trip(name, phone, email, address, Collections.emptySet(), startDate, endDate)
+        );
+    }
+
+    @Test
+    public void constructor_startDateEqualsEndDate_noException() {
+        Name name = new Name("Test Trip");
+        TripDate startDate = new TripDate("2026-01-01");
+        TripDate endDate = new TripDate("2026-01-01");
+
+        new Trip(name, null, null, null, Collections.emptySet(), startDate, endDate);
+        // No exception expected
+    }
+
+    @Test
+    public void constructor_startDateBeforeEndDate_noException() {
+        Name name = new Name("Test Trip");
+        TripDate startDate = new TripDate("2026-01-01");
+        TripDate endDate = new TripDate("2026-12-31");
+
+        new Trip(name, null, null, null, Collections.emptySet(), startDate, endDate);
+        // No exception expected
     }
 }

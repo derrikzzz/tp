@@ -1,5 +1,6 @@
 package seedu.triplog.model.trip;
 
+import static seedu.triplog.commons.util.AppUtil.checkArgument;
 import static seedu.triplog.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
@@ -15,6 +16,9 @@ import seedu.triplog.model.tag.Tag;
  * Guarantees: details are present and not null, field values are validated, immutable.
  */
 public class Trip {
+
+    public static final String DATE_CONSTRAINTS =
+            "Start date cannot be after end date.";
 
     // Identity fields
     private final Name name;
@@ -33,6 +37,11 @@ public class Trip {
     public Trip(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
                 TripDate startDate, TripDate endDate) {
         requireAllNonNull(name, tags);
+
+        if (startDate != null && endDate != null) {
+            checkArgument(!startDate.value.isAfter(endDate.value), DATE_CONSTRAINTS);
+        }
+
         this.name = name;
         this.phone = phone;
         this.email = email;

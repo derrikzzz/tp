@@ -50,35 +50,65 @@ public class TripCard extends UiPart<Region> {
         if (!Objects.isNull(trip.getPhone())) {
             phone.setText(trip.getPhone().value);
         } else {
+            phone.setText("");
             phone.setManaged(false);
         }
 
         if (!Objects.isNull(trip.getAddress())) {
             address.setText(trip.getAddress().value);
         } else {
+            address.setText("");
             address.setManaged(false);
         }
 
         if (!Objects.isNull(trip.getEmail())) {
             email.setText(trip.getEmail().value);
         } else {
+            email.setText("");
             email.setManaged(false);
         }
 
         if (!Objects.isNull(trip.getStartDate())) {
             startDate.setText(trip.getStartDate().toString());
         } else {
+            startDate.setText("");
             startDate.setManaged(false);
         }
 
         if (!Objects.isNull(trip.getEndDate())) {
             endDate.setText(trip.getEndDate().toString());
         } else {
+            endDate.setText("");
             endDate.setManaged(false);
         }
 
         trip.getTags().stream()
                 .sorted(Comparator.comparing(tag -> tag.tagName))
                 .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+    }
+
+    // getters mainly used for testing
+    public Label getPhoneLabel() {
+        return phone;
+    }
+
+    public Label getAddressLabel() {
+        return address;
+    }
+
+    public Label getEmailLabel() {
+        return email;
+    }
+
+    public Label getStartDateLabel() {
+        return startDate;
+    }
+
+    public Label getEndDateLabel() {
+        return endDate;
+    }
+
+    public FlowPane getTags() {
+        return tags;
     }
 }

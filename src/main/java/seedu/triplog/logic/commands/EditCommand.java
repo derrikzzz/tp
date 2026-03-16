@@ -94,7 +94,8 @@ public class EditCommand extends Command {
      * Creates and returns a {@code Trip} with the details of {@code tripToEdit}
      * edited with {@code editTripDescriptor}.
      */
-    private static Trip createEditedTrip(Trip tripToEdit, EditTripDescriptor editTripDescriptor) {
+    private static Trip createEditedTrip(Trip tripToEdit, EditTripDescriptor editTripDescriptor)
+            throws CommandException {
         assert tripToEdit != null;
 
         Name updatedName = editTripDescriptor.getName().orElse(tripToEdit.getName());
@@ -105,8 +106,15 @@ public class EditCommand extends Command {
         TripDate updatedStartDate = editTripDescriptor.getStartDate().orElse(tripToEdit.getStartDate());
         TripDate updatedEndDate = editTripDescriptor.getEndDate().orElse(tripToEdit.getEndDate());
 
-        return new Trip(updatedName, updatedPhone, updatedEmail, updatedAddress,
-                        updatedTags, updatedStartDate, updatedEndDate);
+        Trip editedTrip;
+        try {
+            editedTrip = new Trip(updatedName, updatedPhone, updatedEmail, updatedAddress,
+                    updatedTags, updatedStartDate, updatedEndDate);
+        } catch (IllegalArgumentException e) {
+            throw new CommandException(e.getMessage());
+        }
+
+        return editedTrip;
     }
 
     @Override

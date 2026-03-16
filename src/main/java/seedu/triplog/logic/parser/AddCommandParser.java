@@ -67,7 +67,12 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
 
-        Trip trip = new Trip(name, phone, email, address, tagList, startDate, endDate);
+        Trip trip;
+        try {
+            trip = new Trip(name, phone, email, address, tagList, startDate, endDate);
+        } catch (IllegalArgumentException e) {
+            throw new ParseException(e.getMessage());
+        }
 
         return new AddCommand(trip);
     }
