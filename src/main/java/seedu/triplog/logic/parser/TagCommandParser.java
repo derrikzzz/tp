@@ -25,7 +25,7 @@ public class TagCommandParser implements Parser<TagCommand> {
         }
 
         String[] parts = trimmedArgs.split("\\s+", 2);
-        if (parts.length < 2 || parts[1].trim().isEmpty()) {
+        if (parts.length < 2) {
             throw new ParseException(
                     String.format(MESSAGE_INVALID_COMMAND_FORMAT, TagCommand.MESSAGE_USAGE));
         }
