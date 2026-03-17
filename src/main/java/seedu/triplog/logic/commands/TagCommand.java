@@ -15,19 +15,19 @@ import seedu.triplog.model.trip.Trip;
 
 
 /**
- * Tags a Place in the address book.
+ * Tags a Trip in the address book.
  */
 public class TagCommand extends Command {
 
     public static final String COMMAND_WORD = "tag";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a tag to a place in the address book. "
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a tag to a trip in the address book. "
             + "Parameters: INDEX (must be a positive integer) "
             + "KEYWORD\n"
             + "Example: " + COMMAND_WORD + " 3 leisure";
 
-    public static final String MESSAGE_TAG_TRIP_SUCCESS = "New tag %1$s added to place: %2$s";
-    public static final String MESSAGE_DUPLICATE_TAG = "Tag %1$s already exists for place: %2$s";
+    public static final String MESSAGE_TAG_TRIP_SUCCESS = "New tag %1$s added to trip: %2$s";
+    public static final String MESSAGE_DUPLICATE_TAG = "Tag %1$s already exists for trip: %2$s";
 
     private final Index index;
     private final Tag tag;

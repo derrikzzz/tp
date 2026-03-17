@@ -11,7 +11,6 @@ import static seedu.triplog.testutil.TypicalIndexes.INDEX_SECOND_TRIP;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
