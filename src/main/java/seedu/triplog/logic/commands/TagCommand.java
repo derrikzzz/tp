@@ -27,7 +27,6 @@ public class TagCommand extends Command {
             + "Example: " + COMMAND_WORD + " 3 leisure";
 
     public static final String MESSAGE_TAG_TRIP_SUCCESS = "New tag %1$s added to place: %2$s";
-    public static final String MESSAGE_DUPLICATE_TRIP = "This trip already exists in the trip log.";
     public static final String MESSAGE_DUPLICATE_TAG = "Tag %1$s already exists for place: %2$s";
 
     private final Index index;

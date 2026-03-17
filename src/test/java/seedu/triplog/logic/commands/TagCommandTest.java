@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.triplog.testutil.Assert.assertThrows;
+import static seedu.triplog.testutil.TypicalIndexes.INDEX_FIRST_TRIP;
+import static seedu.triplog.testutil.TypicalIndexes.INDEX_SECOND_TRIP;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -41,10 +43,10 @@ public class TagCommandTest {
         Tag tag = new Tag("leisure");
         ModelStubAcceptingTripUpdate modelStub = new ModelStubAcceptingTripUpdate(trip);
 
-        TagCommand command = new TagCommand(Index.fromOneBased(1), tag);
+        TagCommand command = new TagCommand(INDEX_FIRST_TRIP, tag);
         CommandResult result = command.execute(modelStub);
 
-        Trip updatedTrip = modelStub.trips.get(0);
+        Trip updatedTrip = modelStub.trips.get(INDEX_FIRST_TRIP.getZeroBased());
 
         // check tag added
         assertTrue(updatedTrip.getTags().contains(tag));
@@ -59,7 +61,7 @@ public class TagCommandTest {
         Trip trip = new TripBuilder().build();
         ModelStubWithTrip modelStub = new ModelStubWithTrip(trip);
 
-        TagCommand command = new TagCommand(Index.fromOneBased(2), new Tag("leisure"));
+        TagCommand command = new TagCommand(INDEX_SECOND_TRIP, new Tag("leisure"));
 
         assertThrows(CommandException.class,
                 Messages.MESSAGE_INVALID_TRIP_DISPLAYED_INDEX, () -> command.execute(modelStub));
@@ -72,7 +74,7 @@ public class TagCommandTest {
 
         ModelStubWithTrip modelStub = new ModelStubWithTrip(trip);
 
-        TagCommand command = new TagCommand(Index.fromOneBased(1), tag);
+        TagCommand command = new TagCommand(INDEX_FIRST_TRIP, tag);
 
         assertThrows(CommandException.class,
                 TagCommand.MESSAGE_DUPLICATE_TAG, () -> command.execute(modelStub));
@@ -80,16 +82,13 @@ public class TagCommandTest {
 
     @Test
     public void equals() {
-        Index index1 = Index.fromOneBased(1);
-        Index index2 = Index.fromOneBased(2);
-
         Tag tag1 = new Tag("leisure");
         Tag tag2 = new Tag("work");
 
-        TagCommand command1 = new TagCommand(index1, tag1);
-        TagCommand command2 = new TagCommand(index1, tag1);
-        TagCommand command3 = new TagCommand(index2, tag1);
-        TagCommand command4 = new TagCommand(index1, tag2);
+        TagCommand command1 = new TagCommand(INDEX_FIRST_TRIP, tag1);
+        TagCommand command2 = new TagCommand(INDEX_FIRST_TRIP, tag1);
+        TagCommand command3 = new TagCommand(INDEX_SECOND_TRIP, tag1);
+        TagCommand command4 = new TagCommand(INDEX_FIRST_TRIP, tag2);
 
         // same object -> true
         assertTrue(command1.equals(command1));
@@ -112,12 +111,11 @@ public class TagCommandTest {
 
     @Test
     public void toStringMethod() {
-        Index index = Index.fromOneBased(1);
         Tag tag = new Tag("leisure");
-        TagCommand tagCommand = new TagCommand(index, tag);
+        TagCommand tagCommand = new TagCommand(INDEX_FIRST_TRIP, tag);
 
         // ToStringBuilder uses the labels you defined in the method: "targetIndex" and "tag"
-        String expected = TagCommand.class.getCanonicalName() + "{targetIndex=" + index + ", tag=" + tag + "}";
+        String expected = TagCommand.class.getCanonicalName() + "{targetIndex=" + INDEX_FIRST_TRIP + ", tag=" + tag + "}";
 
         assertEquals(expected, tagCommand.toString());
     }
@@ -256,9 +254,7 @@ public class TagCommandTest {
         @Override
         public void updateFilteredTripList(Predicate<Trip> predicate) {
             requireNonNull(predicate);
-            ArrayList<Trip> filteredTrips = trips.stream()
-                    .filter(predicate)
-                    .collect(Collectors.toCollection(ArrayList::new));
+            // No-op: Filtering not required for this stub
         }
     }
 }
