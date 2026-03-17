@@ -54,7 +54,7 @@ public class TagCommand extends Command {
         Trip tripToTag = lastShownList.get(index.getZeroBased());
 
         if (tripToTag.getTags().contains(this.tag)) {
-            throw new CommandException(MESSAGE_DUPLICATE_TAG);
+            throw new CommandException(String.format(MESSAGE_DUPLICATE_TAG, this.tag, Messages.format(tripToTag)));
         }
 
         Trip tripWithUpdatedTag = new Trip(tripToTag, this.tag);

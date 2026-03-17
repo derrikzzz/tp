@@ -4,11 +4,13 @@ import static java.util.Objects.requireNonNull;
 import static seedu.triplog.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import seedu.triplog.commons.core.GuiSettings;
 import seedu.triplog.commons.core.LogsCenter;
 import seedu.triplog.model.trip.Trip;
@@ -22,6 +24,7 @@ public class ModelManager implements Model {
     private final TripLog tripLog;
     private final UserPrefs userPrefs;
     private final FilteredList<Trip> filteredTrips;
+    private final SortedList<Trip> sortedTrips;
 
     /**
      * Initializes a ModelManager with the given tripLog and userPrefs.
@@ -34,6 +37,7 @@ public class ModelManager implements Model {
         this.tripLog = new TripLog(tripLog);
         this.userPrefs = new UserPrefs(userPrefs);
         filteredTrips = new FilteredList<>(this.tripLog.getTripList());
+        sortedTrips = new SortedList<>(filteredTrips);
     }
 
     public ModelManager() {
@@ -125,6 +129,17 @@ public class ModelManager implements Model {
     public void updateFilteredTripList(Predicate<Trip> predicate) {
         requireNonNull(predicate);
         filteredTrips.setPredicate(predicate);
+    }
+
+    @Override
+    public ObservableList<Trip> getSortedTripList() {
+        return sortedTrips;
+    }
+
+    @Override
+    public void updateSortedTripList(Comparator<Trip> comparator) {
+        requireNonNull(comparator);
+        sortedTrips.setComparator(comparator);
     }
 
     @Override

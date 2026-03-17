@@ -1,6 +1,7 @@
 package seedu.triplog.model;
 
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
@@ -84,4 +85,13 @@ public interface Model {
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredTripList(Predicate<Trip> predicate);
+
+    /** Returns an unmodifiable view of the sorted trip list */
+    ObservableList<Trip> getSortedTripList();
+
+    /**
+     * Updates the sort order of the sorted trip list using the given {@code comparator}.
+     * @throws NullPointerException if {@code comparator} is null.
+     */
+    void updateSortedTripList(Comparator<Trip> comparator);
 }

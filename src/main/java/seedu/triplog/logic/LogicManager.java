@@ -71,6 +71,11 @@ public class LogicManager implements Logic {
     }
 
     @Override
+    public ObservableList<Trip> getSortedTripList() {
+        return model.getSortedTripList();
+    }
+
+    @Override
     public Path getTripLogFilePath() {
         return model.getTripLogFilePath();
     }

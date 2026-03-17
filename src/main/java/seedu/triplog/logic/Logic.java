@@ -33,6 +33,9 @@ public interface Logic {
     /** Returns an unmodifiable view of the filtered list of trips */
     ObservableList<Trip> getFilteredTripList();
 
+    /** Returns an unmodifiable view of the sorted trip list */
+    ObservableList<Trip> getSortedTripList();
+
     /**
      * Returns the user prefs' trip log file path.
      */

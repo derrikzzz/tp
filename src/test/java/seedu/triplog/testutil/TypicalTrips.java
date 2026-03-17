@@ -31,27 +31,27 @@ public class TypicalTrips {
             .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com")
             .withPhone("94351253")
             .withTags("friends")
-            .withStart("2026-01-01").withEnd("2026-01-10").build();
+            .withStart("2026-04-01").withEnd("2026-04-10").build();
     public static final Trip BENSON = new TripBuilder().withName("Benson Meier")
             .withAddress("311, Clementi Ave 2, #02-25")
             .withEmail("johnd@example.com").withPhone("98765432")
             .withTags("owesMoney", "friends")
-            .withStart("2026-01-01").withEnd("2026-01-10").build();
+            .withStart("2026-02-01").withEnd("2026-02-10").build();
     public static final Trip CARL = new TripBuilder().withName("Carl Kurz").withPhone("95352563")
             .withEmail("heinz@example.com").withAddress("wall street")
-            .withStart("2026-01-01").withEnd("2026-01-10").build();
+            .withStart("2026-06-01").withEnd("2026-06-10").build();
     public static final Trip DANIEL = new TripBuilder().withName("Daniel Meier").withPhone("87652533")
             .withEmail("cornelia@example.com").withAddress("10th street").withTags("friends")
             .withStart("2026-01-01").withEnd("2026-01-10").build();
     public static final Trip ELLE = new TripBuilder().withName("Elle Meyer").withPhone("9482224")
             .withEmail("werner@example.com").withAddress("michegan ave")
-            .withStart("2026-01-01").withEnd("2026-01-10").build();
+            .withStart("2026-05-01").withEnd("2026-05-10").build();
     public static final Trip FIONA = new TripBuilder().withName("Fiona Kunz").withPhone("9482427")
             .withEmail("lydia@example.com").withAddress("little tokyo")
-            .withStart("2026-01-01").withEnd("2026-01-10").build();
+            .withStart("2026-03-01").withEnd("2026-03-10").build();
     public static final Trip GEORGE = new TripBuilder().withName("George Best").withPhone("9482442")
             .withEmail("anna@example.com").withAddress("4th street")
-            .withStart("2026-01-01").withEnd("2026-01-10").build();
+            .withStart("2026-07-01").withEnd("2026-07-10").build();
 
     // Manually added
     public static final Trip HOON = new TripBuilder().withName("Hoon Meier").withPhone("8482424")
