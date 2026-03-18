@@ -28,7 +28,7 @@ TripLog is a **desktop app for managing trips, optimized for use via a Command L
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
    - `list` : Lists all trips.
-   * `add name:"Tokyo, Japan" start:2026-03-10 end:2026-03-20` : Adds a trip to Tokyo.
+   * `add n/Tokyo, Japan sd/2026-03-10 ed/2026-03-20` : Adds a trip to Tokyo.
 
    * `delete 3` : Deletes the 3rd trip shown in the current list.
 
@@ -46,19 +46,19 @@ TripLog is a **desktop app for managing trips, optimized for use via a Command L
 **Notes about the command format:**<br>
 
 - Words in `UPPER_CASE` are the parameters to be supplied by the user.<br>
-  e.g. in `add name:NAME`, `NAME` is a parameter which can be used as `add name:John Doe`.
+  e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
 
 - Values with spaces do not need quotes — the parser reads up to the next prefix.<br>
-  e.g. `name:New York` and `addr:123 Main St` are both valid.
+  e.g. `n/New York` and `a/123 Main St` are both valid.
 
 - Items in square brackets are optional.<br>
-  e.g `name:NAME [start:DATE]` can be used as `name:Tokyo start:2026-01-01` or as `name:Tokyo`.
+  e.g `n/NAME [sd/DATE]` can be used as `n/Tokyo sd/2026-01-01` or as `n/Tokyo`.
 
 - Items with `…`​ after them can be used multiple times including zero times.<br>
-  e.g. `[tag:TAG]…​` can be used as ` ` (i.e. 0 times), `tag:nature`, `tag:nature tag:photo` etc.
+  e.g. `[t/TAG]…​` can be used as ` ` (i.e. 0 times), `t/nature`, `t/nature t/photo` etc.
 
 - Parameters can be in any order.<br>
-  e.g. if the command specifies `name:NAME phone:PHONE`, `phone:PHONE name:NAME` is also acceptable.
+  e.g. if the command specifies `n/NAME p/PHONE`, `p/PHONE n/NAME` is also acceptable.
 
 - Extraneous parameters for commands that do not take in parameters (such as `help`, `list`, `exit` and `clear`) will be ignored.
   </box>
@@ -77,7 +77,7 @@ Format: `help`
 
 Adds a trip to the log.
 
-Format: `add name:NAME [phone:PHONE] [email:EMAIL] [addr:ADDRESS] [start:START_DATE] [end:END_DATE] [tag:TAG]…​`
+Format: `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [sd/START_DATE] [ed/END_DATE] [t/TAG]…​`
 
 <box type="tip" seamless>
 
@@ -86,8 +86,8 @@ Format: `add name:NAME [phone:PHONE] [email:EMAIL] [addr:ADDRESS] [start:START_D
 
 Examples:
 
-- `add name:Tokyo start:2026-03-10 end:2026-03-20`
-- `add name:New York addr:123 5th Ave tag:business tag:high priority`
+- `add n/Tokyo sd/2026-03-10 ed/2026-03-20`
+- `add n/New York a/123 5th Ave t/business t/high priority`
 
 ### Listing all trips : `list`
 
@@ -103,18 +103,18 @@ Example:
 
 Edits an existing trip in the trip log.
 
-Format: `edit INDEX [name:NAME] [phone:PHONE] [email:EMAIL] [addr:ADDRESS] [start:DATE] [end:DATE] [tag:TAG]…​`
+Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [sd/DATE] [ed/DATE] [t/TAG]…​`
 
 - Edits the trip at the specified `INDEX`. The index refers to the index number shown in the displayed trip list. The index **must be a positive integer** 1, 2, 3, …​
 - At least one of the optional fields must be provided.
 - Existing values will be updated to the input values.
 - When editing tags, the existing tags of the trip will be removed i.e adding of tags is not cumulative.
-- You can remove all the trip’s tags by typing `tag:` without specifying any tags after it.
+- You can remove all the trip’s tags by typing `t/` without specifying any tags after it.
 
 Examples:
 
-- `edit 1 phone:91234567 email:johndoe@example.com` Edits the phone and email of the 1st trip.
-- `edit 2 name:Betsy Crower tag:` Edits the name of the 2nd trip and clears all tags.
+- `edit 1 p/91234567 e/johndoe@example.com` Edits the phone and email of the 1st trip.
+- `edit 2 n/Betsy Crower t/` Edits the name of the 2nd trip and clears all tags.
 
 ### Locating trips by name: `find`
 
@@ -154,7 +154,7 @@ Examples:
 
 Filter trips by a given date range.
 
-Format: `filter start:START_DATE end:END_DATE`
+Format: `filter sd/START_DATE ed/END_DATE`
 
 - Update the displayed list with trips satisfying this criteria:
   START_DATE <= trip start date <= trip end date <= END_DATE
@@ -163,7 +163,7 @@ Format: `filter start:START_DATE end:END_DATE`
 
 Examples:
 
-- `filter start:2026-01-01 end:2026-03-01` will filter all trips within this period
+- `filter sd/2026-01-01 ed/2026-03-01` will filter all trips within this period
 
 ### Clearing all entries : `clear`
 
@@ -216,10 +216,10 @@ _Details coming soon ..._
 
 | Action     | Format, Examples                                                                                                                                                         |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Add**    | `add name:NAME [phone:PHONE] [email:EMAIL] [addr:ADDRESS] [start:DATE] [end:DATE] [tag:TAG]…​` <br> e.g., `add name:James Ho phone:22224444 start:2026-01-01 tag:friend` |
-| **Clear**  | `clear`                                                                                                                                                                  |
-| **Delete** | `delete INDEX`<br> e.g., `delete 3`                                                                                                                                      |
-| **Edit**   | `edit INDEX [name:NAME] [phone:PHONE] [email:EMAIL] [addr:ADDRESS] [start:DATE] [end:DATE] [tag:TAG]…​`<br> e.g.,`edit 2 name:James Lee email:jameslee@example.com`      |
+| **Add**    | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [sd/DATE] [ed/DATE] [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 sd/2026-01-01 t/friend` |
+| **Clear**  | `clear`                                                                                                                                   |
+| **Delete** | `delete INDEX`<br> e.g., `delete 3`                                                                                                       |
+| **Edit**   | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [sd/DATE] [ed/DATE] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com` |
 | **Find**   | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find Tokyo Osaka`                                                                                                              |
 | **List**   | `list`                                                                                                                                                                   |
 | **Help**   | `help`                                                                                                                                                                   |
