@@ -10,7 +10,7 @@ import static seedu.triplog.commons.util.AppUtil.checkArgument;
  */
 public class Tag {
 
-    public static final String MESSAGE_CONSTRAINTS = "Tags names should be alphanumeric and may contain spaces";
+    public static final String MESSAGE_CONSTRAINTS = "Tag names should be alphanumeric and may contain spaces";
     public static final String VALIDATION_REGEX = "[\\p{Alnum} ]+";
 
     public final String tagName;
