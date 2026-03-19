@@ -78,10 +78,19 @@ public class HelpWindow extends UiPart<Stage> {
     private Label addUsage;
 
     @FXML
+    private Label editUsage;
+
+    @FXML
     private Label deleteUsage;
 
     @FXML
     private Label tagUsage;
+
+    @FXML
+    private Label findUsage;
+
+    @FXML
+    private Label filterUsage;
 
     @FXML
     private Label listUsage;
@@ -100,9 +109,12 @@ public class HelpWindow extends UiPart<Stage> {
     public HelpWindow(Stage root) {
         super(FXML, root);
         prefixNote.setText(PREFIX_NOTE);
-        addUsage.setText(ADD_USAGE + "\n\n" + EDIT_USAGE);
+        addUsage.setText(ADD_USAGE);
+        editUsage.setText(EDIT_USAGE);
         deleteUsage.setText(DELETE_USAGE);
-        tagUsage.setText(TAG_USAGE + "\n\n" + FIND_USAGE + "\n\n" + FILTER_USAGE);
+        tagUsage.setText(TAG_USAGE);
+        findUsage.setText(FIND_USAGE);
+        filterUsage.setText(FILTER_USAGE);
         listUsage.setText(LIST_USAGE);
         helpMessage.setText("");
         exitNote.setText(EXIT_NOTE);

@@ -145,7 +145,7 @@ public class TripTest {
     }
 
     @Test
-    public void chronologicalComparator_test() {
+    public void chronologicalComparator_differentDatesAndNulls_sortedChronologically() {
         // Case 1: Both dates present, different dates
         Trip janTrip = new Trip(new Name("A"), null, null, null, Collections.emptySet(),
                 new TripDate("2026-01-01"), null);
