@@ -14,7 +14,7 @@ import seedu.triplog.commons.core.LogsCenter;
  */
 public class HelpWindow extends UiPart<Stage> {
 
-    public static final String USERGUIDE_URL = "https://se-education.org/addressbook-level3/UserGuide.html";
+    public static final String USERGUIDE_URL = "https://ay2526s2-cs2103-f13-2.github.io/tp/UserGuide.html";
 
     public static final String PREFIX_NOTE =
             "Options use the prefix/ format — a short prefix followed immediately by a slash.\n"
@@ -41,7 +41,7 @@ public class HelpWindow extends UiPart<Stage> {
     public static final String TAG_USAGE =
             "tag <index> <tag-name>\n"
                     + "  Adds a keyword tag to an existing trip.\n"
-                    + "  tag-name must be alphanumeric.\n"
+                    + "  tag-name must be alphanumeric and may contain spaces.\n"
                     + "  e.g.  tag 1 adventure    or    tag 1 night market";
 
     public static final String LIST_USAGE =
