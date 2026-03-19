@@ -3,7 +3,7 @@ package seedu.triplog.logic.commands;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.triplog.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.triplog.logic.commands.CommandTestUtil.showTripAtIndex;
-import static seedu.triplog.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.triplog.testutil.TypicalIndexes.INDEX_FIRST_TRIP;
 import static seedu.triplog.testutil.TypicalTrips.getTypicalTripLog;
 
 import java.util.List;
@@ -38,7 +38,7 @@ public class ListCommandTest {
 
     @Test
     public void execute_listIsFiltered_showsEverything() {
-        showTripAtIndex(model, INDEX_FIRST_PERSON);
+        showTripAtIndex(model, INDEX_FIRST_TRIP);
         assertCommandSuccess(new ListCommand(), model, ListCommand.MESSAGE_SUCCESS, expectedModel);
     }
 

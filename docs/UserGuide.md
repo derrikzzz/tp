@@ -116,6 +116,21 @@ Examples:
 - `edit 1 p/91234567 e/johndoe@example.com` Edits the phone and email of the 1st trip.
 - `edit 2 n/Betsy Crower t/` Edits the name of the 2nd trip and clears all tags.
 
+### Tagging a trip : `tag`
+
+Tags an existing trip in the address book with the given keyword.
+
+Format: `tag INDEX TAG`
+
+* Tags the trip with the keyword `TAG` at the specified `INDEX`. The index refers to the index number shown in the displayed trip list. The index **must be a positive integer** 1, 2, 3, …​
+* Tags must be alphanumeric (A-Z, 0-9)
+* Duplicate tags will not be added
+
+Examples:
+* `tag 1 scenic beauty` Tags the 1st trip with `scenic beauty`.
+* `tag 2 hotel` Tags the 2nd trip with `hotel`.
+
+
 ### Locating trips by name: `find`
 
 Finds trips whose names contain any of the given keywords.

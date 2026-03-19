@@ -3,7 +3,7 @@ package seedu.triplog.logic.parser;
 import static seedu.triplog.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.triplog.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.triplog.logic.parser.CommandParserTestUtil.assertParseSuccess;
-import static seedu.triplog.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.triplog.testutil.TypicalIndexes.INDEX_FIRST_TRIP;
 
 import java.util.Set;
 
@@ -24,8 +24,8 @@ public class DeleteCommandParserTest {
 
     @Test
     public void parse_validSingleIndex_returnsDeleteCommand() {
-        assertParseSuccess(parser, "1", new DeleteCommand(INDEX_FIRST_PERSON));
-        assertParseSuccess(parser, "   1   ", new DeleteCommand(INDEX_FIRST_PERSON));
+        assertParseSuccess(parser, "1", new DeleteCommand(INDEX_FIRST_TRIP));
+        assertParseSuccess(parser, "   1   ", new DeleteCommand(INDEX_FIRST_TRIP));
     }
 
     @Test

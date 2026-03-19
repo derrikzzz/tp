@@ -1,5 +1,7 @@
 package seedu.triplog.model.tag;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.triplog.testutil.Assert.assertThrows;
 
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,26 @@ public class TagTest {
     public void isValidTagName() {
         // null tag name
         assertThrows(NullPointerException.class, () -> Tag.isValidTagName(null));
+    }
+
+    @Test
+    public void equals() {
+        Tag tag = new Tag("leisure");
+
+        // same values -> returns true
+        assertTrue(tag.equals(new Tag("leisure")));
+
+        // same object -> returns true
+        assertTrue(tag.equals(tag));
+
+        // null -> returns false
+        assertFalse(tag.equals(null));
+
+        // different types -> returns false
+        assertFalse(tag.equals(5.0f)); // This triggers the instanceof check!
+
+        // different values -> returns false
+        assertFalse(tag.equals(new Tag("work")));
     }
 
 }

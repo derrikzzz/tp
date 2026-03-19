@@ -6,8 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.triplog.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.triplog.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.triplog.logic.commands.CommandTestUtil.showTripAtIndex;
-import static seedu.triplog.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
-import static seedu.triplog.testutil.TypicalIndexes.INDEX_SECOND_PERSON;
+import static seedu.triplog.testutil.TypicalIndexes.INDEX_FIRST_TRIP;
+import static seedu.triplog.testutil.TypicalIndexes.INDEX_SECOND_TRIP;
 import static seedu.triplog.testutil.TypicalTrips.getTypicalTripLog;
 
 import java.util.Set;
@@ -32,8 +32,8 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
-        Trip tripToDelete = model.getFilteredTripList().get(INDEX_FIRST_PERSON.getZeroBased());
-        DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_PERSON);
+        Trip tripToDelete = model.getFilteredTripList().get(INDEX_FIRST_TRIP.getZeroBased());
+        DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_TRIP);
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_TRIP_SUCCESS, 1);
 
@@ -53,10 +53,10 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_validIndexFilteredList_success() {
-        showTripAtIndex(model, INDEX_FIRST_PERSON);
+        showTripAtIndex(model, INDEX_FIRST_TRIP);
 
-        Trip tripToDelete = model.getFilteredTripList().get(INDEX_FIRST_PERSON.getZeroBased());
-        DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_PERSON);
+        Trip tripToDelete = model.getFilteredTripList().get(INDEX_FIRST_TRIP.getZeroBased());
+        DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_TRIP);
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_TRIP_SUCCESS, 1);
 
@@ -69,9 +69,10 @@ public class DeleteCommandTest {
 
     @Test
     public void execute_invalidIndexFilteredList_throwsCommandException() {
-        showTripAtIndex(model, INDEX_FIRST_PERSON);
+        showTripAtIndex(model, INDEX_FIRST_TRIP);
 
-        Index outOfBoundIndex = INDEX_SECOND_PERSON;
+        Index outOfBoundIndex = INDEX_SECOND_TRIP;
+        // ensures that outOfBoundIndex is still in bounds of trip log list
         assertTrue(outOfBoundIndex.getZeroBased() < model.getTripLog().getTripList().size());
 
         DeleteCommand deleteCommand = new DeleteCommand(outOfBoundIndex);
@@ -126,14 +127,15 @@ public class DeleteCommandTest {
 
     @Test
     public void equals() {
-        DeleteCommand deleteFirstCommand = new DeleteCommand(INDEX_FIRST_PERSON);
-        DeleteCommand deleteSecondCommand = new DeleteCommand(INDEX_SECOND_PERSON);
+        DeleteCommand deleteFirstCommand = new DeleteCommand(INDEX_FIRST_TRIP);
+        DeleteCommand deleteSecondCommand = new DeleteCommand(INDEX_SECOND_TRIP);
         DeleteCommand deleteRangeCommand = new DeleteCommand(Index.fromOneBased(1), Index.fromOneBased(2));
         DeleteCommand deleteRangeCommandCopy = new DeleteCommand(Index.fromOneBased(1), Index.fromOneBased(2));
 
         assertTrue(deleteFirstCommand.equals(deleteFirstCommand));
 
-        DeleteCommand deleteFirstCommandCopy = new DeleteCommand(INDEX_FIRST_PERSON);
+        // same values -> returns true
+        DeleteCommand deleteFirstCommandCopy = new DeleteCommand(INDEX_FIRST_TRIP);
         assertTrue(deleteFirstCommand.equals(deleteFirstCommandCopy));
 
         assertTrue(deleteRangeCommand.equals(deleteRangeCommandCopy));

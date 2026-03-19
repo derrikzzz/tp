@@ -8,9 +8,7 @@ import seedu.triplog.model.ReadOnlyTripLog;
 import seedu.triplog.model.TripLog;
 import seedu.triplog.model.tag.Tag;
 import seedu.triplog.model.trip.Address;
-import seedu.triplog.model.trip.Email;
 import seedu.triplog.model.trip.Name;
-import seedu.triplog.model.trip.Phone;
 import seedu.triplog.model.trip.Trip;
 import seedu.triplog.model.trip.TripDate;
 
@@ -21,28 +19,29 @@ import seedu.triplog.model.trip.TripDate;
 public class SampleDataUtil {
     public static Trip[] getSamplePersons() {
         return new Trip[] {
-            new Trip(new Name("Alex Yeoh"), new Phone("87438807"), new Email("alexyeoh@example.com"),
-                    new Address("Blk 30 Geylang Street 29, #06-40"),
-                    getTagSet("friends"), new TripDate("2026-03-01"),
+            new Trip(new Name("Hotel California"), null, null,
+                    new Address("1670 Ocean Ave, Santa Monica"),
+                    getTagSet("Hotel"), new TripDate("2026-03-01"),
                     new TripDate("2026-03-05")),
-            new Trip(new Name("Bernice Yu"), new Phone("99272758"), new Email("berniceyu@example.com"),
-                    new Address("Blk 30 Lorong 3 Serangoon Gardens, #07-18"),
-                    getTagSet("colleagues", "friends"), new TripDate("2026-03-01"),
+            new Trip(new Name("ZhangJiaJie Forest"), null, null,
+                    new Address("Wulingyuan District, Zhangjiajie, Hunan, China, 427403"),
+                    getTagSet("scenery", "China"), new TripDate("2026-03-01"),
                     new TripDate("2026-03-05")),
-            new Trip(new Name("Charlotte Oliveiro"), new Phone("93210283"), new Email("charlotte@example.com"),
-                    new Address("Blk 11 Ang Mo Kio Street 74, #11-04"),
-                    getTagSet("neighbours"), new TripDate("2026-03-01"),
+            new Trip(new Name("Singapore Zoo"), null, null,
+                    new Address("80 Mandai Lake Rd, 729826"),
+                    getTagSet("zoo"), new TripDate("2026-03-01"),
                     new TripDate("2026-03-05")),
-            new Trip(new Name("David Li"), new Phone("91031282"), new Email("lidavid@example.com"),
+            new Trip(new Name("Serangoon Gardens"), null, null,
                     new Address("Blk 436 Serangoon Gardens Street 26, #16-43"),
-                    getTagSet("family"), new TripDate("2026-03-01"),
+                    getTagSet("garden"),
+                    new TripDate("2026-03-01"),
                     new TripDate("2026-03-05")),
-            new Trip(new Name("Irfan Ibrahim"), new Phone("92492021"), new Email("irfan@example.com"),
-                    new Address("Blk 47 Tampines Street 20, #17-35"),
-                    getTagSet("classmates"), new TripDate("2026-03-01"),
+            new Trip(new Name("Gardens By The Bay"), null, null,
+                    new Address("Marina Gardens Drive Supertree Grove, Singapore 018953"),
+                    getTagSet("garden"), new TripDate("2026-03-01"),
                     new TripDate("2026-03-05")),
-            new Trip(new Name("Roy Balakrishnan"), new Phone("92624417"), new Email("royb@example.com"),
-                    new Address("Blk 45 Aljunied Street 85, #11-31"),
+            new Trip(new Name("National Museum of Singapore"), null, null,
+                    new Address("93 Stamford Rd, Singapore 178897"),
                     getTagSet("colleagues"), new TripDate("2026-03-01"),
                     new TripDate("2026-03-05"))
         };

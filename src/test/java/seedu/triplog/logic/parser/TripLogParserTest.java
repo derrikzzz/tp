@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.triplog.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.triplog.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.triplog.testutil.Assert.assertThrows;
-import static seedu.triplog.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.triplog.testutil.TypicalIndexes.INDEX_FIRST_TRIP;
 
 import java.util.Arrays;
 import java.util.List;
@@ -49,8 +49,8 @@ public class TripLogParserTest {
     @Test
     public void parseCommand_delete() throws Exception {
         DeleteCommand command = (DeleteCommand) parser.parseCommand(
-                DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
-        assertEquals(new DeleteCommand(INDEX_FIRST_PERSON), command);
+                DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_TRIP.getOneBased());
+        assertEquals(new DeleteCommand(INDEX_FIRST_TRIP), command);
     }
 
     @Test
@@ -58,8 +58,8 @@ public class TripLogParserTest {
         Trip trip = new TripBuilder().build();
         EditTripDescriptor descriptor = new EditTripDescriptorBuilder(trip).build();
         EditCommand command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_WORD + " "
-                + INDEX_FIRST_PERSON.getOneBased() + " " + TripUtil.getEditTripDescriptorDetails(descriptor));
-        assertEquals(new EditCommand(INDEX_FIRST_PERSON, descriptor), command);
+                + INDEX_FIRST_TRIP.getOneBased() + " " + TripUtil.getEditTripDescriptorDetails(descriptor));
+        assertEquals(new EditCommand(INDEX_FIRST_TRIP, descriptor), command);
     }
 
     @Test
