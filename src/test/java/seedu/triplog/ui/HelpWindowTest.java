@@ -2,6 +2,7 @@ package seedu.triplog.ui;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -31,6 +32,16 @@ public class HelpWindowTest {
     @Test
     public void constructor_createsHelpWindow() {
         assertNotNull(helpWindow);
+    }
+
+    @Test
+    public void constructor_nullRoot_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> new HelpWindow(null));
+    }
+
+    @Test
+    public void isCloseKey_nullCode_returnsFalse() {
+        assertFalse(HelpWindow.isCloseKey(null));
     }
 
     @Test
