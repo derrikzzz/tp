@@ -135,8 +135,8 @@ public class HelpWindow extends UiPart<Stage> {
      * Creates a new HelpWindow.
      */
     public HelpWindow() {
-        logger.fine("Initializing help page about the application.");
         this(new Stage());
+        logger.fine("Initializing help page about the application.");
     }
 
     /**
