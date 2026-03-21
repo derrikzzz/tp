@@ -22,7 +22,7 @@ public class HelpWindowTest {
 
     @Start
     public void start(Stage stage) {
-        helpWindow = new HelpWindow(stage);
+        helpWindow = new HelpWindow(new Stage());
     }
 
     @Stop
