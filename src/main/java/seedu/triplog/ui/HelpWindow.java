@@ -106,12 +106,15 @@ public class HelpWindow extends UiPart<Stage> {
      *
      * @param root Stage to use as the root of the HelpWindow.
      */
-    public HelpWindow(Stage root) {
-        super(FXML, root);
-        assert root != null;
+    private static Stage requireNonNullRoot(Stage root) {
         if (root == null) {
             throw new IllegalArgumentException("Root stage cannot be null");
         }
+        return root;
+    }
+
+    public HelpWindow(Stage root) {
+        super(FXML, requireNonNullRoot(root));
         logger.fine("Creating a new HelpWindow with provided root stage.");
         prefixNote.setText(PREFIX_NOTE);
         addUsage.setText(ADD_USAGE);
@@ -143,7 +146,6 @@ public class HelpWindow extends UiPart<Stage> {
      * Returns true if the given key code should close the help window.
      */
     static boolean isCloseKey(KeyCode code) {
-        assert code != null;
         if (code == null) {
             return false;
         }
