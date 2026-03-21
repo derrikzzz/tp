@@ -142,4 +142,31 @@ public class HelpWindowTest {
         assertFalse(helpWindow.isShowing());
     }
 
+    @Test
+    public void constructor_noArguments_createsHelpWindow() {
+        HelpWindow noArgumentWindow = new HelpWindow();
+        assertNotNull(noArgumentWindow);
+        noArgumentWindow.hide();
+    }
+
+    @Test
+    public void show_makesWindowVisible() {
+        helpWindow.show();
+        assertTrue(helpWindow.isShowing());
+    }
+
+    @Test
+    public void hide_afterShow_makesWindowHidden() {
+        helpWindow.show();
+        helpWindow.hide();
+        assertFalse(helpWindow.isShowing());
+    }
+
+    @Test
+    public void focus_doesNotThrow() {
+        helpWindow.show();
+        helpWindow.focus();
+        helpWindow.hide();
+    }
+
 }
