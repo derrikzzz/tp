@@ -35,10 +35,11 @@ public class DeleteCommandTest {
         Trip tripToDelete = model.getFilteredTripList().get(INDEX_FIRST_TRIP.getZeroBased());
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_TRIP);
 
-        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_TRIP_SUCCESS, 1);
-
         ModelManager expectedModel = new ModelManager(model.getTripLog(), new UserPrefs());
         expectedModel.deleteTrip(tripToDelete);
+
+        String expectedSummary = ListCommand.calculateSummary(expectedModel.getFilteredTripList());
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_TRIP_SUCCESS, 1, expectedSummary);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
@@ -58,11 +59,12 @@ public class DeleteCommandTest {
         Trip tripToDelete = model.getFilteredTripList().get(INDEX_FIRST_TRIP.getZeroBased());
         DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_TRIP);
 
-        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_TRIP_SUCCESS, 1);
-
         Model expectedModel = new ModelManager(model.getTripLog(), new UserPrefs());
         expectedModel.deleteTrip(tripToDelete);
         showNoTrip(expectedModel);
+
+        String expectedSummary = ListCommand.calculateSummary(expectedModel.getFilteredTripList());
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_TRIP_SUCCESS, 1, expectedSummary);
 
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
@@ -90,8 +92,10 @@ public class DeleteCommandTest {
         expectedModel.deleteTrip(firstTrip);
         expectedModel.deleteTrip(secondTrip);
 
-        assertCommandSuccess(deleteCommand, model,
-                String.format(DeleteCommand.MESSAGE_DELETE_TRIPS_SUCCESS, 2), expectedModel);
+        String expectedSummary = ListCommand.calculateSummary(expectedModel.getFilteredTripList());
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_TRIPS_SUCCESS, 2, expectedSummary);
+
+        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
 
     @Test
@@ -112,8 +116,10 @@ public class DeleteCommandTest {
         Model expectedModel = new ModelManager(model.getTripLog(), new UserPrefs());
         expectedModel.deleteTrip(firstTrip);
 
-        assertCommandSuccess(deleteCommand, model,
-                String.format(DeleteCommand.MESSAGE_DELETE_TRIP_SUCCESS, 1), expectedModel);
+        String expectedSummary = ListCommand.calculateSummary(expectedModel.getFilteredTripList());
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_TRIP_SUCCESS, 1, expectedSummary);
+
+        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
 
     @Test

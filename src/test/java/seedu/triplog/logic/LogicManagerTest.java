@@ -69,7 +69,9 @@ public class LogicManagerTest {
     @Test
     public void execute_validCommand_success() throws Exception {
         String listCommand = ListCommand.COMMAND_WORD;
-        assertCommandSuccess(listCommand, ListCommand.MESSAGE_SUCCESS, model);
+        String expectedSummary = ListCommand.calculateSummary(model.getFilteredTripList());
+        String expectedMessage = String.format(ListCommand.MESSAGE_SUCCESS, "start date", expectedSummary);
+        assertCommandSuccess(listCommand, expectedMessage, model);
     }
 
     @Test
@@ -94,13 +96,6 @@ public class LogicManagerTest {
         assertThrows(UnsupportedOperationException.class, () -> logic.getSortedTripList().remove(0));
     }
 
-    /**
-     * Executes the command and confirms that
-     * - no exceptions are thrown <br>
-     * - the feedback message is equal to {@code expectedMessage} <br>
-     * - the internal model manager state is the same as that in {@code expectedModel} <br>
-     * @see #assertCommandFailure(String, Class, String, Model)
-     */
     private void assertCommandSuccess(String inputCommand, String expectedMessage,
                                       Model expectedModel) throws CommandException, ParseException {
         CommandResult result = logic.execute(inputCommand);
@@ -108,51 +103,26 @@ public class LogicManagerTest {
         assertEquals(expectedModel, model);
     }
 
-    /**
-     * Executes the command, confirms that a ParseException is thrown and that the result message is correct.
-     * @see #assertCommandFailure(String, Class, String, Model)
-     */
     private void assertParseException(String inputCommand, String expectedMessage) {
         assertCommandFailure(inputCommand, ParseException.class, expectedMessage);
     }
 
-    /**
-     * Executes the command, confirms that a CommandException is thrown and that the result message is correct.
-     * @see #assertCommandFailure(String, Class, String, Model)
-     */
     private void assertCommandException(String inputCommand, String expectedMessage) {
         assertCommandFailure(inputCommand, CommandException.class, expectedMessage);
     }
 
-    /**
-     * Executes the command, confirms that the exception is thrown and that the result message is correct.
-     * @see #assertCommandFailure(String, Class, String, Model)
-     */
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
                                       String expectedMessage) {
         Model expectedModel = new ModelManager(model.getTripLog(), new UserPrefs());
         assertCommandFailure(inputCommand, expectedException, expectedMessage, expectedModel);
     }
 
-    /**
-     * Executes the command and confirms that
-     * - the {@code expectedException} is thrown <br>
-     * - the resulting error message is equal to {@code expectedMessage} <br>
-     * - the internal model manager state is the same as that in {@code expectedModel} <br>
-     * @see #assertCommandSuccess(String, String, Model)
-     */
     private void assertCommandFailure(String inputCommand, Class<? extends Throwable> expectedException,
                                       String expectedMessage, Model expectedModel) {
         assertThrows(expectedException, expectedMessage, () -> logic.execute(inputCommand));
         assertEquals(expectedModel, model);
     }
 
-    /**
-     * Tests the Logic component's handling of an {@code IOException} thrown by the Storage component.
-     *
-     * @param e the exception to be thrown by the Storage component
-     * @param expectedMessage the message expected inside exception thrown by the Logic component
-     */
     private void assertCommandFailureForExceptionFromStorage(IOException e, String expectedMessage) {
         Path prefPath = temporaryFolder.resolve("ExceptionUserPrefs.json");
 
@@ -174,7 +144,11 @@ public class LogicManagerTest {
 
         Trip expectedTrip = new TripBuilder(AMY).withTags().build();
         ModelManager expectedModel = new ModelManager();
-        expectedModel.addTrip(expectedTrip); //
+        expectedModel.addTrip(expectedTrip);
+
+        String expectedSummary = ListCommand.calculateSummary(expectedModel.getFilteredTripList());
+        String expectedFeedback = String.format(AddCommand.MESSAGE_SUCCESS,
+                seedu.triplog.logic.Messages.format(expectedTrip), expectedSummary);
 
         assertCommandFailure(addCommand, CommandException.class, expectedMessage, expectedModel);
     }
