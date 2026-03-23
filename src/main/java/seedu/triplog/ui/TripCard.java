@@ -46,11 +46,11 @@ public class TripCard extends UiPart<Region> {
         id.setText(displayedIndex + ". ");
         name.setText(trip.getName().fullName);
 
-        setOptionalLabel(phone, "Phone: ", trip.getPhone() != null ? trip.getPhone().value : null);
-        setOptionalLabel(address, "Address: ", trip.getAddress() != null ? trip.getAddress().value : null);
-        setOptionalLabel(email, "Email: ", trip.getEmail() != null ? trip.getEmail().value : null);
-        setOptionalLabel(startDate, "Start: ", trip.getStartDate() != null ? trip.getStartDate().toString() : null);
-        setOptionalLabel(endDate, "End: ", trip.getEndDate() != null ? trip.getEndDate().toString() : null);
+        setOptionalLabel(phone, "Phone: ", trip.getPhoneDisplay());
+        setOptionalLabel(address, "Address: ", trip.getAddressDisplay());
+        setOptionalLabel(email, "Email: ", trip.getEmailDisplay());
+        setOptionalLabel(startDate, "Start: ", trip.getStartDateDisplay());
+        setOptionalLabel(endDate, "End: ", trip.getEndDateDisplay());
         setTags(trip);
     }
 
