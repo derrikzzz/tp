@@ -49,4 +49,16 @@ public class ResultDisplayTest {
         WaitForAsyncUtils.waitForFxEvents();
         assertTrue(resultTextArea.getText().contains("[!!]"));
     }
+
+    @Test
+    public void setFeedbackToUser_withSummary_hitSummaryBranch() {
+        Platform.runLater(() -> {
+            // This triggers the 'if' block and the 'DIVIDER' lines in ResultDisplay.java
+            resultDisplay.setFeedbackToUser("Success\nSummary: 1 Trip");
+            String text = resultTextArea.getText();
+            assertTrue(text.contains("TRIP STATS"));
+            assertTrue(text.contains("---"));
+        });
+        WaitForAsyncUtils.waitForFxEvents();
+    }
 }
