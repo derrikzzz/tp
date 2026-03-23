@@ -31,9 +31,9 @@ import static seedu.triplog.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.triplog.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.triplog.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.triplog.logic.parser.CommandParserTestUtil.assertParseSuccess;
+import static seedu.triplog.model.trip.Trip.MESSAGE_INVALID_DATE_ORDER;
 import static seedu.triplog.testutil.TypicalTrips.AMY;
 import static seedu.triplog.testutil.TypicalTrips.BOB;
-import static seedu.triplog.model.trip.Trip.MESSAGE_INVALID_DATE_ORDER;
 
 import org.junit.jupiter.api.Test;
 

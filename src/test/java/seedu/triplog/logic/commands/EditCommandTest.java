@@ -11,10 +11,10 @@ import static seedu.triplog.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.triplog.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.triplog.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.triplog.logic.commands.CommandTestUtil.showTripAtIndex;
+import static seedu.triplog.model.trip.Trip.MESSAGE_INVALID_DATE_ORDER;
 import static seedu.triplog.testutil.TypicalIndexes.INDEX_FIRST_TRIP;
 import static seedu.triplog.testutil.TypicalIndexes.INDEX_SECOND_TRIP;
 import static seedu.triplog.testutil.TypicalTrips.getTypicalTripLog;
-import static seedu.triplog.model.trip.Trip.MESSAGE_INVALID_DATE_ORDER;
 
 import org.junit.jupiter.api.Test;
 
