@@ -14,6 +14,7 @@ import static seedu.triplog.logic.commands.CommandTestUtil.showTripAtIndex;
 import static seedu.triplog.testutil.TypicalIndexes.INDEX_FIRST_TRIP;
 import static seedu.triplog.testutil.TypicalIndexes.INDEX_SECOND_TRIP;
 import static seedu.triplog.testutil.TypicalTrips.getTypicalTripLog;
+import static seedu.triplog.model.trip.Trip.MESSAGE_INVALID_DATE_ORDER;
 
 import org.junit.jupiter.api.Test;
 
@@ -118,6 +119,20 @@ public class EditCommandTest {
                 new EditTripDescriptorBuilder(tripInList).build());
 
         assertCommandFailure(editCommand, model, EditCommand.MESSAGE_DUPLICATE_TRIP);
+    }
+
+    @Test
+    public void execute_invalidDateOrder_failure() {
+        // create descriptor with invalid date order
+        EditTripDescriptor descriptor = new EditTripDescriptorBuilder()
+                .withStart("2026-03-20")
+                .withEnd("2026-03-10") // start > end
+                .build();
+
+        EditCommand editCommand = new EditCommand(INDEX_FIRST_TRIP, descriptor);
+
+        // should fail due to invalid date order
+        assertCommandFailure(editCommand, model, MESSAGE_INVALID_DATE_ORDER);
     }
 
     @Test

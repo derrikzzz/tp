@@ -33,6 +33,7 @@ import static seedu.triplog.logic.parser.CommandParserTestUtil.assertParseFailur
 import static seedu.triplog.logic.parser.CommandParserTestUtil.assertParseSuccess;
 import static seedu.triplog.testutil.TypicalTrips.AMY;
 import static seedu.triplog.testutil.TypicalTrips.BOB;
+import static seedu.triplog.model.trip.Trip.MESSAGE_INVALID_DATE_ORDER;
 
 import org.junit.jupiter.api.Test;
 
@@ -186,5 +187,13 @@ public class AddCommandParserTest {
         assertParseFailure(parser, PREAMBLE_NON_EMPTY + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
                         + ADDRESS_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
+    }
+
+    @Test
+    public void parse_invalidDateOrder_failure() {
+        // start date is after end date
+        assertParseFailure(parser,
+                NAME_DESC_BOB + START_DATE_DESC_BOB + END_DATE_DESC_BOB,
+                MESSAGE_INVALID_DATE_ORDER);
     }
 }
