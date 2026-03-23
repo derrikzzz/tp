@@ -15,6 +15,7 @@ import seedu.triplog.model.trip.Trip;
 /**
  * Lists all trips in the trip log to the user, sorted by a specified key.
  * Defaults to chronological (start date) sorting.
+ * Includes a summary of trip statuses (Upcoming, Ongoing, Completed, Planning).
  */
 public class ListCommand extends Command {
 

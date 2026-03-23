@@ -27,11 +27,9 @@ TripLog is a **desktop app for managing trips, optimized for use via a Command L
 
 1. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
-    - `list` : Lists all trips.
+    - `list` : Lists all trips and shows a status summary.
     * `add n/Tokyo, Japan sd/2026-03-10 ed/2026-03-20` : Adds a trip to Tokyo.
-
     * `delete 3` : Deletes the 3rd trip shown in the current list.
-
     * `clear` : Deletes all entries.
     - `exit` : Exits the app.
 
@@ -91,11 +89,17 @@ Examples:
 
 ### Listing all trips : `list`
 
-Shows a list of all trips and a **Summary Dashboard** categorized by status (Upcoming, Ongoing, Completed, Planning).
+Shows a list of all trips currently in the log and displays a **Summary Dashboard** in the result box. The list can be optionally sorted by a specific key.
+
+The **Summary Dashboard** categorizes your trips based on the current date:
+* **Upcoming**: Trips starting after today.
+* **Ongoing**: Trips currently in progress (today is between start and end).
+* **Completed**: Trips that have already ended.
+* **Planning**: Trips with no start date specified.
 
 Format: `list [sort/KEY]`
 
-- By default, trips are sorted by **start date** in ascending order.
+- By default, trips are sorted by **start date** in ascending order (earliest first).
 - Trips with no start date are shown last.
 - The sort order is **persistent**: adding or editing trips will maintain the last chosen sort order.
 
@@ -106,9 +110,9 @@ Supported `KEY` values:
 - `len`: Sorts by duration of the trip (longest first).
 
 Examples:
-- `list` — displays all trips ordered from earliest to latest start date.
-- `list sort/name` — displays all trips in alphabetical order.
-- `list sort/len` — displays all trips starting with the longest durations.
+- `list` — Displays all trips ordered by start date and shows a summary (e.g. `Listed all trips sorted by start date. Summary: 1 Upcoming, 1 Ongoing, 5 Completed, 1 Planning`).
+- `list sort/name` — Displays all trips in alphabetical order.
+- `list sort/len` — Displays all trips starting with the longest durations.
 
 ### Editing a trip : `edit`
 

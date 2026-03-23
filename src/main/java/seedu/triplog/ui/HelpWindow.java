@@ -63,9 +63,9 @@ public class HelpWindow extends UiPart<Stage> {
     public static final String LIST_USAGE =
             "list [sort/KEY]\n"
                     + "  Displays all trip entries with a summary dashboard. KEY can be: name, start, end, len.\n"
+                    + "  Includes a summary of Upcoming, Ongoing, Completed, and Planning trips.\n"
                     + "  e.g.  list\n"
-                    + "        list sort/name\n"
-                    + "        list sort/len";
+                    + "        list sort/name";
 
     public static final String EXIT_NOTE =
             "To exit the help window, press Q or ESCAPE, or click the close button.";
@@ -138,7 +138,7 @@ public class HelpWindow extends UiPart<Stage> {
     }
 
     /**
-     * Ensures that the root stage is not null before passing it to the superclass constructor
+     * Ensures that the root stage is not null before passing it to the superclass constructor.
      * @param root The root stage to check.
      * @return The non-null root stage.
      * @throws IllegalArgumentException if the root stage is null.
@@ -191,5 +191,4 @@ public class HelpWindow extends UiPart<Stage> {
         logger.fine("Focusing on help page about the application.");
         getRoot().requestFocus();
     }
-
 }
