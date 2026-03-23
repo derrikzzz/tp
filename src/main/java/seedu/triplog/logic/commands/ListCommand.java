@@ -13,7 +13,7 @@ import seedu.triplog.model.trip.Trip;
 /**
  * Lists all trips in the trip log to the user, sorted by start date ascending.
  * Trips with no start date are shown last.
- * Includes a summary of trip statuses (Upcoming, Ongoing, Completed).
+ * Includes a summary of trip statuses (Upcoming, Ongoing, Completed, Planning).
  */
 public class ListCommand extends Command {
 
@@ -25,6 +25,10 @@ public class ListCommand extends Command {
             trip -> trip.getStartDate() == null ? null : trip.getStartDate().value,
             Comparator.nullsLast(Comparator.naturalOrder())
     );
+
+    private enum TripStatus {
+        UPCOMING, ONGOING, COMPLETED, PLANNING
+    }
 
     @Override
     public CommandResult execute(Model model) {
@@ -49,24 +53,45 @@ public class ListCommand extends Command {
         LocalDate today = LocalDate.now();
 
         for (Trip trip : trips) {
-            if (trip.getStartDate() == null) {
-                planning++;
-                continue;
-            }
-
-            LocalDate start = trip.getStartDate().value;
-            LocalDate end = (trip.getEndDate() == null) ? null : trip.getEndDate().value;
-
-            if (today.isBefore(start)) {
+            switch (getTripStatus(trip, today)) {
+            case UPCOMING:
                 upcoming++;
-            } else if (end != null && today.isAfter(end)) {
-                completed++;
-            } else {
+                break;
+            case ONGOING:
                 ongoing++;
+                break;
+            case COMPLETED:
+                completed++;
+                break;
+            case PLANNING:
+                planning++;
+                break;
+            default:
+                break;
             }
         }
 
         return String.format("Summary: %d Upcoming, %d Ongoing, %d Completed, %d Planning",
                 upcoming, ongoing, completed, planning);
+    }
+
+    /**
+     * Determines the status of a trip relative to the provided date.
+     */
+    private TripStatus getTripStatus(Trip trip, LocalDate today) {
+        if (trip.getStartDate() == null) {
+            return TripStatus.PLANNING;
+        }
+
+        LocalDate start = trip.getStartDate().value;
+        LocalDate end = (trip.getEndDate() == null) ? null : trip.getEndDate().value;
+
+        if (today.isBefore(start)) {
+            return TripStatus.UPCOMING;
+        } else if (end != null && today.isAfter(end)) {
+            return TripStatus.COMPLETED;
+        } else {
+            return TripStatus.ONGOING;
+        }
     }
 }
