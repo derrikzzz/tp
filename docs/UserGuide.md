@@ -63,13 +63,21 @@ TripLog is a **desktop app for managing trips, optimized for use via a Command L
 
 ### Viewing help : `help`
 
-Shows a help window explaining the command syntax and parameter requirements.
+Shows help for TripLog commands.
+
+Format: `help [COMMAND]`
+
+- Without arguments, `help` opens a help window showing syntax for all commands.
+- With a command name, `help COMMAND` displays the usage for that specific command inline in the result display (no window opens).
 
 ![help message](images/helpMessage.png)
 
-Format: `help`
+Examples:
+- `help` — opens the full help window.
+- `help add` — shows the usage for the `add` command inline.
+- `help delete` — shows the usage for the `delete` command inline.
 
-- The help window can be closed by clicking the 'x' button, or by pressing **Q** or **ESCAPE** while the window is focused.
+- The help window (opened by `help` with no arguments) can be closed by clicking the 'x' button, or by pressing **Q** or **ESCAPE** while the window is focused.
 
 ### Adding a trip: `add`
 
@@ -290,5 +298,6 @@ _Details coming soon ..._
 | **Delete** | `delete INDEX`<br> e.g., `delete 3`                                                                                                       |
 | **Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [sd/DATE] [ed/DATE] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com` |
 | **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find Tokyo Osaka`                                                                                                              |
-| **List** | `list [sort/KEY]` <br> e.g., `list sort/name`                                                                                                                            |
-| **Help** | `help`                                                                                                                                                                   |
+| **List** | `list [sort/KEY]` <br> e.g., `list sort/name`                                                                                                                            |                                                                                                                                                                 |
+| **Help**   | `help [COMMAND]`<br> e.g., `help add`                                                                                                                                    |
+
