@@ -2,6 +2,7 @@ package seedu.triplog.ui;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,7 @@ public class HelpWindowTest {
 
     @Start
     public void start(Stage stage) {
-        helpWindow = new HelpWindow(stage);
+        helpWindow = new HelpWindow(new Stage());
     }
 
     @Stop
@@ -31,6 +32,16 @@ public class HelpWindowTest {
     @Test
     public void constructor_createsHelpWindow() {
         assertNotNull(helpWindow);
+    }
+
+    @Test
+    public void constructor_nullRoot_throwsIllegalArgumentException() {
+        assertThrows(IllegalArgumentException.class, () -> new HelpWindow(null));
+    }
+
+    @Test
+    public void isCloseKey_nullCode_returnsFalse() {
+        assertFalse(HelpWindow.isCloseKey(null));
     }
 
     @Test
@@ -65,6 +76,11 @@ public class HelpWindowTest {
     }
 
     @Test
+    public void editUsage_containsCommandName() {
+        assertTrue(HelpWindow.EDIT_USAGE.startsWith("edit "));
+    }
+
+    @Test
     public void addUsage_containsDateOptions() {
         assertTrue(HelpWindow.ADD_USAGE.contains("sd/"));
         assertTrue(HelpWindow.ADD_USAGE.contains("ed/"));
@@ -83,6 +99,16 @@ public class HelpWindowTest {
     @Test
     public void tagUsage_containsCommandName() {
         assertTrue(HelpWindow.TAG_USAGE.startsWith("tag "));
+    }
+
+    @Test
+    public void findUsage_containsCommandName() {
+        assertTrue(HelpWindow.FIND_USAGE.startsWith("find "));
+    }
+
+    @Test
+    public void filterUsage_containsCommandName() {
+        assertTrue(HelpWindow.FILTER_USAGE.startsWith("filter "));
     }
 
     @Test

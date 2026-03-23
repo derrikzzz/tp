@@ -27,6 +27,12 @@ public class HelpWindow extends UiPart<Stage> {
                     + "  Records a new trip. Items in [square brackets] are optional. Dates must be YYYY-MM-DD.\n"
                     + "  e.g. add n/Tokyo sd/2026-03-01 t/food";
 
+    public static final String EDIT_USAGE =
+            "edit INDEX [n/<destination>] [p/<phone>] [e/<email>] [a/<address>] "
+                    + "[sd/<start-date>] [ed/<end-date>] [t/<tag>]...\n"
+                    + "  Edits the trip at the specified index. At least one field must be provided.\n"
+                    + "  e.g. edit 1 n/Paris sd/2026-05-01";
+
     public static final String DELETE_USAGE =
             "delete <INDEX> | <START-END> | <PREFIX/VALUE>\n"
                     + "  Removes trip(s) from the currently displayed list.\n"
@@ -44,9 +50,20 @@ public class HelpWindow extends UiPart<Stage> {
                     + "  tag-name must be alphanumeric and may contain spaces.\n"
                     + "  e.g.  tag 1 adventure    or    tag 1 night market";
 
+    public static final String FIND_USAGE =
+            "find <KEYWORD> [MORE_KEYWORDS]...\n"
+                    + "  Finds trips whose names contain any of the given keywords.\n"
+                    + "  e.g. find Tokyo Osaka";
+
+    public static final String FILTER_USAGE =
+            "filter sd/<start-date> ed/<end-date>\n"
+                    + "  Filters trips occurring within the specified date range.\n"
+                    + "  e.g. filter sd/2026-01-01 ed/2026-03-31";
+
     public static final String LIST_USAGE =
             "list\n"
-                    + "  Displays all trip entries.\n"
+                    + "  Displays all trip entries sorted chronologically.\n"
+                    + "  Includes a summary of Upcoming, Ongoing, Completed, and Planning trips.\n"
                     + "  e.g.  list";
 
     public static final String EXIT_NOTE =
@@ -62,10 +79,19 @@ public class HelpWindow extends UiPart<Stage> {
     private Label addUsage;
 
     @FXML
+    private Label editUsage;
+
+    @FXML
     private Label deleteUsage;
 
     @FXML
     private Label tagUsage;
+
+    @FXML
+    private Label findUsage;
+
+    @FXML
+    private Label filterUsage;
 
     @FXML
     private Label listUsage;
@@ -82,11 +108,15 @@ public class HelpWindow extends UiPart<Stage> {
      * @param root Stage to use as the root of the HelpWindow.
      */
     public HelpWindow(Stage root) {
-        super(FXML, root);
+        super(FXML, requireNonNullRoot(root));
+        logger.fine("Creating a new HelpWindow with provided root stage.");
         prefixNote.setText(PREFIX_NOTE);
         addUsage.setText(ADD_USAGE);
+        editUsage.setText(EDIT_USAGE);
         deleteUsage.setText(DELETE_USAGE);
         tagUsage.setText(TAG_USAGE);
+        findUsage.setText(FIND_USAGE);
+        filterUsage.setText(FILTER_USAGE);
         listUsage.setText(LIST_USAGE);
         helpMessage.setText("");
         exitNote.setText(EXIT_NOTE);
@@ -103,12 +133,29 @@ public class HelpWindow extends UiPart<Stage> {
      */
     public HelpWindow() {
         this(new Stage());
+        logger.fine("Initializing help page about the application.");
+    }
+
+    /**
+     * Ensures that the root stage is not null before passing it to the superclass constructor
+     * @param root The root stage to check.
+     * @return The non-null root stage.
+     * @throws IllegalArgumentException if the root stage is null.
+     */
+    private static Stage requireNonNullRoot(Stage root) {
+        if (root == null) {
+            throw new IllegalArgumentException("Root stage cannot be null");
+        }
+        return root;
     }
 
     /**
      * Returns true if the given key code should close the help window.
      */
     static boolean isCloseKey(KeyCode code) {
+        if (code == null) {
+            return false;
+        }
         return code == KeyCode.Q || code == KeyCode.ESCAPE;
     }
 
@@ -132,6 +179,7 @@ public class HelpWindow extends UiPart<Stage> {
      * Hides the help window.
      */
     public void hide() {
+        logger.fine("Hiding help page about the application.");
         getRoot().hide();
     }
 
@@ -139,6 +187,7 @@ public class HelpWindow extends UiPart<Stage> {
      * Focuses on the help window.
      */
     public void focus() {
+        logger.fine("Focusing on help page about the application.");
         getRoot().requestFocus();
     }
 
