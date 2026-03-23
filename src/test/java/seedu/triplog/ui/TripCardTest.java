@@ -47,6 +47,13 @@ public class TripCardTest {
         assertFalse(tripCard.getEmailLabel().isManaged());
         assertFalse(tripCard.getStartDateLabel().isManaged());
         assertFalse(tripCard.getEndDateLabel().isManaged());
+
+        // check that the nodes are not visible
+        assertFalse(tripCard.getPhoneLabel().isVisible());
+        assertFalse(tripCard.getAddressLabel().isVisible());
+        assertFalse(tripCard.getEmailLabel().isVisible());
+        assertFalse(tripCard.getStartDateLabel().isVisible());
+        assertFalse(tripCard.getEndDateLabel().isVisible());
     }
 
     @Test
@@ -72,6 +79,8 @@ public class TripCardTest {
 
         Set<String> expectedTagNames = tags.stream().map(tag -> tag.tagName).collect(Collectors.toSet());
         assertEquals(expectedTagNames, displayedTagNames);
+        assertTrue(tripCard.getTags().isVisible());
+        assertTrue(tripCard.getTags().isManaged());
 
         // test trip with no tags
         Trip tripNoTags = new Trip(
@@ -84,5 +93,7 @@ public class TripCardTest {
 
         TripCard tripCardNoTags = new TripCard(tripNoTags, 2);
         assertTrue(tripCardNoTags.getTags().getChildren().isEmpty());
+        assertFalse(tripCardNoTags.getTags().isVisible());
+        assertFalse(tripCardNoTags.getTags().isManaged());
     }
 }

@@ -48,43 +48,55 @@ public class TripCard extends UiPart<Region> {
         name.setText(trip.getName().fullName);
 
         if (!Objects.isNull(trip.getPhone())) {
-            phone.setText(trip.getPhone().value);
+            phone.setText("Phone: " + trip.getPhone().value);
         } else {
             phone.setText("");
             phone.setManaged(false);
+            phone.setVisible(false);
         }
 
         if (!Objects.isNull(trip.getAddress())) {
-            address.setText(trip.getAddress().value);
+            address.setText("Address: " + trip.getAddress().value);
         } else {
             address.setText("");
             address.setManaged(false);
+            address.setVisible(false);
         }
 
         if (!Objects.isNull(trip.getEmail())) {
-            email.setText(trip.getEmail().value);
+            email.setText("Email: " + trip.getEmail().value);
         } else {
             email.setText("");
             email.setManaged(false);
+            email.setVisible(false);
         }
 
         if (!Objects.isNull(trip.getStartDate())) {
-            startDate.setText(trip.getStartDate().toString());
+            startDate.setText("Start: " + trip.getStartDate().toString());
         } else {
             startDate.setText("");
             startDate.setManaged(false);
+            startDate.setVisible(false);
         }
 
         if (!Objects.isNull(trip.getEndDate())) {
-            endDate.setText(trip.getEndDate().toString());
+            endDate.setText("End: " + trip.getEndDate().toString());
         } else {
             endDate.setText("");
             endDate.setManaged(false);
+            endDate.setVisible(false);
         }
 
-        trip.getTags().stream()
-                .sorted(Comparator.comparing(tag -> tag.tagName))
-                .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+        if (trip.getTags().isEmpty()) {
+            tags.setManaged(false);
+            tags.setVisible(false);
+        } else {
+            trip.getTags().stream()
+                    .sorted(Comparator.comparing(tag -> tag.tagName))
+                    .forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+        }
+
+
     }
 
     // getters mainly used for testing
