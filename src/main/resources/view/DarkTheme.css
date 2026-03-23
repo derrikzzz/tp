@@ -16,7 +16,7 @@
     /* ── Accent / Brand ───────────────────────────────────── */
     -tl-accent:            #FF8C00;   /* orange — buttons, tags, borders */
     -tl-accent-hover:      #E07800;   /* darker orange for hover state   */
-    -tl-accent-pressed:    #040303;   /* darkest orange for press state  */
+    -tl-accent-pressed:    #C06800;   /* darkest orange for press state  */
 
     /* ── Backgrounds ──────────────────────────────────────── */
     /* The app window displays a scenic background image set   */
@@ -24,11 +24,11 @@
     /* that sit on top of it.                                  */
     -tl-bg-panel:          rgba(173, 216, 234, 0.72); /* semi-transparent light-blue content panels */
     -tl-bg-input:          #FFFFFF;   /* command input field             */
-    -tl-bg-list-even:      rgba(255, 255, 255, 0.0);  /* transparent     */
-    -tl-bg-list-odd:       rgba(255, 255, 255, 0.0);  /* transparent     */
+    -tl-bg-list-even:      rgba(255, 255, 255, 0.0);  /* transparent — reserved for future alternating rows */
+    -tl-bg-list-odd:       rgba(255, 255, 255, 0.0);  /* transparent — reserved for future alternating rows */
     -tl-bg-list-selected:  rgba(255, 140, 0, 0.15);   /* tinted row      */
     -tl-bg-hover:          rgba(255, 140, 0, 0.10);   /* hover highlight */
-    -tl-bg-menu:           rgba(173, 216, 234, 0.72); /* menu bar area   */
+    -tl-bg-menu:           -tl-bg-panel;              /* menu bar area — matches panel */
     -tl-bg-help:           rgba(173, 216, 234, 0.90); /* help window     */
     -tl-bg-help-container: #1d1d1d;                  /* help message bg */
     -tl-bg-copy-btn:       dimgray;                  /* copy button     */
