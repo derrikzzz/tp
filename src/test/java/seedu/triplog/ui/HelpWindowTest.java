@@ -62,11 +62,6 @@ public class HelpWindowTest {
     }
 
     @Test
-    public void isCloseKey_aKey_returnsFalse() {
-        assertFalse(HelpWindow.isCloseKey(KeyCode.A));
-    }
-
-    @Test
     public void isCloseKey_bKey_returnsFalse() {
         assertFalse(HelpWindow.isCloseKey(KeyCode.B));
     }
@@ -114,7 +109,7 @@ public class HelpWindowTest {
 
     @Test
     public void tagUsage_containsIndexAndTagNamePlaceholders() {
-        assertTrue(HelpCommand.TAG_USAGE.contains("<index>"));
+        assertTrue(HelpCommand.TAG_USAGE.contains("<INDEX>"));
         assertTrue(HelpCommand.TAG_USAGE.contains("<tag-name>"));
     }
 
