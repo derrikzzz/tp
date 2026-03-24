@@ -74,7 +74,7 @@ public class CommandBoxTest {
         Platform.runLater(() -> commandTextField.setText("fai"));
         WaitForAsyncUtils.waitForFxEvents();
 
-        assertTrue(commandTextField.getStyle().contains("white"));
+        assertEquals("", commandTextField.getStyle());
         assertFalse(commandTextField.getStyle().contains("#ff4d4d"));
     }
 
