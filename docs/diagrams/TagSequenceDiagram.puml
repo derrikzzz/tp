@@ -4,7 +4,7 @@ skinparam ArrowFontStyle plain
 
 box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
-participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":TripLogParser" as TripLogParser LOGIC_COLOR
 participant ":TagCommandParser" as TagCommandParser LOGIC_COLOR
 participant "d:TagCommand" as TagCommand LOGIC_COLOR
 participant "r:CommandResult" as CommandResult LOGIC_COLOR
@@ -17,17 +17,17 @@ end box
 [-> LogicManager : execute("tag 1 scenery")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand("tag 1 scenery")
-activate AddressBookParser
+LogicManager -> TripLogParser : parseCommand("tag 1 scenery")
+activate TripLogParser
 
 create TagCommandParser
-AddressBookParser -> TagCommandParser
+TripLogParser -> TagCommandParser
 activate TagCommandParser
 
-TagCommandParser --> AddressBookParser
+TagCommandParser --> TripLogParser
 deactivate TagCommandParser
 
-AddressBookParser -> TagCommandParser : parse("1 scenery")
+TripLogParser -> TagCommandParser : parse("1 scenery")
 activate TagCommandParser
 
 create TagCommand
@@ -37,14 +37,14 @@ activate TagCommand
 TagCommand --> TagCommandParser :
 deactivate TagCommand
 
-TagCommandParser --> AddressBookParser : d
+TagCommandParser --> TripLogParser : d
 deactivate TagCommandParser
 'Hidden arrow to position the destroy marker below the end of the activation bar.
-TagCommandParser -[hidden]-> AddressBookParser
+TagCommandParser -[hidden]-> TripLogParser
 destroy TagCommandParser
 
-AddressBookParser --> LogicManager : d
-deactivate AddressBookParser
+TripLogParser --> LogicManager : d
+deactivate TripLogParser
 
 LogicManager -> TagCommand : execute(m)
 activate TagCommand
