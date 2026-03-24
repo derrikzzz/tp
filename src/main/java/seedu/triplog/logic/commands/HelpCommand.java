@@ -42,7 +42,7 @@ public class HelpCommand extends Command {
                     + "        delete t/family";
 
     public static final String TAG_USAGE =
-            "tag <index> <tag-name>\n"
+            "tag <INDEX> <tag-name>\n"
                     + "  Adds a keyword tag to an existing trip.\n"
                     + "  tag-name must be alphanumeric and may contain spaces.\n"
                     + "  e.g.  tag 1 adventure    or    tag 1 night market";
@@ -83,6 +83,8 @@ public class HelpCommand extends Command {
 
     private static String getUsageForCommand(String commandWord) {
         switch (commandWord) {
+        case COMMAND_WORD:
+            return MESSAGE_USAGE;
         case AddCommand.COMMAND_WORD:
             return ADD_USAGE;
         case EditCommand.COMMAND_WORD:
