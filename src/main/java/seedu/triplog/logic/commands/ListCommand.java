@@ -75,19 +75,26 @@ public class ListCommand extends Command {
 
     /**
      * Returns the appropriate comparator based on the sort key.
+     * Uses alphabetical name sorting as a secondary tie-breaker.
      */
     private Comparator<Trip> getComparator(String key) throws CommandException {
+        Comparator<Trip> nameTieBreaker = Comparator.comparing(
+                trip -> trip.getName().fullName.toLowerCase());
+
         switch (key) {
         case "name":
-            return Comparator.comparing(trip -> trip.getName().fullName.toLowerCase());
+            return nameTieBreaker;
         case "end":
             return Comparator.comparing(Trip::getEndDateDisplay,
-                    Comparator.nullsLast(Comparator.naturalOrder()));
+                            Comparator.nullsLast(Comparator.naturalOrder()))
+                    .thenComparing(nameTieBreaker);
         case "len":
-            return (t1, t2) -> Long.compare(calculateDuration(t2), calculateDuration(t1));
+            Comparator<Trip> lenComparator = (t1, t2) -> Long.compare(calculateDuration(t2), calculateDuration(t1));
+            return lenComparator.thenComparing(nameTieBreaker);
         case "start":
             return Comparator.comparing(Trip::getStartDateDisplay,
-                    Comparator.nullsLast(Comparator.naturalOrder()));
+                            Comparator.nullsLast(Comparator.naturalOrder()))
+                    .thenComparing(nameTieBreaker);
         default:
             throw new CommandException(MESSAGE_INVALID_SORT_KEY);
         }
