@@ -22,6 +22,10 @@
     /* The app window displays a scenic background image set   */
     /* programmatically; these tokens style the overlay panels */
     /* that sit on top of it.                                  */
+    -fx-background-image: url("/images/scenic_bg.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: cover;  /* stretch to fit window */
+    -fx-background-position: center center;
     -tl-bg-panel:          rgba(173, 216, 234, 0.72); /* semi-transparent light-blue content panels */
     -tl-bg-input:          #FFFFFF;   /* command input field             */
     -tl-bg-list-even:      rgba(255, 255, 255, 0.0);  /* transparent — reserved for future alternating rows */
@@ -56,6 +60,7 @@
 .background {
     -fx-background-color: -tl-bg-panel;
     background-color: -tl-bg-input; /* Used in the default.html file */
+
 }
 
 /* ── Labels ───────────────────────────────────────────────── */
