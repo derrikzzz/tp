@@ -137,6 +137,61 @@ public class DeleteCommandTest {
     }
 
     @Test
+    public void getTripsToDelete_singleIndex_returnsTrip() throws Exception {
+        DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_TRIP);
+
+        assertEquals(1, deleteCommand.getTripsToDelete(model).size());
+        assertEquals(model.getFilteredTripList().get(0), deleteCommand.getTripsToDelete(model).get(0));
+    }
+
+    @Test
+    public void getTripsToDelete_range_returnsTrips() throws Exception {
+        DeleteCommand deleteCommand = new DeleteCommand(Index.fromOneBased(1), Index.fromOneBased(2));
+
+        assertEquals(2, deleteCommand.getTripsToDelete(model).size());
+    }
+
+    @Test
+    public void getTripsToDelete_filter_returnsTrips() throws Exception {
+        DeleteCommand deleteCommand = new DeleteCommand(
+                new TripMatchesDeletePredicate(new Name("Alice Pauline"),
+                        null, null, null, null, null, Set.of()));
+
+        assertEquals(1, deleteCommand.getTripsToDelete(model).size());
+    }
+
+    @Test
+    public void buildPreviewMessage_singleTrip_success() {
+        DeleteCommand deleteCommand = new DeleteCommand(INDEX_FIRST_TRIP);
+        Trip trip = model.getFilteredTripList().get(0);
+
+        String message = deleteCommand.buildPreviewMessage(java.util.List.of(trip));
+
+        assertEquals(
+                "Preview: 1 trip will be deleted.\n"
+                        + "1. Alice Pauline (2026-04-01 to 2026-04-10)\n"
+                        + "\nPress Enter again to confirm deletion, or edit the command to cancel.",
+                message);
+    }
+
+    @Test
+    public void buildPreviewMessage_multipleTrips_success() {
+        DeleteCommand deleteCommand = new DeleteCommand(Index.fromOneBased(1), Index.fromOneBased(2));
+        java.util.List<Trip> trips = java.util.List.of(
+                model.getFilteredTripList().get(0),
+                model.getFilteredTripList().get(1));
+
+        String message = deleteCommand.buildPreviewMessage(trips);
+
+        assertEquals(
+                "Preview: 2 trips will be deleted.\n"
+                        + "1. Alice Pauline (2026-04-01 to 2026-04-10)\n"
+                        + "2. Benson Meier (2026-02-01 to 2026-02-10)\n"
+                        + "\nPress Enter again to confirm deletion, or edit the command to cancel.",
+                message);
+    }
+
+    @Test
     public void equals() {
         DeleteCommand deleteFirstCommand = new DeleteCommand(INDEX_FIRST_TRIP);
         DeleteCommand deleteSecondCommand = new DeleteCommand(INDEX_SECOND_TRIP);
