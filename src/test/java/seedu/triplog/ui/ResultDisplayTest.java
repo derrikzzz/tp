@@ -1,5 +1,6 @@
 package seedu.triplog.ui;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -58,6 +59,18 @@ public class ResultDisplayTest {
             String text = resultTextArea.getText();
             assertTrue(text.contains("TRIP STATS"));
             assertTrue(text.contains("---"));
+        });
+        WaitForAsyncUtils.waitForFxEvents();
+    }
+
+    @Test
+    public void setFeedbackToUser_summaryWithoutSecondLine_formatsWithoutTripStats() {
+        Platform.runLater(() -> {
+            resultDisplay.setFeedbackToUser("Summary: 1 Trip");
+            String text = resultTextArea.getText();
+            assertTrue(text.contains("[OK]"));
+            assertTrue(text.contains("Summary: 1 Trip"));
+            assertFalse(text.contains("TRIP STATS |"));
         });
         WaitForAsyncUtils.waitForFxEvents();
     }

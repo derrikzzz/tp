@@ -299,4 +299,78 @@ public class DeleteCommandTest {
 
         assertCommandFailure(deleteCommand, model, DeleteCommand.MESSAGE_NO_MATCHING_TRIPS);
     }
+
+    @Test
+    public void execute_validSingleElementRange_success() {
+        Model model = new ModelManager(getTypicalTripLog(), new UserPrefs());
+        Model expectedModel = new ModelManager(getTypicalTripLog(), new UserPrefs());
+
+        DeleteCommand deleteCommand = new DeleteCommand(Index.fromOneBased(2), Index.fromOneBased(2));
+
+        Trip tripToDelete = expectedModel.getFilteredTripList().get(1);
+        expectedModel.deleteTrip(tripToDelete);
+
+        String expectedSummary = TripSummaryUtil.calculateSummary(expectedModel.getFilteredTripList());
+        String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_TRIP_SUCCESS, 1, expectedSummary);
+
+        assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void getTripsToDelete_invalidRange_throwsCommandException() {
+        DeleteCommand deleteCommand = new DeleteCommand(
+                Index.fromOneBased(1),
+                Index.fromOneBased(model.getFilteredTripList().size() + 1));
+
+        assertCommandFailure(deleteCommand, model, DeleteCommand.MESSAGE_RANGE_OUT_OF_RANGE);
+    }
+
+    @Test
+    public void getTripsToDelete_filterNoMatch_throwsCommandException() {
+        DeleteCommand deleteCommand = new DeleteCommand(
+                new TripMatchesDeletePredicate(
+                        new Name("Nonexistent"),
+                        null, null, null, null, null, Set.of()));
+
+        assertCommandFailure(deleteCommand, model, DeleteCommand.MESSAGE_NO_MATCHING_TRIPS);
+    }
+
+    @Test
+    public void equals_filterMode() {
+        TripMatchesDeletePredicate predicate1 = new TripMatchesDeletePredicate(
+                new Name("Alice Pauline"), null, null, null, null, null, Set.of());
+        TripMatchesDeletePredicate predicate2 = new TripMatchesDeletePredicate(
+                new Name("Alice Pauline"), null, null, null, null, null, Set.of());
+        TripMatchesDeletePredicate predicate3 = new TripMatchesDeletePredicate(
+                new Name("Elle Tan"), null, null, null, null, null, Set.of());
+
+        DeleteCommand deleteFilterCommand1 = new DeleteCommand(predicate1);
+        DeleteCommand deleteFilterCommand2 = new DeleteCommand(predicate2);
+        DeleteCommand deleteFilterCommand3 = new DeleteCommand(predicate3);
+
+        assertTrue(deleteFilterCommand1.equals(deleteFilterCommand2));
+        assertFalse(deleteFilterCommand1.equals(deleteFilterCommand3));
+    }
+
+    @Test
+    public void toStringMethod_rangeMode() {
+        Index startIndex = Index.fromOneBased(1);
+        Index endIndex = Index.fromOneBased(2);
+        DeleteCommand deleteCommand = new DeleteCommand(startIndex, endIndex);
+
+        String expected = DeleteCommand.class.getCanonicalName()
+                + "{mode=RANGE, startIndex=" + startIndex + ", endIndex=" + endIndex + "}";
+
+        assertEquals(expected, deleteCommand.toString());
+    }
+
+    @Test
+    public void toStringMethod_filterMode() {
+        TripMatchesDeletePredicate predicate = new TripMatchesDeletePredicate(
+                new Name("Alice Pauline"), null, null, null, null, null, Set.of());
+        DeleteCommand deleteCommand = new DeleteCommand(predicate);
+        String expected = DeleteCommand.class.getCanonicalName()
+                + "{mode=FILTER, predicate=" + predicate + "}";
+        assertEquals(expected, deleteCommand.toString());
+    }
 }
