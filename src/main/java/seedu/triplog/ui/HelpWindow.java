@@ -104,9 +104,6 @@ public class HelpWindow extends UiPart<Stage> {
      */
     static boolean isCloseKey(KeyCode code) {
         assert code != null : "code should not be null";
-        if (code == null) {
-            return false;
-        }
         return code == KeyCode.Q || code == KeyCode.ESCAPE;
     }
 
