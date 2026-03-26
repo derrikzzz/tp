@@ -8,6 +8,7 @@ import static seedu.triplog.logic.commands.HelpCommand.SHOWING_HELP_MESSAGE;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.triplog.commons.core.CommandUsage;
 import seedu.triplog.logic.commands.exceptions.CommandException;
 import seedu.triplog.model.Model;
 import seedu.triplog.model.ModelManager;
@@ -97,18 +98,18 @@ public class HelpCommandTest {
 
     @Test
     public void addUsage_containsDateOptions() {
-        assertTrue(HelpCommand.ADD_USAGE.contains("sd/"));
-        assertTrue(HelpCommand.ADD_USAGE.contains("ed/"));
+        assertTrue(CommandUsage.ADD_USAGE.contains("sd/"));
+        assertTrue(CommandUsage.ADD_USAGE.contains("ed/"));
     }
 
     @Test
     public void deleteUsage_containsIndexPlaceholder() {
-        assertTrue(HelpCommand.DELETE_USAGE.contains("<INDEX>"));
+        assertTrue(CommandUsage.DELETE_USAGE.contains("<INDEX>"));
     }
 
     @Test
     public void tagUsage_containsIndexAndTagNamePlaceholders() {
-        assertTrue(HelpCommand.TAG_USAGE.contains("<INDEX>"));
-        assertTrue(HelpCommand.TAG_USAGE.contains("<tag-name>"));
+        assertTrue(CommandUsage.TAG_USAGE.contains("<INDEX>"));
+        assertTrue(CommandUsage.TAG_USAGE.contains("<tag-name>"));
     }
 }
