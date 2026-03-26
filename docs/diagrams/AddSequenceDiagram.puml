@@ -1,0 +1,102 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box UI UI_COLOR_T1
+participant ":CommandBox" as CommandBox UI_COLOR
+end box
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":TripLogParser" as TripLogParser LOGIC_COLOR
+participant ":AddCommandParser" as AddCommandParser LOGIC_COLOR
+participant "a:AddCommand" as AddCommand LOGIC_COLOR
+participant "ParserUtil" as ParserUtil LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+participant "t:Trip" as Trip MODEL_COLOR
+end box
+
+== User executes add command ==
+
+[-> CommandBox : enter "add n/... [optional fields]"
+activate CommandBox
+
+CommandBox -> LogicManager : execute(commandText)
+activate LogicManager
+
+LogicManager -> TripLogParser : parseCommand(commandText)
+activate TripLogParser
+
+TripLogParser -> AddCommandParser : parse(args)
+activate AddCommandParser
+
+AddCommandParser -> ParserUtil : parseName(...)
+activate ParserUtil
+ParserUtil --> AddCommandParser : Name
+deactivate ParserUtil
+
+note right of AddCommandParser
+Optional fields (email, phone, address, startDate, endDate, tags)
+are parsed similarly if present.
+Tags are collected via getAllValues()
+and converted into Set<Tag>.
+end note
+
+== Trip creation + validation ==
+
+create Trip
+AddCommandParser -> Trip : new Trip(...)
+activate Trip
+
+alt invalid date order (start > end)
+    Trip --[#red]> AddCommandParser : throws IllegalArgumentException
+    deactivate Trip
+    AddCommandParser --[#red]> TripLogParser : throws ParseException
+    TripLogParser --[#red]> LogicManager : throws ParseException
+    LogicManager --[#red]> CommandBox : show error message
+else valid input
+    Trip --> AddCommandParser : t
+    deactivate Trip
+
+    create AddCommand
+    AddCommandParser -> AddCommand : AddCommand(t)
+    activate AddCommand
+    AddCommand --> AddCommandParser : a
+    deactivate AddCommand
+
+    AddCommandParser --> TripLogParser : a
+    deactivate AddCommandParser
+
+    TripLogParser --> LogicManager : a
+    deactivate TripLogParser
+
+    LogicManager -> AddCommand : execute(m)
+    activate AddCommand
+
+    AddCommand -> Model : hasTrip(t)
+    activate Model
+    Model --> AddCommand : exists
+    deactivate Model
+
+    alt duplicate trip
+        AddCommand --[#red]> LogicManager : throws CommandException
+        LogicManager --[#red]> CommandBox : show duplicate error
+    else not duplicate
+        AddCommand -> Model : addTrip(t)
+        activate Model
+        Model --> AddCommand
+        deactivate Model
+
+        AddCommand --> LogicManager : CommandResult
+        deactivate AddCommand
+        LogicManager --> CommandBox : show success message
+    end
+end
+
+deactivate LogicManager
+deactivate CommandBox
+
+@enduml
