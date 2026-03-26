@@ -8,7 +8,7 @@ end box
 
 box Logic LOGIC_COLOR_T1
 participant ":LogicManager" as LogicManager LOGIC_COLOR
-participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":TripLogParser" as TripLogParser LOGIC_COLOR
 participant ":DeleteCommandParser" as DeleteCommandParser LOGIC_COLOR
 participant "p:PreviewDeleteCommand" as PreviewDeleteCommand LOGIC_COLOR
 participant "d:DeleteCommand" as DeleteCommand LOGIC_COLOR
@@ -26,10 +26,10 @@ activate CommandBox
 CommandBox -> LogicManager : execute("deletepreview 1-3")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand("deletepreview 1-3")
-activate AddressBookParser
-AddressBookParser --> LogicManager : p:PreviewDeleteCommand
-deactivate AddressBookParser
+LogicManager -> TripLogParser : parseCommand("deletepreview 1-3")
+activate TripLogParser
+TripLogParser --> LogicManager : p:PreviewDeleteCommand
+deactivate TripLogParser
 
 LogicManager -> PreviewDeleteCommand : execute(m)
 activate PreviewDeleteCommand
@@ -63,10 +63,10 @@ activate CommandBox
 CommandBox -> LogicManager : execute("delete 1-3")
 activate LogicManager
 
-LogicManager -> AddressBookParser : parseCommand("delete 1-3")
-activate AddressBookParser
-AddressBookParser --> LogicManager : d:DeleteCommand
-deactivate AddressBookParser
+LogicManager -> TripLogParser : parseCommand("delete 1-3")
+activate TripLogParser
+TripLogParser --> LogicManager : d:DeleteCommand
+deactivate TripLogParser
 
 LogicManager -> DeleteCommand : execute(m)
 activate DeleteCommand
