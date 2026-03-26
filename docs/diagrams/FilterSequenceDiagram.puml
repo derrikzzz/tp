@@ -1,0 +1,113 @@
+@startuml
+!include style.puml
+skinparam ArrowFontStyle plain
+
+box UI UI_COLOR_T1
+participant ":CommandBox" as CommandBox UI_COLOR
+end box
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":TripLogParser" as TripLogParser LOGIC_COLOR
+participant ":FilterCommandParser" as FilterCommandParser LOGIC_COLOR
+participant "f:FilterCommand" as FilterCommand LOGIC_COLOR
+participant "ParserUtil" as ParserUtil LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "m:Model" as Model MODEL_COLOR
+participant "t:Trip" as Trip MODEL_COLOR
+end box
+
+== User executes filter command ==
+
+[-> CommandBox : enter "filter sd/... ed/..."
+activate CommandBox
+
+CommandBox -> LogicManager : execute(commandText)
+activate LogicManager
+
+LogicManager -> TripLogParser : parseCommand(commandText)
+activate TripLogParser
+
+TripLogParser -> FilterCommandParser : parse(args)
+activate FilterCommandParser
+
+FilterCommandParser -> ParserUtil : parseStartDate(...)
+activate ParserUtil
+ParserUtil --> FilterCommandParser : TripDate
+deactivate ParserUtil
+
+FilterCommandParser -> ParserUtil : parseEndDate(...)
+activate ParserUtil
+ParserUtil --> FilterCommandParser : TripDate
+deactivate ParserUtil
+
+== Command creation ==
+
+create FilterCommand
+FilterCommandParser -> FilterCommand : FilterCommand(startDate, endDate)
+activate FilterCommand
+FilterCommand --> FilterCommandParser : f
+deactivate FilterCommand
+
+FilterCommandParser --> TripLogParser : f
+deactivate FilterCommandParser
+
+TripLogParser --> LogicManager : f
+deactivate TripLogParser
+
+== Command execution ==
+
+LogicManager -> FilterCommand : execute(m)
+activate FilterCommand
+
+FilterCommand -> Model : check startDate <= endDate
+activate Model
+
+alt startDate after endDate
+    FilterCommand --[#red]> LogicManager : throws CommandException
+    deactivate Model
+    LogicManager --[#red]> CommandBox : show error message
+else valid date range
+    deactivate Model
+
+    FilterCommand -> Model : updateFilteredTripList(predicate)
+    activate Model
+
+    note right of FilterCommand
+    Predicate filters trips where:
+    - startDate is not null
+    - startDate within query range
+    - endDate (if present) within range
+    end note
+
+    loop for each Trip
+        Model -> Trip : getStartDate(), getEndDate()
+        activate Trip
+        Trip --> Model
+        deactivate Trip
+    end
+
+    Model --> FilterCommand
+    deactivate Model
+
+    FilterCommand -> Model : getFilteredTripList()
+    activate Model
+    Model --> FilterCommand : list
+    deactivate Model
+
+    alt no trips found
+        FilterCommand --> LogicManager : CommandResult (no trips)
+    else trips found
+        FilterCommand --> LogicManager : CommandResult (success)
+    end
+
+    deactivate FilterCommand
+    LogicManager --> CommandBox : show result message
+end
+
+deactivate LogicManager
+deactivate CommandBox
+
+@enduml
