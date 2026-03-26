@@ -7,8 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+import seedu.triplog.commons.core.CommandUsage;
 import seedu.triplog.commons.core.LogsCenter;
-import seedu.triplog.logic.commands.HelpCommand;
 
 /**
  * Controller for a help page
@@ -62,13 +62,13 @@ public class HelpWindow extends UiPart<Stage> {
         super(FXML, requireNonNullRoot(root));
         logger.fine("Creating a new HelpWindow with provided root stage.");
         prefixNote.setText(PREFIX_NOTE);
-        addUsage.setText(HelpCommand.ADD_USAGE);
-        editUsage.setText(HelpCommand.EDIT_USAGE);
-        deleteUsage.setText(HelpCommand.DELETE_USAGE);
-        tagUsage.setText(HelpCommand.TAG_USAGE);
-        findUsage.setText(HelpCommand.FIND_USAGE);
-        filterUsage.setText(HelpCommand.FILTER_USAGE);
-        listUsage.setText(HelpCommand.LIST_USAGE);
+        addUsage.setText(CommandUsage.ADD_USAGE);
+        editUsage.setText(CommandUsage.EDIT_USAGE);
+        deleteUsage.setText(CommandUsage.DELETE_USAGE);
+        tagUsage.setText(CommandUsage.TAG_USAGE);
+        findUsage.setText(CommandUsage.FIND_USAGE);
+        filterUsage.setText(CommandUsage.FILTER_USAGE);
+        listUsage.setText(CommandUsage.LIST_USAGE);
         exitNote.setText(EXIT_NOTE);
         root.addEventFilter(KeyEvent.KEY_PRESSED, event -> {
             if (isCloseKey(event.getCode())) {
