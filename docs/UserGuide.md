@@ -58,7 +58,7 @@ TripLog is a **desktop app for managing trips, optimized for use via a Command L
 - Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE`, `p/PHONE n/NAME` is also acceptable.
 
-- For commands that do not take parameters (such as `help`, `exit` and `clear`), extraneous parameters will be ignored.
+- For commands that do not take parameters (such as `exit` and `clear`), extraneous parameters will be ignored.
   </box>
 
 ### Viewing help : `help`
@@ -77,7 +77,8 @@ Examples:
 - `help add` — shows the usage for the `add` command inline.
 - `help delete` — shows the usage for the `delete` command inline.
 
-- The help window (opened by `help` with no arguments) can be closed by clicking the 'x' button, or by pressing **Q** or **ESCAPE** while the window is focused.
+- The help window (opened by `help` with no arguments) can also be opened by pressing **F1** or using the Help menu.
+- The help window can be closed by clicking the 'x' button, or by pressing **Q** or **ESCAPE** while the window is focused.
 
 ### Adding a trip: `add`
 
@@ -310,7 +311,6 @@ _Details coming soon ..._
 ## Known issues
 
 1. **When using multiple screens**, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the `preferences.json` file created by the application before running the application again.
-2. **If you minimize the Help Window** and then run the `help` command (or use the `Help` menu, or the keyboard shortcut `F1`) again, the original Help Window will remain minimized, and no new Help Window will appear. The remedy is to manually restore the minimized Help Window.
 
 ---
 
