@@ -77,7 +77,7 @@ Examples:
 - `help add` — shows the usage for the `add` command inline.
 - `help delete` — shows the usage for the `delete` command inline.
 
-- The help window (opened by `help` with no arguments) can also be opened by pressing **F1** or using the Help menu.
+- The help window can also be opened by pressing **F1** or using the Help menu.
 - The help window can be closed by clicking the 'x' button, or by pressing **Q** or **ESCAPE** while the window is focused.
 
 ### Adding a trip: `add`
