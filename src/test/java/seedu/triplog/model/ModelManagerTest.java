@@ -53,6 +53,11 @@ public class ModelManagerTest {
         lenPrefs.setLastSortDescription("duration (longest first)");
         new ModelManager(new TripLog(), lenPrefs);
 
+        // Test 'invalid/default' branch (triggers default case in switch)
+        UserPrefs invalidPrefs = new UserPrefs();
+        invalidPrefs.setLastSortDescription("invalid_key");
+        new ModelManager(new TripLog(), invalidPrefs);
+
         // Test 'null' branch via default behavior
         UserPrefs defaultPrefs = new UserPrefs();
         new ModelManager(new TripLog(), defaultPrefs);
