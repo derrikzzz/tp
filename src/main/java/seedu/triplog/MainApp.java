@@ -2,6 +2,7 @@ package seedu.triplog;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -15,12 +16,14 @@ import seedu.triplog.commons.util.ConfigUtil;
 import seedu.triplog.commons.util.StringUtil;
 import seedu.triplog.logic.Logic;
 import seedu.triplog.logic.LogicManager;
+import seedu.triplog.logic.commands.ListCommand;
 import seedu.triplog.model.Model;
 import seedu.triplog.model.ModelManager;
 import seedu.triplog.model.ReadOnlyTripLog;
 import seedu.triplog.model.ReadOnlyUserPrefs;
 import seedu.triplog.model.TripLog;
 import seedu.triplog.model.UserPrefs;
+import seedu.triplog.model.trip.Trip;
 import seedu.triplog.model.util.SampleDataUtil;
 import seedu.triplog.storage.JsonTripLogStorage;
 import seedu.triplog.storage.JsonUserPrefsStorage;
@@ -91,8 +94,10 @@ public class MainApp extends Application {
             initialData = new TripLog();
             initialDataLoadError = "Data file error: Corrupted entry detected. Starting fresh.";
         }
+        Comparator<Trip> initialComparator = ListCommand.getComparatorFromDescription(
+                userPrefs.getLastSortDescription());
 
-        return new ModelManager(initialData, userPrefs);
+        return new ModelManager(initialData, userPrefs, initialComparator);
     }
 
     private void initLogging(Config config) {
