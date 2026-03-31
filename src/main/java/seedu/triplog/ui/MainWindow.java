@@ -74,6 +74,8 @@ public class MainWindow extends UiPart<Stage> {
         commandBox = new CommandBox(this::executeCommand);
         commandBoxPlaceholder.getChildren().add(commandBox.getRoot());
 
+        resultDisplay.setFeedbackToUser(logic.getSummary());
+
         if (logic.getInitialDataLoadError() != null) {
             resultDisplay.setFeedbackToUser(logic.getInitialDataLoadError());
         }
