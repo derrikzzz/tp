@@ -25,8 +25,10 @@ public class MainAppTest {
 
     @Test
     public void initModelManager_corruptedStorage_setsErrorString() throws Exception {
+        // Initialize a real UserPrefsStorage to prevent NPE during StorageManager internal calls
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(temporaryFolder.resolve("prefs.json"));
 
+        // Create a storage stub that explicitly throws DataLoadingException
         Storage storage = new StorageManager(null, userPrefsStorage) {
             @Override
             public Optional<ReadOnlyTripLog> readTripLog() throws DataLoadingException {
@@ -39,12 +41,19 @@ public class MainAppTest {
         };
 
         MainApp mainApp = new MainApp();
+
+        // Use reflection to access the private initModelManager method
         Method method = MainApp.class.getDeclaredMethod("initModelManager",
                 Storage.class, seedu.triplog.model.ReadOnlyUserPrefs.class);
         method.setAccessible(true);
+
+        // Invoke the method. This triggers the 'catch (DataLoadingException e)' block in MainApp.java
         method.invoke(mainApp, storage, new UserPrefs());
 
-        assertNotNull(mainApp.initialDataLoadError);
-        assertTrue(mainApp.initialDataLoadError.contains("Corrupted entry detected"));
+        // Verify the error string was captured and set correctly
+        String actualError = mainApp.initialDataLoadError;
+        assertNotNull(actualError, "initialDataLoadError should not be null");
+        assertTrue(actualError.contains("Corrupted entry detected"),
+                "Error message should contain 'Corrupted entry detected' but was: " + actualError);
     }
 }
