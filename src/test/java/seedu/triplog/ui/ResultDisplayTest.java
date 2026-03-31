@@ -112,4 +112,17 @@ public class ResultDisplayTest {
         });
         WaitForAsyncUtils.waitForFxEvents();
     }
+
+    @Test
+    public void setFeedbackToUser_helpCommand_showsSuccessIcon() {
+        Platform.runLater(() -> {
+            String helpFeedback = "add: Adds a trip.\nParameters: n/NAME\nExample: add n/Tokyo";
+            resultDisplay.setFeedbackToUser(helpFeedback);
+
+            String text = resultTextArea.getText();
+            assertTrue(text.contains("[OK]"), "Help should show success icon. Actual: " + text);
+            assertFalse(text.contains("[!!]"), "Help should NOT show error icon.");
+        });
+        WaitForAsyncUtils.waitForFxEvents();
+    }
 }
