@@ -1,11 +1,13 @@
 package seedu.triplog.ui;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
 import org.testfx.framework.junit5.Start;
 
@@ -23,9 +25,16 @@ import seedu.triplog.model.trip.Trip;
 public class MainWindowTest {
 
     private MainWindow mainWindow;
+    private Stage stage;
     private final String error = "Data file error: Corrupted entry detected. Starting fresh.";
 
     private class LogicStub implements Logic {
+        private String errorToReturn;
+
+        LogicStub(String errorToReturn) {
+            this.errorToReturn = errorToReturn;
+        }
+
         @Override
         public CommandResult execute(String cmd) {
             return null;
@@ -62,19 +71,35 @@ public class MainWindowTest {
 
         @Override
         public String getInitialDataLoadError() {
-            return error;
+            return errorToReturn;
         }
     }
 
     @Start
     public void start(Stage stage) {
-        mainWindow = new MainWindow(stage, new LogicStub());
-        mainWindow.fillInnerParts();
+        this.stage = stage;
     }
 
     @Test
-    public void fillInnerParts_withError_updatesResultDisplay() {
+    public void fillInnerParts_withError_updatesResultDisplay(FxRobot robot) {
+        robot.interact(() -> {
+            mainWindow = new MainWindow(stage, new LogicStub(error));
+            mainWindow.fillInnerParts();
+        });
+
+        // Use standard JavaFX lookup to avoid Hamcrest/Matcher dependency
         TextArea resultDisplay = (TextArea) mainWindow.getRoot().getScene().lookup("#resultDisplay");
         assertTrue(resultDisplay.getText().contains(error));
+    }
+
+    @Test
+    public void fillInnerParts_noError_resultDisplayEmpty(FxRobot robot) {
+        robot.interact(() -> {
+            mainWindow = new MainWindow(stage, new LogicStub(null));
+            mainWindow.fillInnerParts();
+        });
+
+        TextArea resultDisplay = (TextArea) mainWindow.getRoot().getScene().lookup("#resultDisplay");
+        assertEquals("", resultDisplay.getText());
     }
 }

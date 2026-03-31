@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import seedu.triplog.commons.exceptions.DataLoadingException;
+import seedu.triplog.logic.LogicManager;
 import seedu.triplog.model.ReadOnlyTripLog;
 import seedu.triplog.model.UserPrefs;
 import seedu.triplog.storage.Storage;
@@ -24,8 +25,6 @@ public class MainAppTest {
     @Test
     public void initModelManager_corruptedStorage_hitsCoverageLines() throws Exception {
         Path filePath = temporaryFolder.resolve("triplog.json");
-
-        // Storage stub that triggers DataLoadingException and provides a valid path for logging
         Storage storageStub = new StorageManager(null, null) {
             @Override
             public Optional<ReadOnlyTripLog> readTripLog() throws DataLoadingException {
@@ -47,11 +46,9 @@ public class MainAppTest {
 
         assertEquals(expected, getPrivateInitialDataLoadError(mainApp));
 
-        setPrivateField(mainApp, "storage", storageStub);
-        setPrivateField(mainApp, "model", new seedu.triplog.model.ModelManager());
-
-        mainApp.logic = new seedu.triplog.logic.LogicManager(
-                mainApp.model, mainApp.storage, expected);
+        mainApp.model = new seedu.triplog.model.ModelManager();
+        mainApp.storage = storageStub;
+        mainApp.logic = new LogicManager(mainApp.model, mainApp.storage, expected);
 
         assertEquals(expected, mainApp.logic.getInitialDataLoadError());
     }
@@ -60,11 +57,5 @@ public class MainAppTest {
         Field field = MainApp.class.getDeclaredField("initialDataLoadError");
         field.setAccessible(true);
         return (String) field.get(app);
-    }
-
-    private void setPrivateField(Object obj, String fieldName, Object value) throws Exception {
-        Field field = obj.getClass().getDeclaredField(fieldName);
-        field.setAccessible(true);
-        field.set(obj, value);
     }
 }
