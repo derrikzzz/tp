@@ -10,6 +10,7 @@ import seedu.triplog.commons.core.GuiSettings;
 import seedu.triplog.commons.core.LogsCenter;
 import seedu.triplog.logic.commands.Command;
 import seedu.triplog.logic.commands.CommandResult;
+import seedu.triplog.logic.commands.ListCommand;
 import seedu.triplog.logic.commands.TripSummaryUtil;
 import seedu.triplog.logic.commands.exceptions.CommandException;
 import seedu.triplog.logic.parser.TripLogParser;
@@ -111,9 +112,9 @@ public class LogicManager implements Logic {
         String sortDescription = model.getLastSortDescription();
 
         if (sortDescription == null) {
-            sortDescription = "start date";
+            sortDescription = ListCommand.SORT_DESC_START;
         }
 
-        return String.format("Listed all trips sorted by %s.\n%s", sortDescription, summary);
+        return String.format(ListCommand.MESSAGE_SUCCESS, sortDescription, summary);
     }
 }
