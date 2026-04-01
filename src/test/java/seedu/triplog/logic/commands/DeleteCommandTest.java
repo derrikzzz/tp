@@ -329,9 +329,8 @@ public class DeleteCommandTest {
     }
 
     @Test
-    public void executeDeleteByDateRange_noMatchThrowsException() {
+    public void execute_deleteByDateRangeNoMatch_throwsCommandException() {
         Model model = new ModelManager(getTypicalTripLog(), new UserPrefs());
-
         DeleteCommand deleteCommand = new DeleteCommand(
                 new TripMatchesDeletePredicate(
                         null, null, null, null,
