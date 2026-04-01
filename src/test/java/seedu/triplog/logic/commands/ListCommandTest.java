@@ -60,18 +60,23 @@ public class ListCommandTest {
     public void execute_variedTripStatuses_summaryCorrect() {
         TripLog tripLog = new TripLog();
         LocalDate today = LocalDate.now();
+
+        // EP: trip starts in the future
         Trip upcoming = new TripBuilder().withName("Upcoming")
                 .withStart(today.plusDays(7).toString())
                 .withEnd(today.plusDays(10).toString()).build();
 
+        // EP: current date is within trip range
         Trip ongoing = new TripBuilder().withName("Ongoing")
                 .withStart(today.minusDays(1).toString())
                 .withEnd(today.plusDays(1).toString()).build();
 
+        // EP: trip end date is in the past
         Trip completed = new TripBuilder().withName("Completed")
                 .withStart(today.minusDays(10).toString())
                 .withEnd(today.minusDays(5).toString()).build();
 
+        // EP: trip has no start date
         Trip planning = new TripBuilder().withName("Planning").build();
         Trip planningNull = new Trip(planning.getName(), planning.getPhone(),
                 planning.getEmail(), planning.getAddress(), planning.getTags(),
@@ -130,6 +135,7 @@ public class ListCommandTest {
 
     @Test
     public void execute_invalidSortKey_throwsCommandException() {
+        // EP: invalid sort key
         assertCommandFailure(new ListCommand("price"), model, ListCommand.MESSAGE_INVALID_SORT_KEY);
     }
 
@@ -193,6 +199,7 @@ public class ListCommandTest {
     @Test
     public void execute_sortTieBreaker_alphabeticalFallBack() {
         TripLog tripLog = new TripLog();
+        // EP: trips have identical start/end dates
         Trip zebraTrip = new TripBuilder().withName("Zebra").withStart("2026-06-01")
                 .withEnd("2026-06-10").build();
         Trip appleTrip = new TripBuilder().withName("Apple").withStart("2026-06-01")
@@ -221,22 +228,16 @@ public class ListCommandTest {
 
     @Test
     public void getComparatorFromDescription_validDescriptions_returnsCorrectComparator() {
-        // Test Name branch
+        // EP: valid description strings
         assertNotNull(ListCommand.getComparatorFromDescription(ListCommand.SORT_DESC_NAME));
-
-        // Test End Date branch
         assertNotNull(ListCommand.getComparatorFromDescription(ListCommand.SORT_DESC_END));
-
-        // Test Duration branch
         assertNotNull(ListCommand.getComparatorFromDescription(ListCommand.SORT_DESC_LEN));
-
-        // Test Start Date branch
         assertNotNull(ListCommand.getComparatorFromDescription(ListCommand.SORT_DESC_START));
 
-        // Test Null branch (falls back to default)
+        // EP: null description
         assertNotNull(ListCommand.getComparatorFromDescription(null));
 
-        // Test Unknown string branch (falls back to default)
+        // EP: unknown description string
         assertNotNull(ListCommand.getComparatorFromDescription("unknown"));
     }
 
@@ -246,23 +247,23 @@ public class ListCommandTest {
         ListCommand listStartCommand = new ListCommand("start");
         ListCommand listDefaultCommand = new ListCommand();
 
-        // same object -> returns true
+        // EP: same object
         assertTrue(listNameCommand.equals(listNameCommand));
 
-        // same values -> returns true
+        // EP: same values
         ListCommand listNameCommandCopy = new ListCommand("name");
         assertTrue(listNameCommand.equals(listNameCommandCopy));
 
-        // different types -> returns false
+        // EP: different types
         assertFalse(listNameCommand.equals(1));
 
-        // null -> returns false
+        // EP: null
         assertFalse(listNameCommand.equals(null));
 
-        // different sortKey -> returns false
+        // EP: different sortKey
         assertFalse(listNameCommand.equals(listStartCommand));
 
-        // null vs non-null sortKey -> returns false
+        // EP: null vs non-null sortKey
         assertFalse(listNameCommand.equals(listDefaultCommand));
     }
 }
