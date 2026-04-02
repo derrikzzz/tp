@@ -49,7 +49,7 @@ deactivate TripLogParser
 LogicManager -> TagCommand : execute(m)
 activate TagCommand
 
-TagCommand -> Model : tagPerson(1)
+TagCommand -> Model : tagTrip(1)
 activate Model
 
 Model --> TagCommand
