@@ -175,8 +175,9 @@ Tags an existing trip in the TripLog with the given keyword.
 Format: `tag INDEX TAG`
 
 * Tags the trip with the keyword `TAG` at the specified `INDEX`. The index refers to the index number shown in the displayed trip list. The index **must be a positive integer** 1, 2, 3, …​
-* Tags must be alphanumeric (A-Z, 0-9)
-* Duplicate tags will not be added
+* Tags must be alphanumeric (A-Z, 0-9).
+* Duplicate tags will not be added. 
+* Duplicate tags are case-insensitive. e.g. `Hotel` and `HOTEL` are considered duplicates
 
 Examples:
 * `tag 1 scenic beauty` Tags the 1st trip with `scenic beauty`.
@@ -199,8 +200,8 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 Examples:
 
 - `find Tok` returns `Tokyo Japan`
-- `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+- `find japan states` returns `Japan`, `United States`<br>
+- ![result for 'find japan states'](images/findJapanStatesResult.png)
 
 ### Deleting trip(s) : `delete`
 
