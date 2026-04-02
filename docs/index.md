@@ -1,6 +1,6 @@
 ---
-  layout: default.md
-    title: "TripLog"
+layout: default.md
+title: "TripLog"
 ---
 
 # TripLog
