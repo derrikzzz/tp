@@ -88,6 +88,7 @@ public class MainWindowTest {
     public void fillInnerParts_withError_updatesResultDisplay(FxRobot robot) {
         robot.interact(() -> {
             mainWindow = new MainWindow(stage, new LogicStub(error));
+            mainWindow.show();
             mainWindow.fillInnerParts();
         });
 
