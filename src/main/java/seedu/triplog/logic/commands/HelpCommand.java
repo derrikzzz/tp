@@ -5,7 +5,9 @@ import seedu.triplog.logic.commands.exceptions.CommandException;
 import seedu.triplog.model.Model;
 
 /**
- * Format full help instructions for every command for display.
+ * Displays help for TripLog commands.
+ * Without arguments, opens the help window showing syntax for all commands.
+ * With a command name argument, displays the usage for that command inline.
  */
 public class HelpCommand extends Command {
 
