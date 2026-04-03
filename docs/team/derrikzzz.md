@@ -94,6 +94,7 @@ The `HelpWindow` is resizable. The `ScrollPane` (which is the scene root) grows 
 
 * **Diagram Maintenance**: Updated all major Developer Guide diagrams (architecture, model class, parser class, storage class, undo/redo state and class diagrams, tag sequence diagram, logic sequence diagram) to accurately reflect the current TripLog implementation.
 * **Consistency Fixes**: Reviewed and corrected terminology and formatting across multiple User Guide and Developer Guide sections to ensure a uniform style throughout the documentation.
+* **PR Reviews**: Reviewed pull requests from teammates, providing feedback on code quality, and adherence to project conventions.
 
 ---
 
