@@ -152,6 +152,11 @@ Classes used by multiple components are in the `seedu.triplog.commons` package.
 ## **Implementation**
 
 ### Trip Creation: Add Command
+The `add` command creates a new trip in the trip log. Only the destination name (n/NAME) is mandatory. All other fields (phone, email, address, start date, end date, tags) are optional and default to null if omitted. When both `startDate` and `endDate` are provided, the Trip model validates that the start date is not after the end date.
+
+The parsing is handled by `AddCommandParser`, which tokenizes the input and checks each optional field via `Optional<String>` before constructing the corresponding `AddCommand`.
+
+On execution, `AddCommand` checks for duplicates via `Model#hasTrip(Trip)`. Two trips are considered duplicates if they share the same name (case-insensitive) and have overlapping date ranges, as determined by the private `Trip#datesOverlap()` method. If trip is non-duplicate, it is added to the model.
 
 The following sequence diagram shows how the `add` command is parsed and executed:
 
