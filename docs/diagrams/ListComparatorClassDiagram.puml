@@ -1,15 +1,33 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor LOGIC_COLOR_T4
+skinparam classBackgroundColor LOGIC_COLOR
 
-autonumber
+package Logic {
+    Class ListCommand
+    Class ListCommandParser
+}
 
-== Initialization ==
+package Model {
+    Class Trip
+}
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+Class "<<interface>>\nComparator" as Comparator {
+    +compare(t1: Trip, t2: Trip): int
+}
 
-== Repetition ==
+Class NameComparator
+Class DateComparator
+Class DurationComparator
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+ListCommandParser .down.> ListCommand : <<create>>
+ListCommand .down.> Comparator : <<use factory>>
+
+NameComparator .up.|> Comparator
+DateComparator .up.|> Comparator
+DurationComparator .up.|> Comparator
+
+ListCommand -[hidden]right-> Trip
+Comparator .right.> Trip : <<compares>>
 @enduml
