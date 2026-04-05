@@ -13,20 +13,12 @@ package Model {
     Class Trip
 }
 
-Class "<<interface>>\nComparator" as Comparator {
+Class "<<interface>>\nComparator" as Comparator <<Java Library>> {
     +compare(t1: Trip, t2: Trip): int
 }
 
-Class NameComparator
-Class DateComparator
-Class DurationComparator
-
 ListCommandParser .down.> ListCommand : <<create>>
-ListCommand .down.> Comparator : <<use factory>>
-
-NameComparator .up.|> Comparator
-DateComparator .up.|> Comparator
-DurationComparator .up.|> Comparator
+ListCommand .down.> Comparator : <<use>>
 
 ListCommand -[hidden]right-> Trip
 Comparator .right.> Trip : <<compares>>
