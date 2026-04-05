@@ -93,8 +93,6 @@ public class EditCommandTest {
 
     @Test
     public void execute_filteredList_success() {
-        showTripAtIndex(model, INDEX_FIRST_TRIP);
-
         Trip tripInFilteredList = model.getFilteredTripList().get(INDEX_FIRST_TRIP.getZeroBased());
         Trip editedTrip = new TripBuilder(tripInFilteredList).withName(VALID_NAME_BOB).build();
         EditCommand editCommand = new EditCommand(INDEX_FIRST_TRIP,
