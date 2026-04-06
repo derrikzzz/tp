@@ -3,10 +3,11 @@ package seedu.triplog.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.triplog.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.triplog.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.triplog.logic.parser.CliSyntax.PREFIX_END_DATE;
 import static seedu.triplog.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.triplog.logic.parser.CliSyntax.PREFIX_PHONE;
+import static seedu.triplog.logic.parser.CliSyntax.PREFIX_START_DATE;
 import static seedu.triplog.logic.parser.CliSyntax.PREFIX_TAG;
-import static seedu.triplog.model.Model.PREDICATE_SHOW_ALL_TRIPS;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -45,6 +46,8 @@ public class EditCommand extends Command {
             + "[" + PREFIX_PHONE + "PHONE] "
             + "[" + PREFIX_EMAIL + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
+            + "[" + PREFIX_START_DATE + "START_DATE] "
+            + "[" + PREFIX_END_DATE + "END_DATE] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
@@ -91,7 +94,6 @@ public class EditCommand extends Command {
         }
 
         model.setTrip(tripToEdit, editedTrip);
-        model.updateFilteredTripList(PREDICATE_SHOW_ALL_TRIPS);
 
         String summary = TripSummaryUtil.calculateSummary(model.getFilteredTripList());
         return new CommandResult(String.format(MESSAGE_EDIT_TRIP_SUCCESS, Messages.format(editedTrip), summary));

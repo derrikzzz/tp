@@ -81,6 +81,13 @@ else valid input
     Model --> AddCommand : exists
     deactivate Model
 
+    note right of AddCommand
+    Duplicate = same name (case-insensitive)
+    AND overlapping date ranges.
+    Checked via Trip#isSameTrip()
+    which calls Trip#datesOverlap().
+    end note
+
     alt duplicate trip
         AddCommand --[#red]> LogicManager : throws CommandException
         LogicManager --[#red]> CommandBox : show duplicate error

@@ -75,7 +75,7 @@ The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `Re
 
 The `UI` component uses the JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the [`MainWindow`](https://github.com/AY2526S2-CS2103-F13-2/tp/tree/master/src/main/java/seedu/triplog/ui/MainWindow.java) is specified in [`MainWindow.fxml`](https://github.com/AY2526S2-CS2103-F13-2/tp/tree/master/src/main/resources/view/MainWindow.fxml).
 
-To support a dynamic layout, the `MainWindow` implements a `SplitPane` with a vertical orientation to house the `TripListPanel` and `ResultDisplay`. This allows the user to manually adjust the relative height of these components.
+To support a dynamic layout, the `MainWindow` implements a `SplitPane` with a vertical orientation. This `SplitPane` contains two `StackPane` placeholders which house the `TripListPanel` and `ResultDisplay` respectively. This allows the user to manually adjust the relative height of these components while maintaining a consistent internal layout.
 
 The `UI` component,
 
@@ -152,6 +152,11 @@ Classes used by multiple components are in the `seedu.triplog.commons` package.
 ## **Implementation**
 
 ### Trip Creation: Add Command
+The `add` command creates a new trip in the trip log. Only the destination name (n/NAME) is mandatory. All other fields (phone, email, address, start date, end date, tags) are optional and default to null if omitted. When both `startDate` and `endDate` are provided, the Trip model validates that the start date is not after the end date.
+
+The parsing is handled by `AddCommandParser`, which tokenizes the input and checks each optional field via `Optional<String>` before constructing the corresponding `AddCommand`.
+
+On execution, `AddCommand` checks for duplicates via `Model#hasTrip(Trip)`. Two trips are considered duplicates if they share the same name (case-insensitive) and have overlapping date ranges, as determined by the private `Trip#datesOverlap()` method. If trip is non-duplicate, it is added to the model.
 
 The following sequence diagram shows how the `add` command is parsed and executed:
 
@@ -178,6 +183,10 @@ The following sequence diagram shows the logic for deleting a trip:
 
 ### Tagging Trips: Tag Command
 
+The `tag` command allows users to add a single tag to trips for easier organisation and filtering. It only supports tagging by index.
+
+The parsing of the command is handled by `TagCommandParser`, which parses the required arguments and constructs the corresponding `TagCommand`.
+
 The following sequence diagram illustrates the process of tagging a trip:
 
 <puml src="diagrams/TagSequenceDiagram.puml" alt="Tag Command Sequence Diagram" />
@@ -188,14 +197,16 @@ The following sequence diagram illustrates the process of filtering a trip:
 
 <puml src="diagrams/FilterSequenceDiagram.puml" alt="Filter Command Sequence Diagram" />
 
-### Trip Statistics and Multi-Key Sorting
+### Trip Listing and Sorting: List Command
+
+The `list` command has been enhanced to provide analytical feedback and dynamic reordering of the trip log. This implementation bridges the `Logic` and `Model` layers to transform a simple list view into a temporal dashboard.
 
 #### Implementation
 
-The `ListCommand` has been enhanced to provide analytical feedback and dynamic reordering of the trip log. This implementation bridges the `Logic` and `Model` layers to transform a simple list view into a temporal dashboard.
-
 **Sorting Mechanism & Tie-Breaking:**
-The sorting is implemented using a **Comparator Factory** pattern within `ListCommand`. The application supports dynamic reordering based on four primary sort keys: `name`, `start`, `end`, and `len`.
+The sorting is implemented using a **Comparator Factory** pattern within `ListCommand`. The selection logic is encapsulated in `getComparator(key)`, which returns a specific comparator that often chains a primary key with a name-based fallback using `.thenComparing()`.
+
+<puml src="diagrams/ListComparatorClassDiagram.puml" width="450" />
 
 The following sequence diagram illustrates the interactions within the `Logic` and `Model` components when a user executes a sort command:
 
@@ -211,17 +222,17 @@ To ensure a stable and deterministic user experience, a **Multi-Level Tie-Breake
 3. **Persistent Sorting**: The sort order is maintained in the `ModelManager` via a `SortedList` wrapper. Any subsequent operations (adding or editing trips) automatically re-apply the last used comparator through `Model#updateSortedTripList(Comparator<Trip>)`.
 
 **Temporal Dashboard:**
-The trip statistics dashboard provides a temporal analysis of trips relative to `LocalDate.now()`.
+The trip statistics dashboard provides a temporal analysis of trips relative to `LocalDate.now()`. Categorization logic is centralized in `TripSummaryUtil`, using a sequential date-check flow to ensure mutually exclusive trip statuses.
 
-<puml src="diagrams/LogicClassDiagram.puml" width="550" alt="Logic Class Diagram showing Summary Utility" />
+<puml src="diagrams/TripSummaryActivityDiagram.puml" width="300" />
 
 * **Centralized Logic**: The calculation logic is centralized in `TripSummaryUtil#calculateSummary(ObservableList<Trip>)`.
 * **Live Updates**: The `ListCommand` retrieves the current filtered list via `Model#getFilteredTripList()` and passes it to the utility to generate the dashboard summary.
 * **Status Determination**:
     1. **Planning**: `startDate == null`
-    2. **Upcoming**: `today < startDate`
-    3. **Completed**: `today > endDate`
-    4. **Ongoing**: `startDate <= today <= endDate`
+    2. **Upcoming**: `today is before start date`
+    3. **Completed**: `today is after end date`
+    4. **Ongoing**: `else`
 
 ### Help command
 
@@ -357,7 +368,7 @@ While TripLog originated from AB3, the transition to a travel-specific manager r
 2. **Support for Non-English Characters**: We plan to allow Unicode characters in the destination `NAME` field to support international travel records (e.g., Tokyo / 東京).
 3. **Multi-Field Substring Search**: The `find` command currently only searches the Name field. We plan to expand substring matching to include Address and Tags fields simultaneously.
 4. **Refine Phone and Email Validation**: Currently, the validation for phone numbers and emails follows a strict alphanumeric format. We plan to allow more flexible symbols (e.g., "+" for country codes in phone numbers) to support international contact details.
-5. **Clearer Duplicate Detection Feedback**: When a duplicate trip is rejected, we plan to specify which existing entry it overlaps with (e.g., "Overlaps with trip at index 2") in the feedback box.5. **Clearer Duplicate Detection Feedback**: When a duplicate trip is rejected, we plan to specify which existing entry it overlaps with (e.g., "Overlaps with trip at index 2") in the feedback box.
+5. **Clearer Duplicate Detection Feedback**: When a duplicate trip is rejected, we plan to specify which existing entry it overlaps with (e.g., "Overlaps with trip at index 2") in the feedback box.
 6. **Custom Icons Toggle**: Provide a setting in `preferences.json` to allow users to toggle off the custom `[OK]` and `[!!]` icons for a minimalist UI.
 
 --------------------------------------------------------------------------------------------------------------------
@@ -399,12 +410,44 @@ testers are expected to do more *exploratory* testing.
     4. Test case: `EXIT`
        Expected: Application shuts down.
 
+### Adding a trip
+
+1. Adding a trip with only the required field
+    1. Test case: `add n/Tokyo`
+       Expected: Trip with name "Tokyo" is added. All other fields show as blank/absent.
+
+2. Adding a trip with all fields
+    1. Test case: `add n/Osaka p/91234567 e/trip@mail.com a/Dotonbori sd/2026-06-01 ed/2026-06-10 t/food t/travel`
+       Expected: Trip is added with all fields populated and both tags shown.
+
+3. Adding a trip with optional fields omitted
+    1. Test case: `add n/Kyoto sd/2026-07-01 ed/2026-07-10`
+       Expected: Trip is added. Phone, email, and address are absent.
+
+4. Invalid date order
+    1. Test case: `add n/Seoul sd/2026-12-31 ed/2026-01-01`
+       Expected: Error message indicating start date cannot be after end date. No trip is added.
+
+5. Duplicate trip (same name, overlapping dates)
+    1. Prerequisites: A trip named "Tokyo" with dates 2026-06-01 to 2026-06-10 already exists.
+    2. Test case: `add n/Tokyo sd/2026-06-05 ed/2026-06-15`
+       Expected: Error message indicating duplicate trip. No trip is added.
+
+6. Same name, non-overlapping dates (allowed)
+    1. Prerequisites: A trip named "Tokyo" with dates 2026-06-01 to 2026-06-10 already exists.
+    2. Test case: `add n/Tokyo sd/2026-09-01 ed/2026-09-10`
+       Expected: Trip is added successfully. Both "Tokyo" trips coexist.
+
+7. Missing name
+    1. Test case: `add sd/2026-06-01 ed/2026-06-10`
+       Expected: Error message indicating invalid command format. No trip is added.
+   
 ### Listing, Sorting, and Statistics
 
-1. Initial setup (Assume Today is 2026-03-24)
+1. Initial setup (Assume Today is 2026-04-02)
     1. Add a variety of trips:
         - Past: `add n/History sd/2020-01-01 ed/2020-01-05`
-        - Ongoing: `add n/Current Trip sd/2026-03-20 ed/2026-03-30`
+        - Ongoing: `add n/Current Trip sd/2026-04-01 ed/2026-04-10`
         - Future: `add n/Future Trip sd/2026-12-01 ed/2026-12-10`
         - Planning: `add n/Bucket List Ideas`
 
@@ -426,17 +469,6 @@ testers are expected to do more *exploratory* testing.
        Expected: The Result Display immediately shows a summary dashboard and the last used sort order without entering any commands.
     3. Test case: Sort the list using `list sort/name`, exit the application, and re-launch.
        Expected: The summary dashboard and the list itself remain sorted by name alphabetically.
-
-### UI Interaction: Vertical Resizing
-
-1. Testing Result Display resizing
-    1. Prerequisites: App launched with sample data.
-    2. Test case: Hover mouse over the boundary between Result Display and Trip List.
-       Expected: Cursor changes to vertical resize icon.
-    3. Test case: Click and drag upward.
-       Expected: Result Display height increases; Trip List height decreases.
-    4. Test case: Click and drag downward as far as possible.
-       Expected: Result Display height decreases but stops at a minimum height of 100px.
 
 ### Locating trips by name
 
@@ -484,7 +516,7 @@ testers are expected to do more *exploratory* testing.
 
 6. Deleting by date range
 
-    1. Test case: `delete sd/2026-01-01 ed/2026-12-31`  
+    1. Test case: `delete sd/2026-03-01 ed/2026-05-10`  
        Expected: Trips matching the specified date range are previewed, then deleted after confirmation.
 
 ### Saving data

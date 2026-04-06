@@ -8,6 +8,8 @@ pageNav: 3
 
 TripLog is a **desktop app for managing trips, optimized for use via a Command Line Interface** (CLI) while still having the benefits of a Graphical User Interface (GUI). If you can type fast, TripLog can get your travel management tasks done faster than traditional GUI apps.
 
+![UI Overview](images/Ui.png)
+
 <page-nav-print />
 
 ---
@@ -63,11 +65,6 @@ TripLog is a **desktop app for managing trips, optimized for use via a Command L
 - For commands that do not take parameters (such as `exit` and `clear`), extraneous parameters will be ignored.
   </box>
 
-### UI Interaction: Resizing the Result Display
-
-The **Result Display** (the box where command feedback is shown) is vertically resizable to help you view longer messages, such as help instructions or deletion previews.
-* **To resize**: Hover your mouse over the boundary between the Result Display and the trip list until the cursor changes to a resize icon. Click and drag up or down to adjust the height.
-
 ### Viewing help : `help`
 
 Shows help for TripLog commands.
@@ -114,6 +111,8 @@ Examples:
 
 - `add n/Tokyo sd/2026-03-10 ed/2026-03-20`
 - `add n/New York a/123 5th Ave t/business t/high priority`
+
+![Add Result](images/addResult.png)
 
 ### Listing all trips : `list`
 
@@ -175,8 +174,9 @@ Tags an existing trip in the TripLog with the given keyword.
 Format: `tag INDEX TAG`
 
 * Tags the trip with the keyword `TAG` at the specified `INDEX`. The index refers to the index number shown in the displayed trip list. The index **must be a positive integer** 1, 2, 3, …​
-* Tags must be alphanumeric (A-Z, 0-9)
-* Duplicate tags will not be added
+* Tags must be alphanumeric (A-Z, 0-9).
+* Duplicate tags will not be added.
+* Duplicate tags are case-insensitive. e.g. `Hotel` and `HOTEL` are considered duplicates.
 
 Examples:
 * `tag 1 scenic beauty` Tags the 1st trip with `scenic beauty`.
@@ -199,8 +199,8 @@ Format: `find KEYWORD [MORE_KEYWORDS]`
 Examples:
 
 - `find Tok` returns `Tokyo Japan`
-- `find alex david` returns `Alex Yeoh`, `David Li`<br>
-  ![result for 'find alex david'](images/findAlexDavidResult.png)
+- `find japan states` returns `Japan`, `United States`<br>
+- ![result for 'find japan states'](images/findJapanStatesResult.png)
 
 ### Deleting trip(s) : `delete`
 
@@ -281,7 +281,15 @@ Examples:
 
 #### Preview before deletion
 
+![Delete Preview](images/delete_preview.png)
+
 Before deleting, TripLog will display a preview of the trips that match the command.
+
+#### After confirmation
+
+![Delete Result](images/delete_result.png)
+
+After confirming the command, the selected trips are deleted from the list and the updated list is displayed.
 
 ### Filtering by date range : `filter`
 
@@ -351,8 +359,8 @@ _Details coming soon ..._
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Add** | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [sd/DATE] [ed/DATE] [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 sd/2026-01-01 t/friend` |
 | **Clear** | `clear`                                                                                                                                   |
-| **Delete** | `delete INDEX`<br>`delete START-END`<br>`delete PREFIX/VALUE`<br>`delete sd/START_DATE ed/END_DATE`<br> e.g., `delete 3`, `delete 1-3`, `delete t/family`, `delete sd/2026-03-01 ed/2026-05-10` || **Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [sd/DATE] [ed/DATE] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com` |
+| **Delete** | `delete INDEX`<br>`delete START-END`<br>`delete PREFIX/VALUE`<br>`delete sd/START_DATE ed/END_DATE`<br> e.g., `delete 3`, `delete 1-3`, `delete t/family`, `delete sd/2026-03-01 ed/2026-05-10` |
+| **Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [sd/DATE] [ed/DATE] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com` |
 | **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find Tokyo Osaka`                                                                                                              |
-| **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find Tok Osaka`                                                                                                              |
 | **List** | `list [sort/KEY]` <br> e.g., `list sort/name`                                                                                                                            |                                                                                                                                                                 |
 | **Help** | `help [COMMAND]`<br> e.g., `help add`                                                                                                                                    |
