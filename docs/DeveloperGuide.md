@@ -441,7 +441,7 @@ testers are expected to do more *exploratory* testing.
 7. Missing name
     1. Test case: `add sd/2026-06-01 ed/2026-06-10`
        Expected: Error message indicating invalid command format. No trip is added.
-   
+
 ### Listing, Sorting, and Statistics
 
 1. Initial setup (Assume Today is 2026-04-02)
@@ -469,6 +469,20 @@ testers are expected to do more *exploratory* testing.
        Expected: The Result Display immediately shows a summary dashboard and the last used sort order without entering any commands.
     3. Test case: Sort the list using `list sort/name`, exit the application, and re-launch.
        Expected: The summary dashboard and the list itself remain sorted by name alphabetically.
+
+### Tagging a trip
+
+1. Tagging a trip using index
+    1. Prerequisites: List all trips using the `list` command. Multiple trips in the list.
+   
+    2. Test case: `tag 1 scenic beauty`
+       Expected: First trip is tagged with `scenic beauty`. Details of the tagged trip shown in the status message.
+
+2. Duplicate tag (case insensitive)
+    1. Prerequisites: A trip named "Hotel California" with tag "hotel" already exists.
+
+    2. Test case: `tag 1 HOTEL`
+       Expected: Error message indicating duplicate tag. No tag is added.
 
 ### Locating trips by name
 
