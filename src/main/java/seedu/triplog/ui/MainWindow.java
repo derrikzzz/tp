@@ -17,7 +17,6 @@ import seedu.triplog.commons.core.GuiSettings;
 import seedu.triplog.commons.core.LogsCenter;
 import seedu.triplog.logic.Logic;
 import seedu.triplog.logic.commands.CommandResult;
-import seedu.triplog.logic.commands.HelpCommand;
 import seedu.triplog.logic.commands.exceptions.CommandException;
 import seedu.triplog.logic.parser.exceptions.ParseException;
 
