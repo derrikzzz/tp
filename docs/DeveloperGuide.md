@@ -245,7 +245,7 @@ The `help` command supports two modes:
 
 The mode is determined in `HelpCommand#execute()`:
 
-* If no argument is given, a `CommandResult` with `showHelp = true` is returned. `MainWindow` detects this flag and calls `handleHelp()` to show the `HelpWindow`.
+* If no argument is given, a `CommandResult` with `showHelp = true` is returned. `MainWindow` detects this flag in `executeCommand()`: if the `HelpWindow` is already showing, the result display is updated with `FOCUSING_HELP_MESSAGE` ("Help window is already open."); then `handleHelp()` is called, which either shows the window (if hidden) or focuses it (if already visible).
 * If an argument is given, `getUsageForCommand(argument)` returns the matching usage string, and a regular `CommandResult` is returned. The text is displayed inline in the `ResultDisplay`.
 
 The usage strings (e.g., `ADD_USAGE`, `DELETE_USAGE`) are defined as constants in `CommandUsage` and reused by both `HelpCommand` and `HelpWindow` to keep the content consistent between inline help and the popup window.
@@ -254,8 +254,8 @@ The `HelpWindow` is resizable. The `ScrollPane` (which is the scene root) grows 
 
 The `TripLogParser` routes `help` to `HelpCommand`:
 
-* `help` → `new HelpCommand()`
-* `help add` → `new HelpCommand("add")`
+* `help` → `new HelpCommand(arguments)` where `arguments` is `""`, equivalent in behaviour to `new HelpCommand()`
+* `help add` → `new HelpCommand(arguments)` where `arguments` is `" add"`; the leading space is trimmed to `"add"` inside the constructor
 
 #### Design considerations
 
