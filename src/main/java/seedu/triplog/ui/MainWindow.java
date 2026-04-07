@@ -17,6 +17,7 @@ import seedu.triplog.commons.core.GuiSettings;
 import seedu.triplog.commons.core.LogsCenter;
 import seedu.triplog.logic.Logic;
 import seedu.triplog.logic.commands.CommandResult;
+import seedu.triplog.logic.commands.HelpCommand;
 import seedu.triplog.logic.commands.exceptions.CommandException;
 import seedu.triplog.logic.parser.exceptions.ParseException;
 
@@ -154,6 +155,12 @@ public class MainWindow extends UiPart<Stage> {
             resultDisplay.setFeedbackToUser(commandResult.getFeedbackToUser());
 
             if (commandResult.isShowHelp()) {
+                if (helpWindow.isShowing()) {
+                    logger.info("Help window already open — focusing existing window.");
+                    resultDisplay.setFeedbackToUser(HelpCommand.FOCUSING_HELP_MESSAGE);
+                } else {
+                    logger.info("Opening help window.");
+                }
                 handleHelp();
             }
 
