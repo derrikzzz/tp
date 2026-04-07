@@ -39,6 +39,7 @@ public class MainWindowTest {
     private class LogicStub implements Logic {
         private String errorToReturn;
         private boolean shouldThrowException = false;
+        private boolean shouldShowHelp = false;
 
         LogicStub(String errorToReturn) {
             this.errorToReturn = errorToReturn;
@@ -48,12 +49,17 @@ public class MainWindowTest {
             this.shouldThrowException = shouldThrowException;
         }
 
+        LogicStub(boolean shouldThrowException, boolean shouldShowHelp) {
+            this.shouldThrowException = shouldThrowException;
+            this.shouldShowHelp = shouldShowHelp;
+        }
+
         @Override
         public CommandResult execute(String cmd) throws ParseException {
             if (shouldThrowException) {
                 throw new ParseException("Unknown command");
             }
-            return new CommandResult("Success");
+            return new CommandResult("Success", shouldShowHelp, false);
         }
 
         @Override
@@ -163,4 +169,5 @@ public class MainWindowTest {
             throw new AssertionError("Reflection failed to access UI components", e);
         }
     }
+
 }
