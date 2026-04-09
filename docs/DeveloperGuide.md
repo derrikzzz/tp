@@ -215,6 +215,8 @@ The following sequence diagram illustrates the process of tagging a trip:
 
 ### Filtering Trips by Date: Filter Command
 
+The `filter` command allows user to filter by date range. It enforces both `sd/` and `ed/` present in the query, but accepts trips with null `sd/` and `ed/` fields. `sd/` >= `query sd/` must be present to pass the filter, `ed/` is optional but must be <= `query ed/` to pass the filter.
+
 The following sequence diagram illustrates the process of filtering a trip:
 
 <puml src="diagrams/FilterSequenceDiagram.puml" alt="Filter Command Sequence Diagram" />
