@@ -29,9 +29,8 @@
 ---
 
 ## Documentation
-* [User Guide](docs/UserGuide.md)
-* [Developer Guide](docs/DeveloperGuide.md)
-* [About Us](docs/AboutUs.md)
+* [User Guide](https://ay2526s2-cs2103-f13-2.github.io/tp/UserGuide.html)
+* [Developer Guide](https://ay2526s2-cs2103-f13-2.github.io/tp/DeveloperGuide.html)
 
 ---
 
