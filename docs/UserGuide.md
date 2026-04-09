@@ -307,6 +307,16 @@ Examples:
 
 - `filter sd/2026-01-01 ed/2026-03-01` will filter all trips within this period
 
+#### Preview before filter
+
+![Filter Preview](images/bef_filter.png)
+
+Before deleting, TripLog will display a preview of the trips that match the command.
+
+#### After filtering date range 2025-06-08 to 2025-06-10
+
+![Filter Result](images/aft_filter.png)
+
 ### Clearing all entries : `clear`
 
 Clears all entries from the trip log.
