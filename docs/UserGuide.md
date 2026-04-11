@@ -130,7 +130,7 @@ Format: `list [sort/KEY]`
 
 - By default, trips are sorted by **start date** in ascending order (earliest first).
 - **Tie-breaker**: If multiple trips share the same date or length, they are automatically sorted alphabetically by name.
-- Trips with no start date are shown last.
+- **When sorting by start date (default)**, trips with no start date are shown last.
 - The sort order is **persistent**: adding or editing trips will maintain the last chosen sort order, **even after restarting the application.**
 
 Supported `KEY` values:
