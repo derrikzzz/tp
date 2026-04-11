@@ -140,7 +140,7 @@ Supported `KEY` values:
 - `len`: Sorts by duration of the trip (longest first).
 
 Examples:
-- `list` — Displays all trips ordered by start date and shows a summary (e.g. `Listed all trips sorted by start date. Summary: 1 Upcoming, 1 Ongoing, 5 Completed, 1 Planning`).
+- `list` — Displays all trips using the last active sort order (or start date by default) and shows a summary (e.g. `Listed all trips sorted by start date. Summary: 1 Upcoming, 1 Ongoing, 5 Completed, 1 Planning`).
 - `list sort/name` — Displays all trips in alphabetical order.
 - `list sort/len` — Displays all trips starting with the longest durations.
 
@@ -182,7 +182,7 @@ Format: `tag INDEX TAG`
 Examples:
 * `tag 1 scenic beauty` Tags the 1st trip with `scenic beauty`.
 * `tag 2 hotel` Tags the 2nd trip with `hotel`.
-![result for 'tag 2 hotel'.png](images/tag2HotelResult.png)
+  ![result for 'tag 2 hotel'.png](images/tag2HotelResult.png)
 
 ### Locating trips by name: `find`
 
