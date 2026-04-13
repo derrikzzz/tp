@@ -18,9 +18,10 @@ public class Email {
             + "2. This is followed by a '@' and then a domain name. The domain name is made up of domain labels "
             + "separated by periods.\n"
             + "The domain name must:\n"
-            + "    - end with a domain label at least 1 character long\n"
+            + "    - end with a domain label at least 2 characters long\n"
             + "    - have each domain label start and end with alphanumeric characters\n"
-            + "    - have each domain label consist of alphanumeric characters, separated only by hyphens, if any.";
+            + "    - have each domain label consist of alphanumeric characters, separated only by hyphens, if any\n"
+            + "    - contain at least 1 period separating the domain labels (e.g. example.com)";
 
     // Alphanumeric characters except underscore
     private static final String ALPHANUMERIC_NO_UNDERSCORE = "[^\\W_]+";
@@ -34,7 +35,7 @@ public class Email {
             + ALPHANUMERIC_NO_UNDERSCORE + ")*";
 
     // Domain: sequence of labels separated by periods. Suffix length checked in the overall regex.
-    private static final String DOMAIN_REGEX = DOMAIN_LABEL_REGEX + "(\\." + DOMAIN_LABEL_REGEX + ")*";
+    private static final String DOMAIN_REGEX = DOMAIN_LABEL_REGEX + "(\\." + DOMAIN_LABEL_REGEX + ")+";
 
     public static final String VALIDATION_REGEX = LOCAL_PART_REGEX + "@" + DOMAIN_REGEX;
 
