@@ -215,7 +215,7 @@ public class ModelManagerTest {
     }
 
     @Test
-    public void updateFilteredTripList_filterThenFind_noMatch_returnsEmptyList() {
+    public void updateFilteredTripList_filterThenFind_noMatch() {
         modelManager.addTrip(ALICE);
         modelManager.addTrip(BENSON);
 
@@ -251,7 +251,6 @@ public class ModelManagerTest {
 
     @Test
     public void updateFilteredTripList_nullPredicate_throwsNullPointerException() {
-        assertThrows(NullPointerException.class,
-                () -> modelManager.updateFilteredTripList(null, true));
+        assertThrows(NullPointerException.class, () -> modelManager.updateFilteredTripList(null, true));
     }
 }
