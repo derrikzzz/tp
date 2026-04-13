@@ -199,6 +199,7 @@ Examples:
 Finds trips whose names contain any of the given keywords as substrings.
 
 Format: `find KEYWORD [MORE_KEYWORDS]`
+(A keyword is a space-separated term used to search the trip name.)
 
 - The search is case-insensitive. e.g. `tok` will match `Tokyo`
 - The order of the keywords does not matter. e.g. `Japan Tokyo` will match `Tokyo Japan`
