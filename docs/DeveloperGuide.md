@@ -423,6 +423,68 @@ Priorities: Essential (must have) MVP, High (expected to have) - `* * *`, Medium
     * 1b1. TripLog shows an empty list.
     * Use case ends.
 
+**Use case: UC4 - Edit a trip**
+
+**MSS**
+
+1.  User requests to list trips.
+2.  TripLog shows a list of trips.
+3.  User requests to edit a specific trip in the list.
+4.  TripLog updates the trip with provided details.
+5.  TripLog shows the updated trip in the list.
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+    * Use case ends.
+
+* 3a. The index provided is invalid.
+    * 3a1. TripLog shows an error message.
+    * Use case resumes at step 3.
+
+* 3b. No fields to edit are provided.
+    * 3b1. TripLog shows an error message.
+    * Use case resumes at step 3.
+
+* 4a. The new trip details are invalid (e.g., end date before start date).
+    * 4a1. TripLog shows an error message.
+    * Use case resumes at step 3.
+
+* 4b. The edit results in a duplicate trip.
+    * 4b1. TripLog shows an error message.
+    * Use case resumes at step 3.
+
+**Use case: UC5 - Tag a trip**
+
+**MSS**
+
+1.  User requests to list trips.
+2.  TripLog shows a list of trips.
+3.  User requests to tag a specific trip in the list.
+4.  TripLog adds the tag to the trip.
+5.  TripLog shows the updated trip with the new tag.
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+    * Use case ends.
+
+* 3a. The index provided is invalid.
+    * 3a1. TripLog shows an error message.
+    * Use case resumes at step 3.
+
+* 3b. The tag name is invalid (not alphanumeric).
+    * 3b1. TripLog shows an error message.
+    * Use case resumes at step 3.
+
+* 4a. The tag is already present on the trip.
+    * 4a1. TripLog shows an error message.
+    * Use case resumes at step 3.
+
 ### Non-Functional Requirements
 
 1. TripLog should work on Windows, Linux, and macOS systems with Java `17` installed.
@@ -452,7 +514,7 @@ Priorities: Essential (must have) MVP, High (expected to have) - `* * *`, Medium
 While TripLog originated from AB3, the transition to a travel-specific manager required significant architectural changes:
 
 * **Temporal Logic Implementation**: Unlike static contact data, `Trip` objects are time-dependent. We implemented logic to handle overlapping dates for duplicate detection and created `TripSummaryUtil` to recalculate trip statuses relative to the system clock (`LocalDate.now()`).
-* **Complex Command Parsing**: The `delete` command was overhauled to support four distinct modes (Index, Range, Field-Match, and Date-Range). This required a sophisticated `DeleteCommandParser` and custom state-management logic in the UI for the "two-step confirmation" process without modifying the core `Logic` interface.
+* **Complex Command Parsing**: The `delete" command was overhauled to support four distinct modes (Index, Range, Field-Match, and Date-Range). This required a sophisticated `DeleteCommandParser` and custom state-management logic in the UI for the "two-step confirmation" process without modifying the core `Logic` interface.
 * **State Persistence**: We expanded `UserPrefs` to include the last-used `sort order`. This required coordination between `Logic` and `Storage` to ensure the app launches exactly as the user left it.
 * **Dynamic UI Layout**: We replaced the static vertical stacking of the Trip List and Result Display with a vertically-oriented `SplitPane`. This allows users to manually adjust the height of the feedback area, which is critical for viewing large results (e.g., help commands) without obstructing the primary list.
 * **Enhanced UI Feedback**: We integrated dynamic icons and success/error styling in the `ResultDisplay` and `CommandBox`, moving away from AB3's purely text-based feedback.
