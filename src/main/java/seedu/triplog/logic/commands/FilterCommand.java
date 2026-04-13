@@ -51,8 +51,8 @@ public class FilterCommand extends Command {
                 && trip.getStartDate().value.isAfter(startDate.value.minusDays(1))
                 && (trip.getEndDate() == null
                 ? trip.getStartDate().value.isBefore(endDate.value.plusDays(1))
-                : trip.getEndDate().value.isBefore(endDate.value.plusDays(1)))
-                , true);
+                : trip.getEndDate().value.isBefore(endDate.value.plusDays(1))),
+                true);
 
         if (model.getFilteredTripList().isEmpty()) {
             return new CommandResult(MESSAGE_NO_TRIPS_FOUND);
