@@ -62,6 +62,9 @@ TripLog is a **desktop app for managing trips, optimized for use via a Command L
 - Parameters can be in any order.<br>
   e.g. if the command specifies `n/NAME p/PHONE`, `p/PHONE n/NAME` is also acceptable.
 
+- If a parameter is expected only once but is specified multiple times, only the last occurrence will be used.<br>
+  e.g. `list sort/name sort/start` will sort by start date.
+
 - For commands that do not take parameters (such as `exit` and `clear`), extraneous parameters will be ignored.
   </box>
 
@@ -74,6 +77,8 @@ Format: `help [COMMAND]`
 - Without arguments, `help` opens a help window showing syntax for all commands.
 - With a command name, `help COMMAND` displays the usage for that specific command inline in the result display (no window opens).
 
+Screenshot of the help window below:
+
 <img src="images/helpMessage.png" width="850" />
 
 Examples:
@@ -81,6 +86,7 @@ Examples:
 - `help add` — shows the usage for the `add` command inline.
 - `help delete` — shows the usage for the `delete` command inline.
 
+Notes:
 - The help window can also be opened by pressing **F1** or using the Help menu.
 - The help window can be closed by clicking the 'x' button, or by pressing **Q** or **ESCAPE** while the window is focused.
 - The help window is resizable — drag any edge or corner to adjust its size.
@@ -119,6 +125,7 @@ Since every trip is different, all fields except the name are optional. This all
 - **`a/ADDRESS`:** Can take any values, but cannot be blank if the `a/` prefix is used.
 - **`sd/START_DATE` & `ed/END_DATE`:** Must be valid calendar dates in `YYYY-MM-DD` format. If both are provided, `START_DATE` must be earlier than or equal to `END_DATE`.
 - **`t/TAG`:** Must be strictly alphanumeric and may contain spaces.
+- **Note:** Upon successful addition, any active filters (e.g. from the `filter` command) will be cleared to show the full trip list and update the Summary Dashboard.
 
 <box type="tip" seamless>
 
@@ -140,15 +147,15 @@ Shows a list of all trips currently in the log and displays a **Summary Dashboar
 
 The **Summary Dashboard** categorizes your trips based on the current date:
 * **Upcoming**: Trips starting after today.
-* **Ongoing**: Trips currently in progress (today is between start and end).
+* **Ongoing**: Trips currently in progress (today is between start and end, or today is after the start date for trips without an end date).
 * **Completed**: Trips that have already ended.
 * **Planning**: Trips with no start date specified.
 
 Format: `list [sort/KEY]`
 
-- By default, trips are sorted by **start date** in ascending order (earliest first).
+- By default, trips are sorted by the **last active sort order**. If no sort has been previously used, the **start date** in ascending order is used as a fallback.
 - **Tie-breaker**: If multiple trips share the same date or length, they are automatically sorted alphabetically by name.
-- Trips with no start date are shown last.
+- **When sorting by start date (default)**, trips with no start date are shown last.
 - The sort order is **persistent**: adding or editing trips will maintain the last chosen sort order, **even after restarting the application.**
 
 Supported `KEY` values:
@@ -176,9 +183,11 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [sd/START_DATE] [ed
 - Edits the trip at the specified `INDEX`. The index refers to the index number shown in the displayed trip list. The index **must be a positive integer** 1, 2, 3, …​
 - At least one of the optional fields must be provided.
 - Existing values will be updated to the input values.
+- **Phone:** Phone numbers should only contain numbers, and must be between 3 and 15 digits long.
 - **Dates:** If you edit only the `sd/START_DATE` or `ed/END_DATE`, TripLog ensures the new date range remains valid (start date $\le$ end date).
 - **Tags:** When editing tags, the existing tags of the trip will be removed (i.e., replacement, not addition).
 - You can remove all the trip’s tags by typing `t/` without specifying any tags after it.
+- **Note:** Upon successful editing, any active filters will be cleared to show the full trip list and update the Summary Dashboard.
 
 Examples:
 
@@ -193,9 +202,10 @@ Tags an existing trip in the TripLog with the given keyword.
 Format: `tag INDEX TAG`
 
 * Tags the trip with the keyword `TAG` at the specified `INDEX`. The index refers to the index number shown in the displayed trip list. The index **must be a positive integer** 1, 2, 3, …​
-* Tags must be alphanumeric (A-Z, 0-9).
+* Tags must be alphanumeric (A-Z, 0-9) and may contain spaces.
 * Duplicate tags will not be added.
 * Duplicate tags are case-insensitive. e.g. `Hotel` and `HOTEL` are considered duplicates.
+* If the loaded .json file contains duplicate tags, data is considered corrupted and the save will not be loaded.
 
 Examples:
 * `tag 1 scenic beauty` Tags the 1st trip with `scenic beauty`.
@@ -207,6 +217,7 @@ Examples:
 Finds trips whose names contain any of the given keywords as substrings.
 
 Format: `find KEYWORD [MORE_KEYWORDS]`
+(A keyword is a space-separated term used to search the trip name.)
 
 - The search is case-insensitive. e.g. `tok` will match `Tokyo`
 - The order of the keywords does not matter. e.g. `Japan Tokyo` will match `Tokyo Japan`
@@ -233,14 +244,16 @@ Press **Enter again** to confirm the deletion, or edit the command to cancel.
 
 </box>
 
-Format:
-`delete INDEX`
-`delete START-END`
-`delete PREFIX/VALUE`
+Format:<br>
+`delete INDEX`<br>
+`delete START-END`<br>
+`delete PREFIX/VALUE` (where `PREFIX` is one of `n/`, `p/`, `e/`, `a/`, `sd/`, `ed/`, or `t/`)<br>
 `delete sd/START_DATE ed/END_DATE`
 
 - Only one delete mode may be used at a time (e.g. `delete 1 t/family` is invalid).
 - The command operates on the currently displayed trip list.
+- If `sd/` or `ed/` is used alone, TripLog performs exact single-date matching.
+- If both `sd/` and `ed/` are provided together, TripLog interprets it as date-range deletion instead.
 
 #### Delete by index
 
@@ -290,8 +303,9 @@ Examples:
 
 #### Delete by date range
 
-- Deletes all trips whose start and end dates match the specified range using both `sd/` and `ed/`.
-- Both `sd/START_DATE` and `ed/END_DATE` must be provided.
+- Deletes trips using both `sd/START_DATE` and `ed/END_DATE`.
+- If different start and end dates are given, a trip is deleted only if its start date is on or after `sd/START_DATE`and its end date is on or before `ed/END_DATE`.
+- If both dates are the same, all trips happening on that day are deleted.
 - Dates must be in `YYYY-MM-DD` format.
 
 Examples:
@@ -329,8 +343,6 @@ Examples:
 
 ![Filter Preview](images/bef_filter.png)
 
-Before deleting, TripLog will display a preview of the trips that match the command.
-
 #### After filtering date range 2025-06-08 to 2025-06-10
 
 ![Filter Result](images/aft_filter.png)
@@ -366,8 +378,8 @@ Furthermore, certain edits can cause the TripLog to behave in unexpected ways (e
 
 ## FAQ
 
-**Q**: How do I transfer my data to another Computer?<br>
-**A**: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous TripLog home folder.
+**Q**: How do I transfer my data to another computer?<br>
+**A**: Install the app on the other computer. Then, locate the `triplog.json` file in the `data` folder of your original TripLog directory and use it to overwrite the default `triplog.json` file created on the new computer.
 
 ---
 
@@ -382,10 +394,13 @@ Furthermore, certain edits can cause the TripLog to behave in unexpected ways (e
 
 | Action     | Format, Examples                                                                                                                                                         |
 | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Add** | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [sd/DATE] [ed/DATE] [t/TAG]…​` <br> e.g., `add n/James Ho p/22224444 sd/2026-01-01 t/friend` |
-| **Clear** | `clear`                                                                                                                                   |
+| **Add** | `add n/NAME [p/PHONE] [e/EMAIL] [a/ADDRESS] [sd/START_DATE] [ed/END_DATE] [t/TAG]…​` <br> e.g., `add n/Tokyo p/91234567 sd/2026-01-01 t/vacation`                       |
+| **Clear** | `clear`                                                                                                                                                                  |
 | **Delete** | `delete INDEX`<br>`delete START-END`<br>`delete PREFIX/VALUE`<br>`delete sd/START_DATE ed/END_DATE`<br> e.g., `delete 3`, `delete 1-3`, `delete t/family`, `delete sd/2026-03-01 ed/2026-05-10` |
-| **Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [sd/DATE] [ed/DATE] [t/TAG]…​`<br> e.g.,`edit 2 n/James Lee e/jameslee@example.com` |
+| **Edit** | `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [sd/START_DATE] [ed/END_DATE] [t/TAG]…​`<br> At least one field must be provided.<br> e.g., `edit 2 n/Osaka e/hotel@example.com` |
+| **Exit** | `exit`                                                                                                                                                                   |
+| **Filter** | `filter sd/START_DATE ed/END_DATE`<br> `START_DATE` must not be after `END_DATE`.<br> e.g., `filter sd/2026-05-01 ed/2026-07-31`                                         |
 | **Find** | `find KEYWORD [MORE_KEYWORDS]`<br> e.g., `find Tokyo Osaka`                                                                                                              |
-| **List** | `list [sort/KEY]` <br> e.g., `list sort/name`                                                                                                                            |                                                                                                                                                                 |
 | **Help** | `help [COMMAND]`<br> e.g., `help add`                                                                                                                                    |
+| **List** | `list [sort/KEY]` <br> e.g., `list sort/name`                                                                                                                            |
+| **Tag** | `tag INDEX TAG`<br> e.g., `tag 1 adventure`                                                                                                                              |

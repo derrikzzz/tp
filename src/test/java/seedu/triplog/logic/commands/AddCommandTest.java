@@ -167,6 +167,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void updateFilteredTripList(Predicate<Trip> predicate, boolean isFilter) {
+            throw new AssertionError("This method should not be called.");
+        }
+
+        @Override
         public ObservableList<Trip> getSortedTripList() {
             throw new AssertionError("This method should not be called.");
         }
@@ -221,6 +226,11 @@ public class AddCommandTest {
         public void addTrip(Trip trip) {
             requireNonNull(trip);
             personsAdded.add(trip);
+        }
+
+        @Override
+        public void updateFilteredTripList(Predicate<Trip> predicate) {
+            // No action needed for stub verification
         }
 
         @Override

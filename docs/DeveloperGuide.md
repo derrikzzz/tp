@@ -57,7 +57,7 @@ The *Sequence Diagram* below shows how the components interact with each other f
 Each of the four main components (also shown in the diagram above),
 
 * defines its *API* in an `interface` with the same name as the Component.
-* implements its functionality using a concrete `{Component Name}Manager` class (which follows the corresponding API `interface` mentioned in the previous point.
+* implements its functionality using a concrete `{Component Name}Manager} class (which follows the corresponding API `interface` mentioned in the previous point.
 
 For example, the `Logic` component defines its API in the `Logic.java` interface and implements its functionality using the `LogicManager.java` class which follows the `Logic` interface. Other components interact with a given component through its interface rather than the concrete class (reason: to prevent outside component's being coupled to the implementation of a component), as illustrated in the (partial) class diagram below.
 
@@ -92,9 +92,9 @@ Here's a (partial) class diagram of the `Logic` component:
 
 <puml src="diagrams/LogicClassDiagram.puml" width="550"/>
 
-The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1")` API call as an example.
+The sequence diagram below illustrates the interactions within the `Logic` component, taking `execute("delete 1-3")` API call as an example.
 
-<puml src="diagrams/DeleteSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `delete 1` Command" />
+<puml src="diagrams/DeleteSequenceDiagram.puml" alt="Interactions Inside the Logic Component for the `delete 1-3` Command" />
 
 <box type="info" seamless>
 
@@ -178,18 +178,20 @@ The `edit` command utilizes `Model#hasTripExcluding(Trip, Trip)`. This ensures t
 
 ### Trip Deletion: Delete Command
 
-The `delete` command removes trip(s) from the currently displayed trip list. It supports three deletion modes:
-
+The `delete` command removes trip(s) from the currently displayed trip list. It supports four deletion modes:
 * **Single deletion**: deletes a trip at a given index (e.g. `delete 2`)
 * **Range deletion**: deletes trips within an index range (e.g. `delete 1-3`)
-* **Criteria-based deletion**: deletes trips matching a field (e.g. `delete n/Tokyo`, `delete t/family`, `delete sd/2026-01-01 ed/2026-12-31`)
+* **Field-match deletion**: deletes trips matching a field such as name or tag (e.g. `delete n/Tokyo`, `delete t/family`)
+* **Date-range deletion**: deletes trips within a specified date range (e.g. `delete sd/2026-01-01 ed/2026-12-31`)
 
-The parsing of the command is handled by `DeleteCommandParser`, which determines the deletion mode based on input format and validates that only one mode is used.
+The parsing of the command is handled by `DeleteCommandParser`, which determines which of the four deletion modes is being used based on input format and validates that only one mode is specified per command.
 
-Deletion is performed by `DeleteCommand`, which operates on the **currently displayed trip list**. For criteria-based deletion, a `TripMatchesDeletePredicate` is used, where:
-* different fields are combined using AND logic
-* tags are matched using OR logic
-* date ranges (`sd/` and `ed/`) match trips within the specified period
+Deletion is performed by `DeleteCommand`, which operates on the **currently displayed trip list**.
+For field-match and date-range deletion, matching is handled by `TripMatchesDeletePredicate`:
+* field-match deletion checks one specified prefix at a time (e.g. `n/`, `p/`, `t/`, `sd/`)
+* date-range deletion (`sd/` and `ed/`) works as follows:
+    * different dates → trip start date must be on/after `sd`, and end date must be on/before `ed`
+    * same date → any trip happening on that day matches
 
 To prevent accidental deletion, a **two-step confirmation flow** is implemented in `CommandBox`:
 
@@ -215,7 +217,7 @@ The following sequence diagram illustrates the process of tagging a trip:
 
 ### Filtering Trips by Date: Filter Command
 
-The `filter` command allows user to filter by date range. It enforces both `sd/` and `ed/` present in the query, but accepts trips with null `sd/` and `ed/` fields. `sd/` >= `query sd/` must be present to pass the filter, `ed/` is optional but must be <= `query ed/` to pass the filter.
+The `filter` command allows user to filter by date range. It enforces both `sd/` and `ed/` present in the query. Actual trip's `sd/` must be present (i.e. non-null) and >= query `sd/` to pass the filter condition, actual trip `ed/` is optional but must be <= query `ed/` to pass the filter condition.
 
 The following sequence diagram illustrates the process of filtering a trip:
 
@@ -321,8 +323,8 @@ The `TripLogParser` routes `help` to `HelpCommand`:
 **Value proposition**:
 
 - Productivity: Enable Travelers to quickly record and retrieve travel experiences in a fast, distraction-free CLI. Record and search trips without switching apps or dealing with cluttered interfaces.
-- Organization: Tag and jot quick notes about the destinations. Organize entries with tags for easy filtering and retrieval later.
-- Simplicity: Lightweight solution and bypass slow, feature-heavy mobile travel apps. No installation of heavy software; runs directly in the terminal with minimal setup.
+- Organization: Tag and organize destinations. Organize entries with tags for easy filtering and retrieval later.
+- Simplicity: Lightweight solution that bypasses slow, feature-heavy mobile travel apps. No installation of heavy software; runs directly in the terminal with minimal setup.
 - Privacy: Fully local application with no cloud communication. No risk of data leakage or slow network latency.
 
 ### User stories
@@ -335,7 +337,7 @@ Priorities: Essential (must have) MVP, High (expected to have) - `* * *`, Medium
 | `MVP`    | software user             | delete wrong entries                                             | my travel log remains accurate and clean                     |
 | `MVP`    | traveler                  | tag trips based on category                                      | be aware of the activity/purpose of each trip quickly        |
 | `MVP`    | traveler                  | search my entries / logs for tags                                | see whether i have done a specific activity in that region   |
-| `* * *`  | traveler                  | update the description of a trip entry                           | efficiently correct typos or add more detail to a trip       |
+| `* * *`  | traveler                  | update the address of a trip entry                               | efficiently correct typos or add more detail to a trip location|
 | `* * *`  | traveler                  | list all trips sorted by various criteria (name, date, duration) | view my travel history according to my current needs         |
 | `* * *`  | traveler                  | see a summary dashboard of my trips                              | get a high-level view of my travel status                    |
 | `* * *`  | new user                  | use a generic help command to recover the syntax of the commands | use the CLI without the need to memorise all instructions    |
@@ -344,9 +346,144 @@ Priorities: Essential (must have) MVP, High (expected to have) - `* * *`, Medium
 | `* * *`  | traveler                  | record multiple cities in one trip                               | log complex itineraries                                      |
 | `* *`    | traveler                  | mark a trip as "Completed"                                       | distinguish between upcoming plans and past trips            |
 | `* *`    | returning traveler        | mark activities in a region as missing or haven't tried yet      | search for it and pick up the experience in an upcoming plan |
-| `* *`    | traveler                  | attach short personal notes to a trip                            | remember meaningful experiences beyond basic facts           |
+| `* *`    | traveler                  | attach an address to a trip                                      | remember where to go exactly                                 |
 | `*`      | photographer traveler     | link to photos in the local file system                          | retrieve relevant photos quickly                             |
 | `*`      | budget-conscious traveler | track the expenses at each destination                           | analyze the budget and plan accurately next time             |
+
+### Use cases
+
+(For all use cases below, the **System** is `TripLog` and the **Actor** is the `user`, unless specified otherwise)
+
+**Use case: UC1 - Add a trip**
+
+**MSS**
+
+1.  User requests to add a trip.
+2.  TripLog adds the trip.
+3.  TripLog shows the updated trip list.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. The command format is invalid.
+    * 1a1. TripLog shows an error message.
+    * Use case resumes at step 1.
+
+* 1b. The trip details provided are invalid (e.g., end date before start date).
+    * 1b1. TripLog shows an error message.
+    * Use case resumes at step 1.
+
+* 1c. The trip is a duplicate of an existing entry.
+    * 1c1. TripLog shows an error message.
+    * Use case resumes at step 1.
+
+**Use case: UC2 - Delete a trip**
+
+**MSS**
+
+1.  User requests to list trips.
+2.  TripLog shows a list of trips.
+3.  User requests to delete a specific trip in the list.
+4.  TripLog shows a preview of the trip to be deleted and asks for confirmation.
+5.  User confirms the deletion.
+6.  TripLog deletes the trip.
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+    * Use case ends.
+
+* 3a. The index provided is invalid.
+    * 3a1. TripLog shows an error message.
+    * Use case resumes at step 3.
+
+* 5a. User edits the command instead of confirming.
+    * 5a1. TripLog cancels the deletion.
+    * Use case ends.
+
+**Use case: UC3 - Filter trips by date**
+
+**MSS**
+
+1.  User requests to filter trips by a date range.
+2.  TripLog updates the displayed list with trips satisfying the criteria.
+
+    Use case ends.
+
+**Extensions**
+
+* 1a. The date range format is invalid.
+    * 1a1. TripLog shows an error message.
+    * Use case resumes at step 1.
+
+* 1b. No trips match the criteria.
+    * 1b1. TripLog shows an empty list.
+    * Use case ends.
+
+**Use case: UC4 - Edit a trip**
+
+**MSS**
+
+1.  User requests to list trips.
+2.  TripLog shows a list of trips.
+3.  User requests to edit a specific trip in the list.
+4.  TripLog updates the trip with provided details.
+5.  TripLog shows the updated trip in the list.
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+    * Use case ends.
+
+* 3a. The index provided is invalid.
+    * 3a1. TripLog shows an error message.
+    * Use case resumes at step 3.
+
+* 3b. No fields to edit are provided.
+    * 3b1. TripLog shows an error message.
+    * Use case resumes at step 3.
+
+* 4a. The new trip details are invalid (e.g., end date before start date).
+    * 4a1. TripLog shows an error message.
+    * Use case resumes at step 3.
+
+* 4b. The edit results in a duplicate trip.
+    * 4b1. TripLog shows an error message.
+    * Use case resumes at step 3.
+
+**Use case: UC5 - Tag a trip**
+
+**MSS**
+
+1.  User requests to list trips.
+2.  TripLog shows a list of trips.
+3.  User requests to tag a specific trip in the list.
+4.  TripLog adds the tag to the trip.
+5.  TripLog shows the updated trip with the new tag.
+
+    Use case ends.
+
+**Extensions**
+
+* 2a. The list is empty.
+    * Use case ends.
+
+* 3a. The index provided is invalid.
+    * 3a1. TripLog shows an error message.
+    * Use case resumes at step 3.
+
+* 3b. The tag name is invalid (not alphanumeric).
+    * 3b1. TripLog shows an error message.
+    * Use case resumes at step 3.
+
+* 4a. The tag is already present on the trip.
+    * 4a1. TripLog shows an error message.
+    * Use case resumes at step 3.
 
 ### Non-Functional Requirements
 
@@ -356,17 +493,15 @@ Priorities: Essential (must have) MVP, High (expected to have) - `* * *`, Medium
 4. TripLog should be designed for use by one user only and should not support concurrent access to the same data during normal operation.
 5. TripLog should store all application data locally in a human-editable text file and should not use a DBMS for storage.
 6. TripLog should allow all core features to function without requiring an Internet connection or a remote server.
-7. TripLog should support at least 1000 trip records, with typical commands such as `add`, `delete`, `tag`, and `list` completing within 2 seconds on a standard personal computer.
-8. TripLog should display error messages for invalid commands and invalid input that state the cause of the error and the expected command format.
-9. TripLog should work well at screen resolutions of 1920×1080 and above with 100% and 125% display scaling, and remain usable at 1280×720 and above with 150% display scaling.
-10. TripLog should be implemented using a modular object-oriented design so that new commands or trip fields can be added with changes localized to a small number of components.
+7. TripLog should display error messages for invalid commands and invalid input that state the cause of the error and the expected command format.
+8. TripLog should work well at screen resolutions of 1920×1080 and above with 100% and 125% display scaling, and remain usable at 1280×720 and above with 150% display scaling.
+9. TripLog should be implemented using a modular object-oriented design so that new commands or trip fields can be added with changes localized to a small number of components.
 
 ### Glossary
 
 - **Mainstream OS**: Windows, Linux, Unix, MacOS
-- **Trip**: Travel entry defined by destination, start date, and end date
+- **Trip**: A travel record identified by a destination name, with optional fields such as start date, end date, address, and tags.
 - **Destination**: Primary location of a trip (e.g "Mount Fuji"), mapped to the Name field
-- **Experience Log**: Descriptive note added to a trip to record activities or reminders
 - **Category Tag**: Label for grouping trips by purpose (e.g work) or region (e.g Japan)
 - **Duration**: The total days between the start and end date of a trip.
 
@@ -377,7 +512,7 @@ Priorities: Essential (must have) MVP, High (expected to have) - `* * *`, Medium
 While TripLog originated from AB3, the transition to a travel-specific manager required significant architectural changes:
 
 * **Temporal Logic Implementation**: Unlike static contact data, `Trip` objects are time-dependent. We implemented logic to handle overlapping dates for duplicate detection and created `TripSummaryUtil` to recalculate trip statuses relative to the system clock (`LocalDate.now()`).
-* **Complex Command Parsing**: The `delete` command was overhauled to support four distinct modes (Index, Range, Field-Match, and Date-Range). This required a sophisticated `DeleteCommandParser` and custom state-management logic in the UI for the "two-step confirmation" process without modifying the core `Logic` interface.
+* **Complex Command Parsing**: The `delete" command was overhauled to support four distinct modes (Index, Range, Field-Match, and Date-Range). This required a sophisticated `DeleteCommandParser` and custom state-management logic in the UI for the "two-step confirmation" process without modifying the core `Logic` interface.
 * **State Persistence**: We expanded `UserPrefs` to include the last-used `sort order`. This required coordination between `Logic` and `Storage` to ensure the app launches exactly as the user left it.
 * **Dynamic UI Layout**: We replaced the static vertical stacking of the Trip List and Result Display with a vertically-oriented `SplitPane`. This allows users to manually adjust the height of the feedback area, which is critical for viewing large results (e.g., help commands) without obstructing the primary list.
 * **Enhanced UI Feedback**: We integrated dynamic icons and success/error styling in the `ResultDisplay` and `CommandBox`, moving away from AB3's purely text-based feedback.
@@ -391,10 +526,14 @@ While TripLog originated from AB3, the transition to a travel-specific manager r
 1. **Improve Error Message for Invalid Indices**: Currently, when an index is out of bounds or not a positive integer, the app shows a generic error. We plan to specify the valid range based on the current list size (e.g., "Index must be between 1 and 5").
 2. **Support for Non-English Characters**: We plan to allow Unicode characters in the destination `NAME` field to support international travel records (e.g., Tokyo / 東京).
 3. **Multi-Field Substring Search**: The `find` command currently only searches the Name field. We plan to expand substring matching to include Address and Tags fields simultaneously.
-4. **Refine Phone and Email Validation**: Currently, the validation for phone numbers and emails follows a strict alphanumeric format. We plan to allow more flexible symbols (e.g., "+" for country codes in phone numbers) to support international contact details.
+4. **Refine Phone and Email Validation**: Currently, phone validation is strictly numeric and email validation is restricted to a standard format (e.g., requires `@` and `.` with specific special characters `+`, `_`, `.`, `-` allowed). We plan to allow international symbols in phone numbers (e.g., `+` for country codes) and expand email character support to align with broader RFC 5322 standards.
 5. **Clearer Duplicate Detection Feedback**: When a duplicate trip is rejected, we plan to specify which existing entry it overlaps with (e.g., "Overlaps with trip at index 2") in the feedback box.
 6. **Custom Icons Toggle**: Provide a setting in `preferences.json` to allow users to toggle off the custom `[OK]` and `[!!]` icons for a minimalist UI.
-
+7. **Preserve original displayed indices in delete preview**: Currently, the delete preview renumbers matched trips starting from 1 instead of preserving their original indices in the currently displayed trip list. For example, entering `delete 2-3` may preview the selected trips as `1.` and `2.`, even though they correspond to displayed list entries `2.` and `3.`. We plan to update the preview UI so that it preserves the original displayed indices, allowing users to verify more easily that the correct trips have been selected before confirming deletion.
+8. **Make oversized delete index error messages more specific**: Currently, when an excessively large numeric index is provided in the `delete` command (e.g. `delete 12345678901211111111`), TripLog may return a misleading error message stating that the index must be a positive integer, even though the input is numerically positive. We plan to refine the validation logic so that oversized numeric inputs that exceed supported bounds produce a clearer message indicating that the index is invalid or out of range, helping users better understand the actual cause of the error.
+9. **Support for descending sort order**: Currently, the `list sort/KEY` command only supports ascending order for dates and names. We plan to introduce a suffix (e.g., `list sort/name-d`) to allow users to toggle between ascending and descending order, providing more flexibility in how they view their travel history.
+10. **Pagination for large trip logs**: Currently, the `list` command displays all entries in a single view. As the trip log grows, this may cause performance lag or UI clutter. We plan to implement pagination (e.g., `list p/1`) to limit the number of trips displayed per page, ensuring the application remains responsive and the UI stays manageable.
+11. **Preserve selected trip after list modifications**: Currently, when the trip list is modified (e.g., via edit, sort, or filter operations), the UI may retain selection based on index rather than the originally selected trip. This can result in a different trip being highlighted after the update. We plan to change selection handling to track trips by identity instead of list position, ensuring the originally selected trip remains highlighted across list changes.
 --------------------------------------------------------------------------------------------------------------------
 
 ## **Appendix: Instructions for manual testing**
@@ -411,95 +550,101 @@ testers are expected to do more *exploratory* testing.
 ### Launch and shutdown
 
 1. Initial launch
-
     1. Download the jar file and copy into an empty folder
-
-    1. Double-click the jar file Expected: Shows the GUI with a set of sample contacts. The window size may not be optimum.
-
-1. Saving window preferences
-
+    2. Double-click the jar file<br>
+       Expected: Shows the GUI with a set of sample trips. The window size may not be optimum.
+2. Saving window preferences
     1. Resize the window to an optimum size. Move the window to a different location. Close the window.
-
-    1. Re-launch the app by double-clicking the jar file.<br>
+    2. Re-launch the app by double-clicking the jar file.<br>
        Expected: The most recent window size and location is retained.
 
 ### Command Word Case-Insensitivity
 
 1. Testing command word variations
     1. Prerequisites: App launched with sample data.
-    2. Test case: `ADD n/Paris`
+    2. Test case: `ADD n/Paris`<br>
        Expected: Trip to Paris is added (case-insensitive for command word).
-    3. Test case: `lIsT`
+    3. Test case: `lIsT`<br>
        Expected: Trip list is displayed normally.
-    4. Test case: `EXIT`
+    4. Test case: `EXIT`<br>
        Expected: Application shuts down.
 
 ### Adding a trip
 
 1. Adding a trip with only the required field
-    1. Test case: `add n/Tokyo`
+    1. Test case: `add n/Tokyo`<br>
        Expected: Trip with name "Tokyo" is added. All other fields show as blank/absent.
 
 2. Adding a trip with all fields
-    1. Test case: `add n/Osaka p/91234567 e/trip@mail.com a/Dotonbori sd/2026-06-01 ed/2026-06-10 t/food t/travel`
+    1. Test case: `add n/Osaka p/91234567 e/trip@mail.com a/Dotonbori sd/2026-06-01 ed/2026-06-10 t/food t/travel`<br>
        Expected: Trip is added with all fields populated and both tags shown.
 
 3. Adding a trip with optional fields omitted
-    1. Test case: `add n/Kyoto sd/2026-07-01 ed/2026-07-10`
+    1. Test case: `add n/Kyoto sd/2026-07-01 ed/2026-07-10`<br>
        Expected: Trip is added. Phone, email, and address are absent.
 
 4. Invalid date order
-    1. Test case: `add n/Seoul sd/2026-12-31 ed/2026-01-01`
+    1. Test case: `add n/Seoul sd/2026-12-31 ed/2026-01-01`<br>
        Expected: Error message indicating start date cannot be after end date. No trip is added.
 
 5. Duplicate trip (same name, overlapping dates)
     1. Prerequisites: A trip named "Tokyo" with dates 2026-06-01 to 2026-06-10 already exists.
-    2. Test case: `add n/Tokyo sd/2026-06-05 ed/2026-06-15`
+    2. Test case: `add n/Tokyo sd/2026-06-05 ed/2026-06-15`<br>
        Expected: Error message indicating duplicate trip. No trip is added.
 
 6. Same name, non-overlapping dates (allowed)
     1. Prerequisites: A trip named "Tokyo" with dates 2026-06-01 to 2026-06-10 already exists.
-    2. Test case: `add n/Tokyo sd/2026-09-01 ed/2026-09-10`
+    2. Test case: `add n/Tokyo sd/2026-09-01 ed/2026-09-10`<br>
        Expected: Trip is added successfully. Both "Tokyo" trips coexist.
 
 7. Missing name
-    1. Test case: `add sd/2026-06-01 ed/2026-06-10`
+    1. Test case: `add sd/2026-06-01 ed/2026-06-10`<br>
        Expected: Error message indicating invalid command format. No trip is added.
+
+8. Adding a trip while list is filtered
+    1. Prerequisites: Use `filter` to hide some existing trips.
+    2. Test case: `add n/New Hidden Trip sd/2021-01-01`<br>
+       Expected: The list and summary automatically reset to show all trips, including the new entry.
 
 ### Editing a trip
 
 1. Prerequisites: List all trips using the `list` command. Multiple trips in the list.
 
 2. Editing a single field
-    1. Test case: `edit 1 n/New Destination Name`
+    1. Test case: `edit 1 n/New Destination Name`<br>
        Expected: Only the name of the first trip is updated. All other fields remain unchanged.
 
 3. Editing dates (valid range)
     1. Prerequisites: Trip 1 has dates 2026-01-01 to 2026-01-10.
-    2. Test case: `edit 1 sd/2026-01-05`
+    2. Test case: `edit 1 sd/2026-01-05`<br>
        Expected: Start date updated to Jan 5th. End date remains Jan 10th.
 
 4. Editing dates (invalid range)
     1. Prerequisites: Trip 1 has start date 2026-01-01 and end date 2026-01-10.
-    2. Test case: `edit 1 ed/2025-12-31`
+    2. Test case: `edit 1 ed/2025-12-31`<br>
        Expected: Error message indicating start date cannot be after end date. No changes made.
 
 5. No changes from original values
-    1. Test case: `edit 1 n/Original Name` (where trip 1 already has "Original Name")
+    1. Test case: `edit 1 n/Original Name` (where trip 1 already has "Original Name")<br>
        Expected: Error message indicating edited fields are the same as the original. No changes made.
 
 6. Creating a duplicate via edit
     1. Prerequisites: Trip 1 is "Tokyo" (2026-01-01 to 2026-01-10). Trip 2 is "Osaka" (same dates).
-    2. Test case: `edit 2 n/Tokyo`
+    2. Test case: `edit 2 n/Tokyo`<br>
        Expected: Error message indicating the trip already exists (duplicate). No changes made.
 
 7. Clearing tags
-    1. Test case: `edit 1 t/`
+    1. Test case: `edit 1 t/`<br>
        Expected: All tags are removed from the first trip.
 
 8. No fields provided
-    1. Test case: `edit 1`
+    1. Test case: `edit 1`<br>
        Expected: Error message indicating at least one field must be provided.
+
+9. Editing a trip while list is filtered
+    1. Prerequisites: Use `filter` to hide some existing trips.
+    2. Test case: `edit 1 n/Renamed Trip`<br>
+       Expected: The list and summary automatically reset to show all trips, including the updated entry.
 
 ### Listing, Sorting, and Statistics
 
@@ -519,14 +664,14 @@ testers are expected to do more *exploratory* testing.
        Expected: Error message "Invalid sort key! Supported keys: name, start, end, len".
 
 3. Testing Persistence
-    1. Test case: Execute `list sort/name`, then `add n/B-Destination`.
+    1. Test case: Execute `list sort/name`, then `add n/B-Destination`.<br>
        Expected: The new trip is added and automatically positioned in alphabetical order.
 
 4. Testing Startup Summary and Persistence
     1. Prerequisites: App contains trips with various dates.
-    2. Test case: Open the application.
+    2. Test case: Open the application.<br>
        Expected: The Result Display immediately shows a summary dashboard and the last used sort order without entering any commands.
-    3. Test case: Sort the list using `list sort/name`, exit the application, and re-launch.
+    3. Test case: Sort the list using `list sort/name`, exit the application, and re-launch.<br>
        Expected: The summary dashboard and the list itself remain sorted by name alphabetically.
 
 ### Tagging a trip
@@ -534,13 +679,13 @@ testers are expected to do more *exploratory* testing.
 1. Tagging a trip using index
     1. Prerequisites: List all trips using the `list` command. Multiple trips in the list.
 
-    2. Test case: `tag 1 scenic beauty`
+    2. Test case: `tag 1 scenic beauty`<br>
        Expected: First trip is tagged with `scenic beauty`. Details of the tagged trip shown in the status message.
 
 2. Duplicate tag (case insensitive)
     1. Prerequisites: A trip named "Hotel California" with tag "hotel" already exists.
 
-    2. Test case: `tag 1 HOTEL`
+    2. Test case: `tag 1 HOTEL`<br>
        Expected: Error message indicating duplicate tag. No tag is added.
 
 ### Locating trips by name
@@ -557,39 +702,30 @@ testers are expected to do more *exploratory* testing.
 ### Deleting a trip
 
 1. Deleting a trip using index
-
     1. Prerequisites: List all trips using the `list` command. Multiple trips in the list.
-
-    2. Test case: `delete 1`  
+    2. Test case: `delete 1`<br>
        Expected: A preview of the first trip is shown. No trip is deleted yet.
-
-    3. Test case: Press Enter again with `delete 1`  
+    3. Test case: Press Enter again with `delete 1`<br>
        Expected: First trip is deleted from the list. Details of the deleted trip shown in the status message.
 
 2. Cancelling deletion
-
-    1. Test case: `delete 1`, then modify the command instead of confirming  
+    1. Test case: `delete 1`, then modify the command instead of confirming<br>
        Expected: No trip is deleted.
 
 3. Invalid index
-
-    1. Test case: `delete 0`  
+    1. Test case: `delete 0`<br>
        Expected: No trip is deleted. Error message shown.
 
 4. Deleting a range of trips
-
-    1. Test case: `delete 1-3`  
-       Expected: Preview of trips 1 to 3 is shown.  
-       After confirmation, all three trips are deleted.
+    1. Test case: `delete 1-3`<br>
+       Expected: Preview of trips 1 to 3 is shown. After confirmation, all three trips are deleted.
 
 5. Deleting by field
-
-    1. Test case: `delete n/Tokyo`  
+    1. Test case: `delete n/Tokyo`<br>
        Expected: All trips with name "Tokyo" are previewed, then deleted after confirmation.
 
 6. Deleting by date range
-
-    1. Test case: `delete sd/2026-03-01 ed/2026-05-10`  
+    1. Test case: `delete sd/2026-03-01 ed/2026-05-10`<br>
        Expected: Trips matching the specified date range are previewed, then deleted after confirmation.
 
 ### Saving data
